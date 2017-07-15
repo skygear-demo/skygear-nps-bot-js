@@ -1,0 +1,22 @@
+{
+  "name": "skygear-nps-bot-js",
+  "version": "0.1.0",
+  "description": "Slack bot built with Skygear Cloud JS Code",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Oursky",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "eslint": "^4.2.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "dependencies": {
+    "@slack/client": "^3.10.0"
+  }
+}
