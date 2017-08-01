@@ -10,12 +10,12 @@ const DEV_MODE = require('./config.js').DEV_MODE;
 var frequency;
 if (DEV_MODE) {
   frequency = {
+    // every 10s
+    weekly: '*/10 * * * * *',
     // every 20s
-    weekly: '*/20 * * * * *',
+    monthly: '*/20 * * * * *',
     // every 30s
-    monthly: '*/30 * * * * *',
-    // every 40s
-    quarterly: '*/40 * * * * *'
+    quarterly: '*/30 * * * * *'
   };
 } else {
   frequency = {

@@ -3,6 +3,9 @@ const VERIFICATION_TOKEN = require('../config.js').VERIFICATION_TOKEN
 const User = require('../models/user.js')
 
 const askNow = require('./commands/ask-now.js')
+const requestFrequency = require('./commands/schedule.js')
+
+const scheduleSurvey = require('./actions/schedule-survey.js')
 
 function isFromSlack (request) {
   return request.token === VERIFICATION_TOKEN
@@ -21,6 +24,8 @@ exports.handleCommand = async (req) => {
       switch (request.command) {
         case '/ask-now':
           return askNow()
+        case '/schedule':
+          return requestFrequency()
         default:
           return 'Invalid command'
       }
@@ -40,6 +45,8 @@ exports.handleAction = (req) => {
     switch (request.callback_id) {
       // case 'distribute-survey':
       //   return distributeSurvey(request.actions[0].selected_options[0].value)
+      case 'schedule-survey':
+        return scheduleSurvey(request.actions[0].value)
       default:
         return 'Invalid action'
     }
