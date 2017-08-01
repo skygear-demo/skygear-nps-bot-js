@@ -21,6 +21,7 @@ const User = require('../models/user.js');
 
 const askNow = require('./commands/ask-now.js');
 const requestFrequency = require('./commands/schedule.js');
+const stopScheduling = require('./commands/stop-scheduling.js');
 
 const scheduleSurvey = require('./actions/schedule-survey.js');
 
@@ -39,6 +40,8 @@ exports.handleCommand = (() => {
             return askNow();
           case '/schedule':
             return requestFrequency();
+          case '/stop-scheduling':
+            return stopScheduling();
           default:
             return 'Invalid command';
         }
