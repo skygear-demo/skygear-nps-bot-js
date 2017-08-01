@@ -25,7 +25,7 @@ class Survey {
       attachments: [
         {
           fallback: 'You are unable to fill in survey',
-          callback_id: 'submit_survey',
+          callback_id: 'submit-survey',
           actions: [
             {
               name: this.record._id,
@@ -78,6 +78,14 @@ class Survey {
 
   async save () {
     this.record = await db.save(this.record)
+  }
+
+  static getByID (id) {
+    let query = new skygear.Query(Survey.Record)
+    query.equalTo('_id', id)
+    return db.query(query).then((records) => {
+      return records[0] ? new Survey(records[0]) : null
+    })
   }
 
   static async send () {

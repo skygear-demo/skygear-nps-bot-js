@@ -24,6 +24,7 @@ const requestFrequency = require('./commands/schedule.js');
 const stopScheduling = require('./commands/stop-scheduling.js');
 
 const scheduleSurvey = require('./actions/schedule-survey.js');
+const submitSurvey = require('./actions/submit-survey.js');
 
 function isFromSlack(request) {
   return request.token === VERIFICATION_TOKEN;
@@ -64,8 +65,8 @@ exports.handleAction = req => {
   console.log(request);
   if (isFromSlack(request)) {
     switch (request.callback_id) {
-      // case 'distribute-survey':
-      //   return distributeSurvey(request.actions[0].selected_options[0].value)
+      case 'submit-survey':
+        return submitSurvey(request.actions[0].name, request.actions[0].selected_options[0].value);
       case 'schedule-survey':
         return scheduleSurvey(request.actions[0].value);
       default:
