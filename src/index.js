@@ -27,11 +27,22 @@ if (APP_IS_ON) {
 quickly test any functions
 */
 skygearCloud.handler('test', async (req) => {
+  const querystring = require('querystring')
   const responseWith = require('./util.js').responseWith
-  const User = require('./models/user.js')
-  return responseWith(await User.humans)
+  let body = querystring.parse(req.body)
+
+  const skygear = require('skygear')
+  const db = require('./db.js')
+  const Survey = require('./models/survey.js')
+  let survey = await Survey.lastCompleted
+  let Reply = skygear.Record.extend('reply')
+  db.save(new Reply({
+    survey: new skygear.Reference(survey.record),
+    score: parseInt(body.score)
+  }))
+  return responseWith(body)
 }, {
-  method: ['GET'],
+  method: ['POST'],
   userRequired: false
 })
 

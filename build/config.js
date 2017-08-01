@@ -13,5 +13,8 @@ exports.DEV_MODE = process.env.DEV_MODE === 'true' || false;
 exports.TOKEN = process.env.SLACK_API_TOKEN || '';
 // for verifying slash commands and interactive messages is issued by Slack
 exports.VERIFICATION_TOKEN = process.env.VERIFICATION_TOKEN || '';
+// https://plot.ly/settings/api
+exports.PLOTLY_USERNAME = process.env.PLOTLY_USERNAME || '';
+exports.PLOTLY_API_KEY = process.env.PLOTLY_API_KEY || '';
 // change this if you don't like
-exports.question = 'To what extend you feel happy in the team?';
+exports.question = 'How likely is it you would recommend this company as a place to work?';

@@ -88,6 +88,15 @@ class Survey {
     })
   }
 
+  static get lastCompleted () {
+    let query = new skygear.Query(Survey.Record)
+    query.equalTo('is_completed', true)
+    query.addDescending('_updated_at')
+    return db.query(query).then((records) => {
+      return records[0] ? new Survey(records[0]) : null
+    })
+  }
+
   static async send () {
     let targets = await User.humans
     let survey = new Survey(null, targets.length)

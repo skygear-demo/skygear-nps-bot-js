@@ -5,9 +5,11 @@ const User = require('../models/user.js')
 const askNow = require('./commands/ask-now.js')
 const requestFrequency = require('./commands/schedule.js')
 const stopScheduling = require('./commands/stop-scheduling.js')
+const requestReportType = require('./commands/generate-report.js')
 
 const scheduleSurvey = require('./actions/schedule-survey.js')
 const submitSurvey = require('./actions/submit-survey.js')
+const generateReport = require('./actions/generate-report.js')
 
 function isFromSlack (request) {
   return request.token === VERIFICATION_TOKEN
@@ -30,6 +32,8 @@ exports.handleCommand = async (req) => {
           return requestFrequency()
         case '/stop-scheduling':
           return stopScheduling()
+        case '/generate-report':
+          return requestReportType()
         default:
           return 'Invalid command'
       }
@@ -48,9 +52,11 @@ exports.handleAction = (req) => {
   if (isFromSlack(request)) {
     switch (request.callback_id) {
       case 'submit-survey':
-        return submitSurvey(request.actions[0].name, request.actions[0].selected_options[0].value)
+        return submitSurvey(request.actions[0].name, parseInt(request.actions[0].selected_options[0].value))
       case 'schedule-survey':
         return scheduleSurvey(request.actions[0].value)
+      case 'generate-report':
+        return generateReport(request.actions[0].value, request.response_url)
       default:
         return 'Invalid action'
     }

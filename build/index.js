@@ -32,16 +32,27 @@ quickly test any functions
 */
 skygearCloud.handler('test', (() => {
   var _ref = _asyncToGenerator(function* (req) {
+    const querystring = require('querystring');
     const responseWith = require('./util.js').responseWith;
-    const User = require('./models/user.js');
-    return responseWith((yield User.humans));
+    let body = querystring.parse(req.body);
+
+    const skygear = require('skygear');
+    const db = require('./db.js');
+    const Survey = require('./models/survey.js');
+    let survey = yield Survey.lastCompleted;
+    let Reply = skygear.Record.extend('reply');
+    db.save(new Reply({
+      survey: new skygear.Reference(survey.record),
+      score: parseInt(body.score)
+    }));
+    return responseWith(body);
   });
 
   return function (_x) {
     return _ref.apply(this, arguments);
   };
 })(), {
-  method: ['GET'],
+  method: ['POST'],
   userRequired: false
 });
 
