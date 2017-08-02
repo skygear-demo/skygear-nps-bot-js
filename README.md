@@ -1,25 +1,60 @@
 # Slack app - NPS bot
-A Slack bot allow you to create a survey and periodically asks your team members to fill in.
+A Slack bot for team admins to measure employees happiness quick and easy.
 
 ## Demonstrated Skygear Features
-This is a Skygear JS Cloud Code demo of the following cloud code features:
-* Cloud functions
-* Handlers
-* Cloud DB
+* Cloud Database
+    * container: SDK-like query
+    * pool: SQL query
+* Cloud Functions
+    * JavaScript
+    * HTTP Endpoint
 
 ## User Guide
 
+### Installation
+Plotly:
+1. create an account
+
+Slack:
+1. create a Slack App for your team
+2. enable Interactive Messages, Request URL set to <your-skygear-endpoint>/action
+3. enable Slash Commands, create following commands, each Request URL set to <your-skygear-endpoint>/command
+    * /nps-ask-now
+    * /nps-schedule
+    * /nps-stop-scheduling
+    * /nps-generate-report
+4. Permit following scopes:
+    * chat:write:bot
+    * users:read
+
+Skygear
+1. create a Skygear account
+2. create a Skygear App
+3. Add environment variables in Settings/Advanced
+    * `APP_IS_ON`: true
+    * `DEV_MODE`: false
+    * `TOKEN`: find it in Slack App
+    * `VERIFICATION_TOKEN`: find it in Slack App
+    * `PLOTLY_USERNAME`: find it in Plotly
+    * `PLOTLY_API_KEY`: find it in Plotly
+4. set up your ssh key
+5. clone this project
+6. update remote repo to your skygear cloud function endpoint
+7. push to server
+
 ### Available commands
-* /create-survey
-* /schedule-survey
-* /stop-scheduled-survey
-* /ask-now
-* /generate-report
+* /nps-ask-now
+* /nps-schedule
+* /nps-stop-scheduling
+* /nps-generate-report
 
 ## Developer Guide
 
-### Recommended Dependencies
-* [curl](https://curl.haxx.se/)
+### Dependencies
+* @slack/client
+* node-schedule
+* plotly
+* unirest
 
 ### Quick Start
 

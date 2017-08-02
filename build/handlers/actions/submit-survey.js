@@ -10,7 +10,7 @@ let submitSurvey = (() => {
       } else {
         let reply = new Reply(null, survey, score);
         reply.save();
-        return 'OK';
+        return 'Thank you for the reply.';
       }
     } else {
       return `Survey ${surveyID} does not exsist.`;
