@@ -26,13 +26,13 @@ exports.handleCommand = async (req) => {
   if (isFromSlack(request)) {
     if (await isAdmin(request.user_id)) {
       switch (request.command) {
-        case '/ask-now':
+        case '/nps-ask-now':
           return askNow()
-        case '/schedule':
+        case '/nps-schedule':
           return requestFrequency()
-        case '/stop-scheduling':
+        case '/nps-stop-scheduling':
           return stopScheduling()
-        case '/generate-report':
+        case '/nps-generate-report':
           return requestReportType()
         default:
           return 'Invalid command'
