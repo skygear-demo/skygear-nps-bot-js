@@ -22,53 +22,49 @@ class Survey {
 
   get attachment () {
     return {
-      attachments: [
+      fallback: 'You are unable to fill in survey',
+      callback_id: 'submit-survey',
+      actions: [
         {
-          fallback: 'You are unable to fill in survey',
-          callback_id: 'submit-survey',
-          actions: [
+          name: this.record._id,
+          text: 'Choose a score...',
+          type: 'select',
+          options: [
             {
-              name: this.record._id,
-              text: 'Choose a score...',
-              type: 'select',
-              options: [
-                {
-                  text: '10 (Highest)',
-                  value: '10'
-                },
-                {
-                  text: '9',
-                  value: '9'
-                },
-                {
-                  text: '8',
-                  value: '8'
-                },
-                {
-                  text: '7',
-                  value: '7'
-                },
-                {
-                  text: '6',
-                  value: '6'
-                },
-                {
-                  text: '5',
-                  value: '5'
-                },
-                {
-                  text: '4',
-                  value: '4'
-                },
-                {
-                  text: '2',
-                  value: '2'
-                },
-                {
-                  text: '1 (Lowest)',
-                  value: '1'
-                }
-              ]
+              text: '10 (Highest)',
+              value: '10'
+            },
+            {
+              text: '9',
+              value: '9'
+            },
+            {
+              text: '8',
+              value: '8'
+            },
+            {
+              text: '7',
+              value: '7'
+            },
+            {
+              text: '6',
+              value: '6'
+            },
+            {
+              text: '5',
+              value: '5'
+            },
+            {
+              text: '4',
+              value: '4'
+            },
+            {
+              text: '2',
+              value: '2'
+            },
+            {
+              text: '1 (Lowest)',
+              value: '1'
             }
           ]
         }
@@ -101,7 +97,13 @@ class Survey {
     let targets = await User.humans
     let survey = new Survey(null, targets.length)
     await survey.save()
-    targets.forEach((target) => slack.chat.postMessage(target.id, question, survey.attachment))
+    let opts = {
+      as_user: true,
+      attachments: [
+        survey.attachment
+      ]
+    }
+    targets.forEach((target) => slack.chat.postMessage(target.id, question, opts))
     let delay = DEV_MODE ? 1000 * 30 : 1000 * 60 * 20
     setTimeout(survey.completed.bind(survey), delay)
   }

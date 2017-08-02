@@ -1,6 +1,6 @@
 'use strict';
 
 const WebClient = require('@slack/client').WebClient;
-const TOKEN = require('./config.js').TOKEN;
+const SLACK_BOT_TOKEN = require('./config.js').SLACK_BOT_TOKEN;
 
-module.exports = new WebClient(TOKEN);
+module.exports = new WebClient(SLACK_BOT_TOKEN);

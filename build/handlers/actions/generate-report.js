@@ -78,6 +78,10 @@ let generateLatestReport = (() => {
 
 let generateAllTimeReport = (() => {
   var _ref2 = _asyncToGenerator(function* (destination) {
+    let hasCompletedSurvey = yield Survey.lastCompleted;
+    if (!hasCompletedSurvey) {
+      return 'No completed survey';
+    }
     // DESC because of limit default 50
     let sql = 'SELECT s._id, s.sent_at, AVG(r.score) FROM app_npsbot.reply r JOIN app_npsbot.survey s ON r.survey=s._id GROUP BY s._id, s.sent_at ORDER BY s.sent_at DESC';
     let records = yield skygearCloud.pool.query(sql).then(function (res) {

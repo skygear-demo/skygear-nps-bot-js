@@ -10,7 +10,8 @@ exports.APP_IS_ON = process.env.APP_IS_ON === 'true' || false;
 exports.DEV_MODE = process.env.DEV_MODE === 'true' || false;
 // you should obtain token and allow necessary scopes in Slack:
 // https://api.slack.com/apps/A683YABMW/oauth
-exports.TOKEN = process.env.SLACK_API_TOKEN || '';
+exports.SLACK_API_TOKEN = process.env.SLACK_API_TOKEN || '';
+exports.SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN || '';
 // for verifying slash commands and interactive messages is issued by Slack
 exports.VERIFICATION_TOKEN = process.env.VERIFICATION_TOKEN || '';
 // https://plot.ly/settings/api

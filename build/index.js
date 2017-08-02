@@ -1,7 +1,5 @@
 'use strict';
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 /*
 App's entry point
 mainly for global definition
@@ -30,28 +28,9 @@ if (APP_IS_ON) {
 /*
 quickly test any functions
 */
-skygearCloud.handler('test', (() => {
-  var _ref = _asyncToGenerator(function* (req) {
-    const querystring = require('querystring');
-    const responseWith = require('./util.js').responseWith;
-    let body = querystring.parse(req.body);
-
-    const skygear = require('skygear');
-    const db = require('./db.js');
-    const Survey = require('./models/survey.js');
-    let survey = yield Survey.lastCompleted;
-    let Reply = skygear.Record.extend('reply');
-    db.save(new Reply({
-      survey: new skygear.Reference(survey.record),
-      score: parseInt(body.score)
-    }));
-    return responseWith(body);
-  });
-
-  return function (_x) {
-    return _ref.apply(this, arguments);
-  };
-})(), {
+skygearCloud.handler('test', req => {
+  return '';
+}, {
   method: ['POST'],
   userRequired: false
 });
