@@ -77,7 +77,7 @@ exports.handleAction = req => {
       case 'schedule-survey':
         return scheduleSurvey(request.actions[0].value);
       case 'generate-report':
-        return generateReport(request.actions[0].value, request.response_url);
+        return generateReport(request.actions[0].value, request.response_url, request.user.id);
       default:
         return 'Invalid action';
     }

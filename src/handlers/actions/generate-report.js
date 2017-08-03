@@ -1,36 +1,32 @@
 const skygearCloud = require('skygear/cloud')
 const unirest = require('unirest')
 const Survey = require('../../models/survey.js')
+const Report = require('../../models/report.js')
 const plotly = require('../../plotly.js')
 
-async function generateLatestReport (destination) {
+async function generateLatestReport (destination, user) {
   let survey = await Survey.lastCompleted
   if (survey) {
-    // data retrieval
-    let sql = `SELECT score, COUNT(score) FROM app_npsbot.reply WHERE survey='${survey.record._id}' GROUP BY score ORDER BY score ASC`
-    // [{"score":3,"count":"2"},{"score":5,"count":"1"}]
-    let distribution = await skygearCloud.pool.query(sql).then(res => res.rows)
-    if (distribution.length < 1) {
+    let report = new Report(survey)
+
+    let responseRate = await report.responseRate
+    if (responseRate === 0) {
       return 'Response rate: 0%'
     }
-    // console.log('distribution', distribution, typeof distribution[0].count)
-    // [score1count, score2count, ...]
-    let counts = new Array(10).fill(0)
-    distribution.forEach(d => {
-      // count is string
-      counts[d.score - 1] = parseInt(d.count)
+    let averageScore = await report.averageScore
+
+    let y = new Array(10).fill(0)
+    let scoreCounts = await report.scoreCounts
+    scoreCounts.forEach(sc => {
+      y[sc.score - 1] = sc.count
     })
-    sql = `SELECT AVG(score) FROM app_npsbot.reply WHERE survey='${survey.record._id}'`
-    let averageScore = await skygearCloud.pool.query(sql).then(res => res.rows[0] && res.rows[0].avg)
-    console.log('averageScore', averageScore, typeof averageScore)
 
     // plot chart
-    let numberOfReplies = counts.reduce((sum, value) => sum + value, 0)
     let data = [
       {
         // labels
         x: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-        y: counts,
+        y: y,
         type: 'bar'
       }
     ]
@@ -52,31 +48,31 @@ async function generateLatestReport (destination) {
       fileopt: 'overwrite'
     }
     // too slow, do not await
-    plotly.plotAsync(data, options).then((msg) => {
-      // slack will cache each url for 24 hours, below is a hack
-      let url = `${msg.url}.jpeg?timestamp=${new Date().getTime()}`
+    plotly.plotAsync(data, options).then(({ url }) => {
+      // slack will cache each url for 24 hours, below is a workaround
+      url = `${url}.jpeg?timestamp=${new Date().getTime()}`
       let messages = [
-        `Response rate: ${(numberOfReplies / survey.record.targets_count * 100).toFixed(2)}%`,
-        `Average score: ${averageScore.toFixed(2)}`
+        `Response rate: ${responseRate}%`,
+        `Average score: ${averageScore}`,
+        `<${url}|Score distribution>:`
       ]
       let body = {
         attachments: [
           {
-            fallback: `See the result at ${url}`,
-            title: `Score distribution of survey at ${survey.record.sent_at.toDateString()}`,
-            title_link: url,
+            fallback: `Fail to show you the report.`,
+            title: 'Stats of the latest completed survey',
             image_url: url,
             text: messages.join('\n')
           }
         ]
       }
-      // not reply directly because it will timeout due to multiple querires and 3rd party plotting
+      // multiple querires and 3rd party plotting take time
+      // not reply directly to avoid timeout error in Slack
       unirest.post(destination)
         .headers({'Content-Type': 'application/json'})
         .send(body)
-        .end()
+        .end(() => report.uploadTo(user))
     })
-
     return 'Generating...'
   } else {
     return 'No completed survey'
@@ -141,10 +137,10 @@ async function generateAllTimeReport (destination) {
   return 'Generating...'
 }
 
-function generateReport (reportType, destination) {
+function generateReport (reportType, destination, user) {
   switch (reportType) {
     case 'latest':
-      return generateLatestReport(destination)
+      return generateLatestReport(destination, user)
     case 'all-time':
       return generateAllTimeReport(destination)
     default:

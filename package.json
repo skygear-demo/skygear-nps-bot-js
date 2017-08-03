@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@slack/client": "^3.10.0",
+    "json2csv": "^3.11.0",
     "node-schedule": "^1.2.3",
     "plotly": "^1.0.6",
     "skygear": "^1.0.0",

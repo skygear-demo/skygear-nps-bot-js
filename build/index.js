@@ -1,5 +1,7 @@
 'use strict';
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 /*
 App's entry point
 mainly for global definition
@@ -28,9 +30,20 @@ if (APP_IS_ON) {
 /*
 quickly test any functions
 */
-skygearCloud.handler('test', req => {
-  return '';
-}, {
+skygearCloud.handler('test', (() => {
+  var _ref = _asyncToGenerator(function* (req) {
+    const Survey = require('./models/survey.js');
+    const Report = require('./models/report.js');
+    let survey = yield Survey.getByID('c876c16d-a35d-4b58-948a-65bb63747722');
+    let report = new Report(survey);
+    report.uploadTo('@zephyrwong');
+    return report.csv;
+  });
+
+  return function (_x) {
+    return _ref.apply(this, arguments);
+  };
+})(), {
   method: ['POST'],
   userRequired: false
 });

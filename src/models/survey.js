@@ -1,6 +1,7 @@
 const skygear = require('skygear')
 const schedule = require('node-schedule')
 const User = require('./user.js')
+const Reply = require('./reply.js')
 const db = require('../db.js')
 const slack = require('../slack.js')
 const question = require('../config.js').question
@@ -69,6 +70,16 @@ class Survey {
           ]
         }
       ]
+    }
+  }
+
+  get replies () {
+    if (this.record.is_completed) {
+      let query = new skygear.Query(Reply.Record)
+      query.equalTo('survey', this.record._id)
+      return db.query(query)// .map(record => new Reply(record))
+    } else {
+      throw new Error('The survey has not yet closed.')
     }
   }
 
