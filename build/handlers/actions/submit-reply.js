@@ -1,22 +1,22 @@
 'use strict';
 
 let submitReply = (() => {
-  var _ref = _asyncToGenerator(function* (action, replyID, channel, thread) {
-    console.log('submitReply', action, replyID, channel, thread);
-    if (action === 'next') {
-      let messages = (yield slack.im.replies(channel, thread)).messages;
-      // remove the parent message
-      messages.shift();
-      // if answered
-      if (messages[0]) {
-        let reply = yield Reply.getByID(replyID);
-        reply.record.reason = messages[0].text || '';
-        reply.save();
-      } else {
+  var _ref = _asyncToGenerator(function* (action, replyID, channel, since) {
+    console.log('submitReply', action, replyID, channel, since);
+    if (action === 'submit') {
+      let opts = {
+        count: 1,
+        oldest: since
+      };
+      let messages = (yield slack.im.history(channel, opts)).messages;
+      if (messages.length < 1) {
         return '';
       }
+      let reply = yield Reply.getByID(replyID);
+      reply.record.reason = messages[0].text || '';
+      reply.save();
     }
-    return nextQuestion();
+    return 'Thank you for the reply.';
   });
 
   return function submitReply(_x, _x2, _x3, _x4) {
@@ -28,9 +28,5 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 const slack = require('../../slack.js');
 const Reply = require('../../models/reply.js');
-
-function nextQuestion() {
-  return 'Thank you for the reply.';
-}
 
 module.exports = submitReply;

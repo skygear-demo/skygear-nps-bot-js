@@ -18,17 +18,17 @@ async function submitSurvey (surveyID, score) {
           {
             fallback: 'You are unable to answer the question',
             callback_id: 'submit-reply',
-            title: `Reply this in a new thread, then submit via button 'NEXT'`,
+            title: `Reply below, then submit`,
             actions: [
               {
                 name: reply.record._id,
-                text: 'NEXT',
+                text: 'Submit',
                 type: 'button',
-                value: 'next'
+                value: 'submit'
               },
               {
                 name: reply.record._id,
-                text: 'SKIP',
+                text: 'Skip',
                 type: 'button',
                 value: 'skip'
               }
