@@ -10,6 +10,9 @@ let generateLatestReport = (() => {
       let distribution = yield skygearCloud.pool.query(sql).then(function (res) {
         return res.rows;
       });
+      if (distribution.length < 1) {
+        return 'Response rate: 0%';
+      }
       // console.log('distribution', distribution, typeof distribution[0].count)
       // [score1count, score2count, ...]
       let counts = new Array(10).fill(0);
@@ -19,8 +22,9 @@ let generateLatestReport = (() => {
       });
       sql = `SELECT AVG(score) FROM app_npsbot.reply WHERE survey='${survey.record._id}'`;
       let averageScore = yield skygearCloud.pool.query(sql).then(function (res) {
-        return parseFloat(res.rows[0].avg);
+        return res.rows[0] && res.rows[0].avg;
       });
+      console.log('averageScore', averageScore, typeof averageScore);
 
       // plot chart
       let numberOfReplies = counts.reduce(function (sum, value) {

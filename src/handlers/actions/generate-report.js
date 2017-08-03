@@ -10,6 +10,9 @@ async function generateLatestReport (destination) {
     let sql = `SELECT score, COUNT(score) FROM app_npsbot.reply WHERE survey='${survey.record._id}' GROUP BY score ORDER BY score ASC`
     // [{"score":3,"count":"2"},{"score":5,"count":"1"}]
     let distribution = await skygearCloud.pool.query(sql).then(res => res.rows)
+    if (distribution.length < 1) {
+      return 'Response rate: 0%'
+    }
     // console.log('distribution', distribution, typeof distribution[0].count)
     // [score1count, score2count, ...]
     let counts = new Array(10).fill(0)
@@ -18,7 +21,8 @@ async function generateLatestReport (destination) {
       counts[d.score - 1] = parseInt(d.count)
     })
     sql = `SELECT AVG(score) FROM app_npsbot.reply WHERE survey='${survey.record._id}'`
-    let averageScore = await skygearCloud.pool.query(sql).then(res => parseFloat(res.rows[0].avg))
+    let averageScore = await skygearCloud.pool.query(sql).then(res => res.rows[0] && res.rows[0].avg)
+    console.log('averageScore', averageScore, typeof averageScore)
 
     // plot chart
     let numberOfReplies = counts.reduce((sum, value) => sum + value, 0)
