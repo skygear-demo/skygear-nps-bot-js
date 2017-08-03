@@ -9,6 +9,7 @@ const requestReportType = require('./commands/generate-report.js')
 
 const scheduleSurvey = require('./actions/schedule-survey.js')
 const submitSurvey = require('./actions/submit-survey.js')
+const submitReply = require('./actions/submit-reply.js')
 const generateReport = require('./actions/generate-report.js')
 
 function isFromSlack (request) {
@@ -53,6 +54,8 @@ exports.handleAction = (req) => {
     switch (request.callback_id) {
       case 'submit-survey':
         return submitSurvey(request.actions[0].name, parseInt(request.actions[0].selected_options[0].value))
+      case 'submit-reply':
+        return submitReply(request.actions[0].value, request.actions[0].name, request.channel.id, request.message_ts)
       case 'schedule-survey':
         return scheduleSurvey(request.actions[0].value)
       case 'generate-report':

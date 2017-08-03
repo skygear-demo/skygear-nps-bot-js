@@ -19,3 +19,4 @@ exports.PLOTLY_USERNAME = process.env.PLOTLY_USERNAME || '';
 exports.PLOTLY_API_KEY = process.env.PLOTLY_API_KEY || '';
 // change this if you don't like
 exports.question = 'How likely is it you would recommend this company as a place to work?';
+exports.followUpQuestion = 'Tell us a bit more about why you rated that score?';
