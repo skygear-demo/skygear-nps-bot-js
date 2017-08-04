@@ -3,13 +3,14 @@
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 const skygear = require('skygear');
-const schedule = require('node-schedule');
+const CronJob = require('cron').CronJob;
 const User = require('./user.js');
 const Reply = require('./reply.js');
 const db = require('../db.js');
 const slack = require('../slack.js');
 const question = require('../config.js').question;
 const DEV_MODE = require('../config.js').DEV_MODE;
+const timezone = require('../config.js').timezone;
 const frequency = require('../frequency.js');
 
 class Survey {
@@ -125,10 +126,10 @@ class Survey {
   static schedule(f) {
     let cron = frequency[f];
     if (cron) {
-      if (global.scheduled instanceof schedule.Job) {
-        global.scheduled.cancel();
+      if (global.scheduled instanceof CronJob) {
+        global.scheduled.stop();
       }
-      global.scheduled = schedule.scheduleJob(cron, Survey.send);
+      global.scheduled = new CronJob(cron, Survey.send, null, true, timezone);
     } else {
       throw new Error('cron not defined');
     }

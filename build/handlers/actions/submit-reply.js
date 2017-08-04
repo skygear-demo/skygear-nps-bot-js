@@ -16,6 +16,9 @@ let submitReply = (() => {
       reply.record.reason = messages[0].text || '';
       reply.save();
     }
+    if (global.scheduled) {
+      return `Thank you for the reply. Next survey day will be at ${global.scheduled.nextDate().format('Do MMM YYYY, HH:mm:ss')}.`;
+    }
     return 'Thank you for the reply.';
   });
 

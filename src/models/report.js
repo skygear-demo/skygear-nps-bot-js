@@ -2,9 +2,11 @@
 Report of a survey
 */
 const skygearCloud = require('skygear/cloud')
+const moment = require('moment-timezone')
 const json2csv = require('json2csv')
 const Survey = require('./survey.js')
 const slack = require('../slack.js')
+const timezone = require('../config.js').timezone
 
 class Report {
   constructor (survey) {
@@ -60,7 +62,7 @@ class Report {
       let replies = []
       for (let i = 0; i < records.length; i++) {
         replies.push({
-          Date: records[i].updatedAt.toDateString(),
+          Date: moment(records[i].updatedAt).tz(timezone).format('Do MMM YYYY, HH:mm:ss'),
           Score: records[i].score,
           Reason: records[i].reason
         })
@@ -76,9 +78,10 @@ class Report {
   }
 
   async uploadTo (channels) {
-    let filename = `${this.survey.record.sent_at.toDateString()}-survey-report.csv`
+    let datetime = moment(this.survey.record.sent_at).tz(timezone).format('YYYY-MMM-DD')
+    let filename = `${datetime}-survey-report.csv`
     let opts = {
-      title: `Report of survey at ${this.survey.record.sent_at.toDateString()}`,
+      title: `Report of survey at ${datetime}`,
       content: await this.csv,
       channels: channels
     }

@@ -26,13 +26,8 @@ if (APP_IS_ON) {
 /*
 quickly test any functions
 */
-skygearCloud.handler('test', async (req) => {
-  const Survey = require('./models/survey.js')
-  const Report = require('./models/report.js')
-  let survey = await Survey.getByID('c876c16d-a35d-4b58-948a-65bb63747722')
-  let report = new Report(survey)
-  report.uploadTo('@zephyrwong')
-  return report.csv
+skygearCloud.handler('test', (req) => {
+  return ''
 }, {
   method: ['POST'],
   userRequired: false

@@ -49,7 +49,7 @@ let generateLatestReport = (() => {
         let body = {
           attachments: [{
             fallback: `Fail to show you the report.`,
-            title: 'Stats of the latest completed survey',
+            title: `Stats of the latest completed survey at ${moment(survey.record.sent_at).tz(timezone).format('Do MMM YYYY, HH:mm:ss')}`,
             image_url: url,
             text: messages.join('\n')
           }]
@@ -85,7 +85,7 @@ let generateAllTimeReport = (() => {
     records.reverse();
     // console.log('records', records, typeof records[0].avg)
     let dates = records.map(function (record) {
-      return record.sent_at;
+      return moment(record.sent_at).tz(timezone).format('Do MMM YYYY, HH:mm:ss');
     });
     let averageScores = records.map(function (record) {
       return record.avg.toFixed(2);
@@ -136,10 +136,12 @@ let generateAllTimeReport = (() => {
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 const skygearCloud = require('skygear/cloud');
+const moment = require('moment-timezone');
 const unirest = require('unirest');
 const Survey = require('../../models/survey.js');
 const Report = require('../../models/report.js');
 const plotly = require('../../plotly.js');
+const timezone = require('../../config.js').timezone;
 
 function generateReport(reportType, destination, user) {
   switch (reportType) {

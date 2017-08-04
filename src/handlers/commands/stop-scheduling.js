@@ -1,8 +1,8 @@
-const Job = require('node-schedule').Job
+const CronJob = require('cron').CronJob
 
 function stopScheduling () {
-  if (global.scheduled instanceof Job) {
-    global.scheduled.cancel()
+  if (global.scheduled instanceof CronJob) {
+    global.scheduled.stop()
     global.scheduled = null
     return 'OK'
   }

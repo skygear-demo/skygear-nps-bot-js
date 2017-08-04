@@ -24,8 +24,9 @@
   },
   "dependencies": {
     "@slack/client": "^3.10.0",
+    "cron": "^1.2.1",
     "json2csv": "^3.11.0",
-    "node-schedule": "^1.2.3",
+    "moment-timezone": "^0.5.13",
     "plotly": "^1.0.6",
     "skygear": "^1.0.0",
     "unirest": "^0.5.1"
