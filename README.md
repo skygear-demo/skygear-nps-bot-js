@@ -17,14 +17,18 @@ Plotly:
 
 Slack:
 1. create a Slack App for your team
-2. enable Interactive Messages, Request URL set to <your-skygear-endpoint>/action
-3. enable Slash Commands, create following commands, each Request URL set to <your-skygear-endpoint>/command
+2. enable bot user, always show online
+3. enable Interactive Messages, Request URL set to <your-skygear-endpoint>/action
+4. enable Slash Commands, create following commands, each Request URL set to <your-skygear-endpoint>/command
     * /nps-ask-now
     * /nps-schedule
     * /nps-stop-scheduling
     * /nps-generate-report
-4. Permit following scopes:
+5. Permit following scopes:
     * chat:write:bot
+    * chat:write:user
+    * files:write:user
+    * im:history
     * users:read
 
 Skygear
@@ -33,7 +37,8 @@ Skygear
 3. Add environment variables in Settings/Advanced
     * `APP_IS_ON`: true
     * `DEV_MODE`: false
-    * `TOKEN`: find it in Slack App
+    * `SLACK_API_TOKEN`: find it in Slack App
+    * `SLACK_BOT_TOKEN`: find it in Slack App
     * `VERIFICATION_TOKEN`: find it in Slack App
     * `PLOTLY_USERNAME`: find it in Plotly
     * `PLOTLY_API_KEY`: find it in Plotly
@@ -52,9 +57,11 @@ Skygear
 
 ### Dependencies
 * @slack/client
-* node-schedule
+* node-cron
 * plotly
 * unirest
+* json2csv
+* moment-timezone
 
 ### Quick Start
 
@@ -66,11 +73,9 @@ npm install
 ```bash
 # deploy to skygear, make sure to add your ssh key in portal
 npm run deploy
-# you may need to wait for a few seconds after deploying
+# you may need to wait for a minute after deploying
 # below command help you to check whether the app has already up and running
 curl https://npsbot.skygeario.com/ping
-# initialize the schema before start using the database
-curl https://npsbot.skygeario.com/init
 ```
 
 ### Technical Details
