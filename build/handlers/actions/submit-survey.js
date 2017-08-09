@@ -1,23 +1,20 @@
 'use strict';
 
 let submitSurvey = (() => {
-  var _ref = _asyncToGenerator(function* (surveyID, user, score) {
+  var _ref = _asyncToGenerator(function* (surveyID, userID, score) {
     let survey = yield Survey.getByID(surveyID);
     // if survey exist
     if (survey) {
       if (survey.record.is_completed) {
         return 'This survey has already closed.';
       } else {
-        let reply = new Reply(null, survey, user, score);
+        let reply = new Reply(null, survey, userID, score);
         yield reply.save();
-        let body = {
-          text: FOLLOW_UP_QUESTION,
-          attachments: [{
-            fallback: 'Reply below by /nps-reply, e.g. /nps-reply Because of cats!',
-            footer: 'Reply below by /nps-reply, e.g. /nps-reply Because of cats!'
-          }]
+        let opts = {
+          as_user: true
         };
-        return responseWith(body);
+        slack.chat.postMessage(userID, FOLLOW_UP_QUESTION, opts);
+        return 'OK';
       }
     } else {
       return `Survey ${surveyID} does not exsist.`;
@@ -35,5 +32,6 @@ const Survey = require('../../models/survey.js');
 const Reply = require('../../models/reply.js');
 const responseWith = require('../../util.js').responseWith;
 const FOLLOW_UP_QUESTION = require('../../config.js').FOLLOW_UP_QUESTION;
+const slack = require('../../slack.js');
 
 module.exports = submitSurvey;

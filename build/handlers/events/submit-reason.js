@@ -1,30 +1,37 @@
 'use strict';
 
-let reply = (() => {
-  var _ref = _asyncToGenerator(function* (user, replyText) {
+let submitReason = (() => {
+  var _ref = _asyncToGenerator(function* (userID, reason) {
+    let message;
     let survey = yield Survey.waitingReply;
     if (survey) {
-      let reply = yield Reply.getUserNotCompleted(survey, user);
+      let reply = yield Reply.getUserNotCompleted(survey, userID);
       if (reply) {
         if (reply.record.reason) {
-          return 'You have already finished the survey.';
+          message = 'You have already finished the survey.';
         } else {
-          reply.record.reason = replyText;
-          reply.save();
+          reply.record.reason = reason;
+          yield reply.save();
           if (global.scheduled) {
-            return `Thank you for the reply. Next survey day will be at ${global.scheduled.nextDate().format('Do MMM YYYY, HH:mm:ss')}.`;
+            message = `Thank you for the reply. Next survey day will be at ${global.scheduled.nextDate().format('Do MMM YYYY, HH:mm:ss')}.`;
+          } else {
+            message = 'Thank you for the reply.';
           }
-          return 'Thank you for the reply.';
         }
       } else {
-        return 'Please sumbit a score first.';
+        message = 'Please sumbit a score first.';
       }
     } else {
-      return 'No survey is opening now.';
+      message = 'No survey is opening now.';
     }
+
+    let opts = {
+      as_user: true
+    };
+    slack.chat.postMessage(userID, message, opts);
   });
 
-  return function reply(_x, _x2) {
+  return function submitReason(_x, _x2) {
     return _ref.apply(this, arguments);
   };
 })();
@@ -33,5 +40,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 const Survey = require('../../models/survey.js');
 const Reply = require('../../models/reply.js');
+const slack = require('../../slack.js');
 
-module.exports = reply;
+module.exports = submitReason;

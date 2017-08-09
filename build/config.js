@@ -6,12 +6,12 @@ https://portal.skygear.io/app/npsbot/settings/advanced
 you may create one yourself when necessary
 noted that they are String
 */
-const DEV_MODE = process.env.DEV_MODE === 'true' || false;
-const SLACK_BOT_TOKEN = DEV_MODE ? process.env.TEST_BOT_TOKEN : process.env.SLACK_BOT_TOKEN;
-const VERIFICATION_TOKEN = DEV_MODE ? process.env.TEST_VERIFICATION_TOKEN : process.env.VERIFICATION_TOKEN;
+const DEVELOPMENT_MODE = process.env.DEVELOPMENT_MODE === 'true' || false;
+const SLACK_BOT_TOKEN = DEVELOPMENT_MODE ? process.env.TEST_BOT_TOKEN : process.env.SLACK_BOT_TOKEN;
+const VERIFICATION_TOKEN = DEVELOPMENT_MODE ? process.env.TEST_VERIFICATION_TOKEN : process.env.VERIFICATION_TOKEN;
 
 exports.APP_IS_ON = process.env.APP_IS_ON === 'true' || false;
-exports.DEV_MODE = DEV_MODE;
+exports.DEV_MODE = DEVELOPMENT_MODE;
 // you should obtain token and allow necessary scopes in Slack:
 // https://api.slack.com/apps/A683YABMW/oauth
 exports.SLACK_BOT_TOKEN = SLACK_BOT_TOKEN || '';

@@ -8,6 +8,7 @@ const skygearCloud = require('skygear/cloud');
 const APP_IS_ON = require('./config.js').APP_IS_ON;
 const handleCommand = require('./handlers').handleCommand;
 const handleAction = require('./handlers').handleAction;
+const handleEvent = require('./handlers').handleEvent;
 
 if (APP_IS_ON) {
   global.scheduled = null;
@@ -25,17 +26,10 @@ if (APP_IS_ON) {
   });
 
   // handle event
-  // skygearCloud.handler('event', async req => {
-  //   /*
-  //     one-time verification to enable event subscription
-  //     let body = JSON.parse(req.body)
-  //     return body.challenge
-  //   */
-  //   return ''
-  // }, {
-  //   method: ['POST'],
-  //   userRequired: false
-  // })
+  skygearCloud.handler('event', handleEvent, {
+    method: ['POST'],
+    userRequired: false
+  });
 }
 
 /*

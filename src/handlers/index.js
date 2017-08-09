@@ -7,11 +7,12 @@ const askNow = require('./commands/ask-now.js')
 const requestFrequency = require('./commands/schedule.js')
 const stopScheduling = require('./commands/stop-scheduling.js')
 const requestReportType = require('./commands/generate-report.js')
-const reply = require('./commands/reply.js')
 
 const scheduleSurvey = require('./actions/schedule-survey.js')
 const submitSurvey = require('./actions/submit-survey.js')
 const generateReport = require('./actions/generate-report.js')
+
+const submitReason = require('./events/submit-reason.js')
 
 function isFromSlack (request) {
   return request.token === VERIFICATION_TOKEN
@@ -40,10 +41,7 @@ exports.handleCommand = async (req) => {
           return 'Invalid command'
       }
     } else {
-      if (request.command === '/nps-reply') {
-        return reply(request.user_id, request.text)
-      }
-      return 'Permission denied. Only team admins or developers of this app could issue the commands.'
+      return 'Permission denied. Only team admins or developers of this app could issue this command.'
     }
   } else {
     return 'Unknown source'
@@ -67,5 +65,23 @@ exports.handleAction = (req) => {
     }
   } else {
     return 'Unknown source'
+  }
+}
+
+exports.handleEvent = (req) => {
+  let body = JSON.parse(req.body)
+  // one-time verification to enable event subscription
+  if (body.challenge) {
+    return body.challenge
+  }
+
+  let event = body.event
+  console.log(event)
+  switch (event.type) {
+    case 'message':
+      // avoid the loop created by bot
+      return event.bot_id ? '' : submitReason(event.user, event.text)
+    default:
+      return 'Invalid event type'
   }
 }
