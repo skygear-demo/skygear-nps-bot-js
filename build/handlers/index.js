@@ -47,12 +47,13 @@ exports.handleCommand = (() => {
             return stopScheduling();
           case '/nps-generate-report':
             return requestReportType();
-          case '/nps-reply':
-            return reply(request.user_id, request.text);
           default:
             return 'Invalid command';
         }
       } else {
+        if (request.command === '/nps-reply') {
+          return reply(request.user_id, request.text);
+        }
         return 'Permission denied. Only team admins or developers of this app could issue the commands.';
       }
     } else {
