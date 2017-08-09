@@ -4,7 +4,7 @@ https://portal.skygear.io/app/npsbot/settings/advanced
 you may create one yourself when necessary
 noted that they are String
 */
-const DEV_MODE = (process.env.DEV_MODE === 'true') || false
+const DEV_MODE = false // (process.env.DEV_MODE === 'true') || false
 const SLACK_BOT_TOKEN = DEV_MODE ? process.env.TEST_BOT_TOKEN : process.env.SLACK_BOT_TOKEN
 const VERIFICATION_TOKEN = DEV_MODE ? process.env.TEST_VERIFICATION_TOKEN : process.env.VERIFICATION_TOKEN
 
