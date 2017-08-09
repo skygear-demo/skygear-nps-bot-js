@@ -8,13 +8,13 @@ class User {
     this.is_bot = user.is_bot
   }
   static get all () {
-    return slack.users.list().then((res) => res.members.map((user) => new User(user)))
+    return slack.users.list().then(res => res.members.map(user => new User(user)))
   }
   static get humans () {
     return User.all.filter(user => !(user.is_bot || user.name === 'slackbot'))
   }
-  static get admins () {
-    return User.all.filter(user => user.is_admin)
+  static getByID (userID) {
+    return slack.users.info(userID).then(res => new User(res.user))
   }
 }
 

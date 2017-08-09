@@ -43,8 +43,8 @@ Skygear
     * `PLOTLY_USERNAME`: find it in Plotly
     * `PLOTLY_API_KEY`: find it in Plotly
 4. set up your ssh key
-5. clone this project
-6. update remote repo to your skygear cloud function endpoint
+5. git clone this project
+6. git remote add your skygear cloud function endpoint
 7. push to server
 
 ### Available commands
@@ -68,6 +68,8 @@ Skygear
 ```bash
 git clone
 npm install
+git remote add skygear <your-cloud-func-url>
+# modify constants in /src/config.js if necessary, such as DEVELOPERS to backdoor of admin identity check 
 ```
 
 ```bash

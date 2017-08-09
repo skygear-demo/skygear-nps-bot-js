@@ -2,10 +2,8 @@
 
 let isAdmin = (() => {
   var _ref = _asyncToGenerator(function* (userID) {
-    let admins = yield User.admins;
-    return admins.some(function (admin) {
-      return admin.id === userID;
-    });
+    let user = yield User.getByID(userID);
+    return user.is_admin || DEVELOPERS.includes(user.name);
   });
 
   return function isAdmin(_x) {
@@ -17,6 +15,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 const querystring = require('querystring');
 const VERIFICATION_TOKEN = require('../config.js').VERIFICATION_TOKEN;
+const DEVELOPERS = require('../config.js').DEVELOPERS;
 const User = require('../models/user.js');
 
 const askNow = require('./commands/ask-now.js');
@@ -52,7 +51,7 @@ exports.handleCommand = (() => {
             return 'Invalid command';
         }
       } else {
-        return 'Permission denied.';
+        return 'Permission denied. Only team admins or developers of this app could issue the commands.';
       }
     } else {
       return 'Unknown source';

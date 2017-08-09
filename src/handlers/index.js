@@ -1,5 +1,6 @@
 const querystring = require('querystring')
 const VERIFICATION_TOKEN = require('../config.js').VERIFICATION_TOKEN
+const DEVELOPERS = require('../config.js').DEVELOPERS
 const User = require('../models/user.js')
 
 const askNow = require('./commands/ask-now.js')
@@ -17,8 +18,8 @@ function isFromSlack (request) {
 }
 
 async function isAdmin (userID) {
-  let admins = await User.admins
-  return admins.some((admin) => admin.id === userID)
+  let user = await User.getByID(userID)
+  return user.is_admin || DEVELOPERS.includes(user.name)
 }
 
 exports.handleCommand = async (req) => {
@@ -39,7 +40,7 @@ exports.handleCommand = async (req) => {
           return 'Invalid command'
       }
     } else {
-      return 'Permission denied.'
+      return 'Permission denied. Only team admins or developers of this app could issue the commands.'
     }
   } else {
     return 'Unknown source'
