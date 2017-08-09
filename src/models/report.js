@@ -7,6 +7,7 @@ const json2csv = require('json2csv')
 const Survey = require('./survey.js')
 const slack = require('../slack.js')
 const timezone = require('../config.js').timezone
+const DEV_MODE = require('../config.js').DEV_MODE
 
 class Report {
   constructor (survey) {
@@ -18,9 +19,10 @@ class Report {
   }
 
   get responseRate () {
+    let table = DEV_MODE ? 'dev_reply' : 'reply'
     let sql = `\
     SELECT COUNT(score) \
-    FROM app_npsbot.reply \
+    FROM app_npsbot.${table} \
     WHERE survey='${this.survey.record._id}' \
     `
     return skygearCloud.pool.query(sql).then(res => {
@@ -33,18 +35,20 @@ class Report {
   }
 
   get averageScore () {
+    let table = DEV_MODE ? 'dev_reply' : 'reply'
     let sql = `\
     SELECT AVG(score) \
-    FROM app_npsbot.reply \
+    FROM app_npsbot.${table} \
     WHERE survey='${this.survey.record._id}' \
     `
     return skygearCloud.pool.query(sql).then(res => res.rows[0] && res.rows[0].avg && res.rows[0].avg.toFixed(2))
   }
 
   get scoreCounts () {
+    let table = DEV_MODE ? 'dev_reply' : 'reply'
     let sql = `\
     SELECT score, COUNT(score) \
-    FROM app_npsbot.reply \
+    FROM app_npsbot.${table} \
     WHERE survey='${this.survey.record._id}' \
     GROUP BY score \
     ORDER BY score ASC \

@@ -77,7 +77,12 @@ let generateAllTimeReport = (() => {
       return 'No completed survey';
     }
     // DESC because of limit default 50
-    let sql = 'SELECT s._id, s.sent_at, AVG(r.score) FROM app_npsbot.reply r JOIN app_npsbot.survey s ON r.survey=s._id GROUP BY s._id, s.sent_at ORDER BY s.sent_at DESC';
+    let sql;
+    if (DEV_MODE) {
+      sql = 'SELECT s._id, s.sent_at, AVG(r.score) FROM app_npsbot.dev_reply r JOIN app_npsbot.dev_survey s ON r.survey=s._id GROUP BY s._id, s.sent_at ORDER BY s.sent_at DESC';
+    } else {
+      sql = 'SELECT s._id, s.sent_at, AVG(r.score) FROM app_npsbot.reply r JOIN app_npsbot.survey s ON r.survey=s._id GROUP BY s._id, s.sent_at ORDER BY s.sent_at DESC';
+    }
     let records = yield skygearCloud.pool.query(sql).then(function (res) {
       return res.rows;
     });
@@ -142,6 +147,7 @@ const Survey = require('../../models/survey.js');
 const Report = require('../../models/report.js');
 const plotly = require('../../plotly.js');
 const timezone = require('../../config.js').timezone;
+const DEV_MODE = require('../../config.js').DEV_MODE;
 
 function generateReport(reportType, destination, user) {
   switch (reportType) {
