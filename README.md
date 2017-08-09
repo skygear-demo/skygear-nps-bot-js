@@ -24,12 +24,15 @@ Slack:
     * /nps-schedule
     * /nps-stop-scheduling
     * /nps-generate-report
+    * /nps-reply
 5. Permit following scopes:
     * chat:write:bot
     * chat:write:user
     * files:write:user
     * im:history
     * users:read
+    * channels:read
+    * im:read
 
 Skygear
 1. create a Skygear account
@@ -52,6 +55,7 @@ Skygear
 * /nps-schedule
 * /nps-stop-scheduling
 * /nps-generate-report
+* /nps-reply
 
 ## Developer Guide
 

@@ -1,38 +1,23 @@
 const Survey = require('../../models/survey.js')
 const Reply = require('../../models/reply.js')
 const responseWith = require('../../util.js').responseWith
-const followUpQuestion = require('../../config.js').followUpQuestion
+const FOLLOW_UP_QUESTION = require('../../config.js').FOLLOW_UP_QUESTION
 
-async function submitSurvey (surveyID, score) {
+async function submitSurvey (surveyID, user, score) {
   let survey = await Survey.getByID(surveyID)
   // if survey exist
   if (survey) {
     if (survey.record.is_completed) {
       return 'This survey has already closed.'
     } else {
-      let reply = new Reply(null, survey, score)
+      let reply = new Reply(null, survey, user, score)
       await reply.save()
       let body = {
-        text: followUpQuestion,
+        text: FOLLOW_UP_QUESTION,
         attachments: [
           {
-            fallback: 'You are unable to answer the question',
-            callback_id: 'submit-reply',
-            title: `Reply below, then submit`,
-            actions: [
-              {
-                name: reply.record._id,
-                text: 'Submit',
-                type: 'button',
-                value: 'submit'
-              },
-              {
-                name: reply.record._id,
-                text: 'Skip',
-                type: 'button',
-                value: 'skip'
-              }
-            ]
+            fallback: 'Reply below by /nps-reply, e.g. /nps-reply Because of cats!',
+            footer: 'Reply below by /nps-reply, e.g. /nps-reply Because of cats!'
           }
         ]
       }

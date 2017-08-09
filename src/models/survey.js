@@ -19,7 +19,8 @@ class Survey {
   }
 
   static get Record () {
-    return skygear.Record.extend('survey')
+    let table = DEV_MODE ? 'dev_survey' : 'survey'
+    return skygear.Record.extend(table)
   }
 
   get attachment () {
@@ -100,6 +101,14 @@ class Survey {
     let query = new skygear.Query(Survey.Record)
     query.equalTo('is_completed', true)
     query.addDescending('_updated_at')
+    return db.query(query).then((records) => {
+      return records[0] ? new Survey(records[0]) : null
+    })
+  }
+
+  static get waitingReply () {
+    let query = new skygear.Query(Survey.Record)
+    query.equalTo('is_completed', false)
     return db.query(query).then((records) => {
       return records[0] ? new Survey(records[0]) : null
     })

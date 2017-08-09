@@ -23,6 +23,19 @@ if (APP_IS_ON) {
     method: ['POST'],
     userRequired: false
   });
+
+  // handle event
+  // skygearCloud.handler('event', async req => {
+  //   /*
+  //     one-time verification to enable event subscription
+  //     let body = JSON.parse(req.body)
+  //     return body.challenge
+  //   */
+  //   return ''
+  // }, {
+  //   method: ['POST'],
+  //   userRequired: false
+  // })
 }
 
 /*

@@ -22,10 +22,10 @@ const askNow = require('./commands/ask-now.js');
 const requestFrequency = require('./commands/schedule.js');
 const stopScheduling = require('./commands/stop-scheduling.js');
 const requestReportType = require('./commands/generate-report.js');
+const reply = require('./commands/reply.js');
 
 const scheduleSurvey = require('./actions/schedule-survey.js');
 const submitSurvey = require('./actions/submit-survey.js');
-const submitReply = require('./actions/submit-reply.js');
 const generateReport = require('./actions/generate-report.js');
 
 function isFromSlack(request) {
@@ -47,6 +47,8 @@ exports.handleCommand = (() => {
             return stopScheduling();
           case '/nps-generate-report':
             return requestReportType();
+          case '/nps-reply':
+            return reply(request.user_id, request.text);
           default:
             return 'Invalid command';
         }
@@ -70,9 +72,7 @@ exports.handleAction = req => {
   if (isFromSlack(request)) {
     switch (request.callback_id) {
       case 'submit-survey':
-        return submitSurvey(request.actions[0].name, parseInt(request.actions[0].selected_options[0].value));
-      case 'submit-reply':
-        return submitReply(request.actions[0].value, request.actions[0].name, request.channel.id, request.message_ts);
+        return submitSurvey(request.actions[0].name, request.user.id, parseInt(request.actions[0].selected_options[0].value));
       case 'schedule-survey':
         return scheduleSurvey(request.actions[0].value);
       case 'generate-report':
