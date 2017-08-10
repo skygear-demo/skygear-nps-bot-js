@@ -1,10 +1,10 @@
-# Slack app - NPS bot
-A Slack bot for team admins to measure employees happiness quick and easy.
+# Npsbot - Skygear JS Cloud Code Demo
+A Slack app for team admins to measure employees happiness quickly and easily.
 
 ## Demonstrated Skygear Features
 * Cloud Database
     * container: SDK-like query
-    * pool: SQL query
+    * pool: raw SQL query
 * Cloud Functions
     * JavaScript
     * HTTP Endpoint
@@ -12,50 +12,13 @@ A Slack bot for team admins to measure employees happiness quick and easy.
 ## User Guide
 
 ### Installation
-Plotly:
-1. create an account
-
-Slack:
-1. create a Slack App for your team
-2. enable bot user, always show online
-3. enable Interactive Messages, Request URL set to <your-skygear-endpoint>/action
-4. enable Slash Commands, create following commands, each Request URL set to <your-skygear-endpoint>/command
-    * /nps-ask-now
-    * /nps-schedule
-    * /nps-stop-scheduling
-    * /nps-generate-report
-    * /nps-reply
-5. Permit following scopes:
-    * chat:write:bot
-    * chat:write:user
-    * files:write:user
-    * im:history
-    * users:read
-    * channels:read
-    * im:read
-
-Skygear
-1. create a Skygear account
-2. create a Skygear App
-3. Add environment variables in Settings/Advanced
-    * `APP_IS_ON`: true
-    * `DEV_MODE`: false
-    * `SLACK_API_TOKEN`: find it in Slack App
-    * `SLACK_BOT_TOKEN`: find it in Slack App
-    * `VERIFICATION_TOKEN`: find it in Slack App
-    * `PLOTLY_USERNAME`: find it in Plotly
-    * `PLOTLY_API_KEY`: find it in Plotly
-4. set up your ssh key
-5. git clone this project
-6. git remote add your skygear cloud function endpoint
-7. push to server
+Check out [Installation Guide](./doc/installation.md)
 
 ### Available commands
 * /nps-ask-now
 * /nps-schedule
 * /nps-stop-scheduling
 * /nps-generate-report
-* /nps-reply
 
 ## Developer Guide
 
@@ -73,7 +36,7 @@ Skygear
 git clone
 npm install
 git remote add skygear <your-cloud-func-url>
-# modify constants in /src/config.js if necessary, such as DEVELOPERS to backdoor of admin identity check 
+# modify constants in /src/config.js if necessary, such as DEVELOPERS as the backdoor of admin identity check 
 ```
 
 ```bash
