@@ -4,9 +4,9 @@ const User = require('./user.js')
 const Reply = require('./reply.js')
 const db = require('../db.js')
 const slack = require('../slack.js')
-const question = require('../config.js').question
+const QUESTION = require('../config.js').QUESTION
 const DEV_MODE = require('../config.js').DEV_MODE
-const timezone = require('../config.js').timezone
+const TIMEZONE = require('../config.js').TIMEZONE
 const frequency = require('../frequency.js')
 
 class Survey {
@@ -124,7 +124,7 @@ class Survey {
         survey.attachment
       ]
     }
-    targets.forEach((target) => slack.chat.postMessage(target.id, question, opts))
+    targets.forEach((target) => slack.chat.postMessage(target.id, QUESTION, opts))
     let delay = DEV_MODE ? 1000 * 30 : 1000 * 60 * 20
     setTimeout(survey.completed.bind(survey), delay)
   }
@@ -140,7 +140,7 @@ class Survey {
       if (global.scheduled instanceof CronJob) {
         global.scheduled.stop()
       }
-      global.scheduled = new CronJob(cron, Survey.send, null, true, timezone)
+      global.scheduled = new CronJob(cron, Survey.send, null, true, TIMEZONE)
     } else {
       throw new Error('cron not defined')
     }

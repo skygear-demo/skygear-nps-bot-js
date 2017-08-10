@@ -1,6 +1,5 @@
 const Survey = require('../../models/survey.js')
 const Reply = require('../../models/reply.js')
-const responseWith = require('../../util.js').responseWith
 const FOLLOW_UP_QUESTION = require('../../config.js').FOLLOW_UP_QUESTION
 const slack = require('../../slack.js')
 

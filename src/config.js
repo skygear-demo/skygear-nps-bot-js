@@ -19,8 +19,8 @@ exports.VERIFICATION_TOKEN = VERIFICATION_TOKEN || ''
 exports.PLOTLY_USERNAME = process.env.PLOTLY_USERNAME || ''
 exports.PLOTLY_API_KEY = process.env.PLOTLY_API_KEY || ''
 // change this if you don't like
-exports.question = 'How likely is it you would recommend this company as a place to work?'
+exports.QUESTION = 'How likely is it you would recommend this company as a place to work?'
 exports.FOLLOW_UP_QUESTION = 'Tell us a bit more about why you rated that score?'
-exports.timezone = 'Asia/Hong_Kong'
+exports.TIMEZONE = 'Asia/Hong_Kong'
 // your name in the Slack team
 exports.DEVELOPERS = ['zephyrwong', 'davidng']

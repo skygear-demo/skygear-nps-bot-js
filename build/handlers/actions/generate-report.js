@@ -49,7 +49,7 @@ let generateLatestReport = (() => {
         let body = {
           attachments: [{
             fallback: `Fail to show you the report.`,
-            title: `Stats of the latest completed survey at ${moment(survey.record.sent_at).tz(timezone).format('Do MMM YYYY, HH:mm:ss')}`,
+            title: `Stats of the latest completed survey at ${moment(survey.record.sent_at).tz(TIMEZONE).format('Do MMM YYYY, HH:mm:ss')}`,
             image_url: url,
             text: messages.join('\n')
           }]
@@ -90,7 +90,7 @@ let generateAllTimeReport = (() => {
     records.reverse();
     // console.log('records', records, typeof records[0].avg)
     let dates = records.map(function (record) {
-      return moment(record.sent_at).tz(timezone).format('Do MMM YYYY, HH:mm:ss');
+      return moment(record.sent_at).tz(TIMEZONE).format('Do MMM YYYY, HH:mm:ss');
     });
     let averageScores = records.map(function (record) {
       return record.avg.toFixed(2);
@@ -146,7 +146,7 @@ const unirest = require('unirest');
 const Survey = require('../../models/survey.js');
 const Report = require('../../models/report.js');
 const plotly = require('../../plotly.js');
-const timezone = require('../../config.js').timezone;
+const TIMEZONE = require('../../config.js').TIMEZONE;
 const DEV_MODE = require('../../config.js').DEV_MODE;
 
 function generateReport(reportType, destination, user) {
