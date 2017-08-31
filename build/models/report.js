@@ -10,8 +10,7 @@ const moment = require('moment-timezone');
 const json2csv = require('json2csv');
 const Survey = require('./survey.js');
 const slack = require('../slack.js');
-const TIMEZONE = require('../config.js').TIMEZONE;
-const DEV_MODE = require('../config.js').DEV_MODE;
+const { APP_NAME, DEV_MODE, TIMEZONE } = require('../config.js');
 
 class Report {
   constructor(survey) {
@@ -26,7 +25,7 @@ class Report {
     let table = DEV_MODE ? 'dev_reply' : 'reply';
     let sql = `\
     SELECT COUNT(score) \
-    FROM app_npsbot.${table} \
+    FROM ${APP_NAME}.${table} \
     WHERE survey='${this.survey.record._id}' \
     `;
     return skygearCloud.pool.query(sql).then(res => {
@@ -42,7 +41,7 @@ class Report {
     let table = DEV_MODE ? 'dev_reply' : 'reply';
     let sql = `\
     SELECT AVG(score) \
-    FROM app_npsbot.${table} \
+    FROM ${APP_NAME}.${table} \
     WHERE survey='${this.survey.record._id}' \
     `;
     return skygearCloud.pool.query(sql).then(res => res.rows[0] && res.rows[0].avg && res.rows[0].avg.toFixed(2));
@@ -52,7 +51,7 @@ class Report {
     let table = DEV_MODE ? 'dev_reply' : 'reply';
     let sql = `\
     SELECT score, COUNT(score) \
-    FROM app_npsbot.${table} \
+    FROM ${APP_NAME}.${table} \
     WHERE survey='${this.survey.record._id}' \
     GROUP BY score \
     ORDER BY score ASC \

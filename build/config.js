@@ -10,6 +10,7 @@ const DEVELOPMENT_MODE = process.env.DEVELOPMENT_MODE === 'true' || false;
 const SLACK_BOT_TOKEN = DEVELOPMENT_MODE ? process.env.TEST_BOT_TOKEN : process.env.SLACK_BOT_TOKEN;
 const VERIFICATION_TOKEN = DEVELOPMENT_MODE ? process.env.TEST_VERIFICATION_TOKEN : process.env.VERIFICATION_TOKEN;
 
+exports.APP_NAME = process.env.APP_NAME || '';
 exports.APP_IS_ON = process.env.APP_IS_ON === 'true' || false;
 exports.DEV_MODE = DEVELOPMENT_MODE;
 // you should obtain token and allow necessary scopes in Slack:

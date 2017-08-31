@@ -36,6 +36,7 @@ if (APP_IS_ON) {
 quickly test any functions
 */
 skygearCloud.handler('test', req => {
+  console.log('TEST');
   return '';
 }, {
   method: ['POST'],

@@ -79,9 +79,9 @@ let generateAllTimeReport = (() => {
     // DESC because of limit default 50
     let sql;
     if (DEV_MODE) {
-      sql = 'SELECT s._id, s.sent_at, AVG(r.score) FROM app_npsbot.dev_reply r JOIN app_npsbot.dev_survey s ON r.survey=s._id GROUP BY s._id, s.sent_at ORDER BY s.sent_at DESC';
+      sql = `SELECT s._id, s.sent_at, AVG(r.score) FROM ${APP_NAME}.dev_reply r JOIN ${APP_NAME}.dev_survey s ON r.survey=s._id GROUP BY s._id, s.sent_at ORDER BY s.sent_at DESC`;
     } else {
-      sql = 'SELECT s._id, s.sent_at, AVG(r.score) FROM app_npsbot.reply r JOIN app_npsbot.survey s ON r.survey=s._id GROUP BY s._id, s.sent_at ORDER BY s.sent_at DESC';
+      sql = `SELECT s._id, s.sent_at, AVG(r.score) FROM ${APP_NAME}.reply r JOIN ${APP_NAME}.survey s ON r.survey=s._id GROUP BY s._id, s.sent_at ORDER BY s.sent_at DESC`;
     }
     let records = yield skygearCloud.pool.query(sql).then(function (res) {
       return res.rows;
@@ -146,8 +146,7 @@ const unirest = require('unirest');
 const Survey = require('../../models/survey.js');
 const Report = require('../../models/report.js');
 const plotly = require('../../plotly.js');
-const TIMEZONE = require('../../config.js').TIMEZONE;
-const DEV_MODE = require('../../config.js').DEV_MODE;
+const { APP_NAME, DEV_MODE, TIMEZONE } = require('../../config.js');
 
 function generateReport(reportType, destination, user) {
   switch (reportType) {
