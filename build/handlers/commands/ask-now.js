@@ -1,17 +1,17 @@
 'use strict';
 
 let askNow = (() => {
-  var _ref = _asyncToGenerator(function* () {
+  var _ref = _asyncToGenerator(function* (exclusion) {
     let survey = yield Survey.waitingReply;
     if (survey) {
       return 'Sorry, only 1 survey is allowed at a time.';
     } else {
-      Survey.send();
+      Survey.send(exclusion);
       return 'OK. Survey will be closed after 20 minutes and report will be available afterwards.';
     }
   });
 
-  return function askNow() {
+  return function askNow(_x) {
     return _ref.apply(this, arguments);
   };
 })();

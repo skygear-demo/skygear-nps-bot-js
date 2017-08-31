@@ -36,7 +36,7 @@ if (APP_IS_ON) {
 quickly test any functions
 */
 skygearCloud.handler('test', req => {
-  console.log('TEST');
+  console.log(`Version: ${process.version}`);
   return '';
 }, {
   method: ['POST'],

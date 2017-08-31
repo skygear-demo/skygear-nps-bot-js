@@ -2,7 +2,7 @@
 
 const responseWith = require('../../util.js').responseWith;
 
-function requestFrequency() {
+function requestFrequency(exclusion) {
   let body = {
     text: 'Choose a frequency',
     attachments: [{
@@ -12,17 +12,26 @@ function requestFrequency() {
         name: 'frequency',
         text: 'Weekly',
         type: 'button',
-        value: 'weekly'
+        value: JSON.stringify({
+          frequency: 'weekly',
+          exclusion: exclusion
+        })
       }, {
         name: 'frequency',
         text: 'Monthly',
         type: 'button',
-        value: 'monthly'
+        value: JSON.stringify({
+          frequency: 'monthly',
+          exclusion: exclusion
+        })
       }, {
         name: 'frequency',
         text: 'Quarterly',
         type: 'button',
-        value: 'quarterly'
+        value: JSON.stringify({
+          frequency: 'quarterly',
+          exclusion: exclusion
+        })
       }]
     }]
   };

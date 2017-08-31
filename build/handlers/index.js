@@ -41,9 +41,9 @@ exports.handleCommand = (() => {
       if (yield isAdmin(request.user_id)) {
         switch (request.command) {
           case '/nps-ask-now':
-            return askNow();
+            return askNow(request.text);
           case '/nps-schedule':
-            return requestFrequency();
+            return requestFrequency(request.text);
           case '/nps-stop-scheduling':
             return stopScheduling();
           case '/nps-generate-report':

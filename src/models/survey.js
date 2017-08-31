@@ -114,8 +114,8 @@ class Survey {
     })
   }
 
-  static async send () {
-    let targets = await User.humans
+  static async send (exclusion) {
+    let targets = await User.filteredUsers(exclusion)
     let survey = new Survey(null, targets.length)
     await survey.save()
     let opts = {
@@ -134,13 +134,13 @@ class Survey {
     this.save()
   }
 
-  static schedule (f) {
+  static schedule (f, exclusion) {
     let cron = frequency[f]
     if (cron) {
       if (global.scheduled instanceof CronJob) {
         global.scheduled.stop()
       }
-      global.scheduled = new CronJob(cron, Survey.send, null, true, TIMEZONE)
+      global.scheduled = new CronJob(cron, Survey.send.bind(null, exclusion), null, true, TIMEZONE)
     } else {
       throw new Error('cron not defined')
     }

@@ -110,9 +110,9 @@ class Survey {
     });
   }
 
-  static send() {
+  static send(exclusion) {
     return _asyncToGenerator(function* () {
-      let targets = yield User.humans;
+      let targets = yield User.filteredUsers(exclusion);
       let survey = new Survey(null, targets.length);
       yield survey.save();
       let opts = {
@@ -132,13 +132,13 @@ class Survey {
     this.save();
   }
 
-  static schedule(f) {
+  static schedule(f, exclusion) {
     let cron = frequency[f];
     if (cron) {
       if (global.scheduled instanceof CronJob) {
         global.scheduled.stop();
       }
-      global.scheduled = new CronJob(cron, Survey.send, null, true, TIMEZONE);
+      global.scheduled = new CronJob(cron, Survey.send.bind(null, exclusion), null, true, TIMEZONE);
     } else {
       throw new Error('cron not defined');
     }

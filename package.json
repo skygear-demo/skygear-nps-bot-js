@@ -6,6 +6,7 @@
   "scripts": {
     "build": "npm run lint:fix && rm -r build/* && babel src -d build",
     "deploy": "npm run build && git add -A && git commit --amend --no-edit && git push -f skygear master",
+    "deploy:test": "npm run build && git add -A && git commit --amend --no-edit && git push -f skygear-test master",
     "lint": "eslint src || exit 0",
     "lint:fix": "eslint src --fix || exit 0",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -33,6 +34,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@git.skygeario.com/npsbot.git"
+    "url": "https://github.com/skygear-demo/skygear-nps-bot-js"
   }
 }
