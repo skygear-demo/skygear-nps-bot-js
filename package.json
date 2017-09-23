@@ -1,0 +1,33 @@
+{
+  "name": "skygear-nps-bot-js",
+  "version": "0.1.0",
+  "description": "A Slack app for team admins to measure members' happiness quickly and easily.",
+  "main": "index.js",
+  "repository": "https://github.com/skygear-demo/skygear-nps-bot-js.git",
+  "author": "Oursky Limited",
+  "license": "MIT",
+  "dependencies": {
+    "skygear": "^1.1.0",
+    "source-map-support": "^0.4.18"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "eslint": "^4.7.2",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "scripts": {
+    "lint": "eslint src/**",
+    "lint:fix": "eslint src/** --fix",
+    "compile": "rm -rf lib/* && babel src --out-dir lib --source-maps inline",
+    "build": "yarn run lint:fix && yarn run compile",
+    "commit:dev": "git add -A && git commit -m 'dev'",
+    "push:dev": "git push -f skygear-dev HEAD:master",
+    "deploy:dev": "yarn run build && yarn run commit:dev && yarn run push:dev",
+    "reset": "git reset --mixed @{u}"
+  }
+}
