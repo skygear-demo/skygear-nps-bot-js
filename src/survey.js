@@ -27,6 +27,51 @@ class Survey {
       return result[0] ? new Survey(result[0]) : null
     })
   }
+
+  get id () {
+    return this._record['id']
+  }
+
+  get teamID () {
+    return this._record['teamID']
+  }
+
+  get excludedUsersID () {
+    return this._record['excludedUsersID']
+  }
+
+  set isSent (flag) {
+    this._record['isSent'] = flag
+    db.save(this._record)
+  }
+
+  get q1 () {
+    return {
+      text: 'How likely is it you would recommend this company as a place to work?',
+      attachments: [
+        {
+          text: 'Choose a score from 10 (hightest) to 1 (lowest)',
+          fallback: 'You are unable to select a score',
+          callback_id: 'saveScoreAndRequestReason',
+          actions: [
+            {
+              name: 'scores',
+              type: 'select',
+              options: [
+                {
+                  text: '10',
+                  value: JSON.stringify({
+                    score: 10,
+                    surveyID: this.id
+                  })
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
 }
 
 module.exports = Survey

@@ -1,5 +1,4 @@
 const { DEVELOPMENT_MODE, DEVELOPMENT_TEAM_ID } = require('../config')
-const Team = require('../team')
 const User = require('../user')
 const { log, verify } = require('../util')
 const { requestFrequency } = require('./commands')
@@ -31,12 +30,7 @@ module.exports = req => {
         if (await user.isAdmin) {
           switch (command) {
             case '/nps-schedule-survey':
-              let team = await Team.of(teamID)
-              if (await team.scheduledSurvey) {
-                return 'Denied. Only one scheduled survey is allowed.'
-              } else {
-                return requestFrequency(text)
-              }
+              return requestFrequency(text)
             default:
               return 'Invalid command'
           }
