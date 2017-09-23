@@ -1,6 +1,7 @@
 const skygear = require('skygear')
 const Bot = require('./bot')
 const db = require('./db')
+const Survey = require('./survey')
 
 class Team {
   constructor (record) {
@@ -45,6 +46,10 @@ class Team {
 
   get bot () {
     return new Bot(this.token)
+  }
+
+  get scheduledSurvey () {
+    return Survey.scheduledBy(this.slackID)
   }
 }
 

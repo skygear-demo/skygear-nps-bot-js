@@ -1,6 +1,8 @@
 const { DEVELOPMENT_MODE, DEVELOPMENT_TEAM_ID } = require('../config')
+const Team = require('../team')
 const User = require('../user')
 const { log, verify } = require('../util')
+const { requestFrequency } = require('./commands')
 
 module.exports = req => {
   function parseForm () {
@@ -15,7 +17,6 @@ module.exports = req => {
   }
 
   return parseForm().then(async fields => {
-    /* eslint-disable */
     let {
       team_id: teamID,
       user_id: userID,
@@ -29,6 +30,13 @@ module.exports = req => {
         let user = new User(userID, teamID)
         if (await user.isAdmin) {
           switch (command) {
+            case '/nps-schedule-survey':
+              let team = await Team.of(teamID)
+              if (await team.scheduledSurvey) {
+                return 'Denied. Only one scheduled survey is allowed.'
+              } else {
+                return requestFrequency(text)
+              }
             default:
               return 'Invalid command'
           }

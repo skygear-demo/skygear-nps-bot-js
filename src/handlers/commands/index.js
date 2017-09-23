@@ -1,0 +1,1 @@
+exports.requestFrequency = require('./requestFrequency')
