@@ -1,0 +1,5 @@
+exports.DEVELOPMENT_MODE = process.env.DEVELOPMENT_MODE === 'true'
+exports.SLACK_CLIENT_ID = process.env.SLACK_CLIENT_ID || ''
+exports.SLACK_CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET || ''
+exports.VERIFICATION_TOKEN = process.env.VERIFICATION_TOKEN || ''
+exports.DEVELOPMENT_TEAM_ID = process.env.DEVELOPMENT_TEAM_ID || ''

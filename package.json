@@ -7,6 +7,7 @@
   "author": "Oursky Limited",
   "license": "MIT",
   "dependencies": {
+    "@slack/client": "^3.13.0",
     "skygear": "^1.1.0",
     "source-map-support": "^0.4.18"
   },
