@@ -1,6 +1,9 @@
 const { WebClient } = require('@slack/client')
 const { extractIDs } = require('./util')
 
+/**
+ * @see https://api.slack.com/methods
+ */
 class Bot {
   constructor (token) {
     this._client = new WebClient(token)

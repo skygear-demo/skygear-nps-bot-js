@@ -1,5 +1,5 @@
 const skygearCloud = require('skygear/cloud')
-const { handleOAuth } = require('./handlers')
+const { handleOAuth, handleCommand } = require('./handlers')
 
 /**
  * Check availability after a git push
@@ -21,5 +21,10 @@ skygearCloud.handler('dev', req => {
 
 skygearCloud.handler('oauth', handleOAuth, {
   method: ['GET'],
+  userRequired: false
+})
+
+skygearCloud.handler('command', handleCommand, {
+  method: ['POST'],
   userRequired: false
 })
