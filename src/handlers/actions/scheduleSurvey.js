@@ -11,13 +11,13 @@ module.exports = async function scheduleSurvey (teamID, { frequency, excludedUse
     excludedUsersID = excludedUsersID.match(/U[A-Z0-9]{8}/g) || []
     switch (frequency) {
       case 'Once Now':
-        let survey = await Survey.create(teamID, excludedUsersID, new Date())
+        let survey = await Survey.create(teamID, frequency, excludedUsersID, new Date())
         team.bot.distribute(survey)
         return 'Distributing. Your team members will have 48 hours to respond.'
       case 'Weekly':
         // next friday
         let nextDistributionDate = DEVELOPMENT_MODE ? moment().add(7, 's') : moment().day(5)
-        await Survey.create(teamID, excludedUsersID, nextDistributionDate.toDate())
+        await Survey.create(teamID, frequency, excludedUsersID, nextDistributionDate.toDate())
         return `Survey will be distributed at <!date^${nextDistributionDate.unix()}^{date_short} at {time}|${nextDistributionDate.format()}>`
       default:
         return 'Invalid frequency'

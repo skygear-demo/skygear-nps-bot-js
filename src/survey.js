@@ -10,9 +10,9 @@ class Survey {
     return skygear.Record.extend('survey')
   }
 
-  static create (teamID, excludedUsersID, scheduledDatetime) {
+  static create (teamID, frequency, excludedUsersID, scheduledDatetime) {
     let isSent = false
-    let record = new Survey.Record({ teamID, excludedUsersID, scheduledDatetime, isSent })
+    let record = new Survey.Record({ teamID, frequency, excludedUsersID, scheduledDatetime, isSent })
     return db.save(record).then(record => new Survey(record))
   }
 
@@ -28,6 +28,19 @@ class Survey {
     })
   }
 
+  static get readyToSend () {
+    let query = new skygear.Query(Survey.Record)
+    query.equalTo('isSent', false)
+    query.lessThanOrEqualTo('scheduledDatetime', new Date())
+    return db.query(query).then(result => {
+      let records = []
+      for (let i = 0; i < result.length; i++) {
+        records.push(new Survey(result[i]))
+      }
+      return records
+    })
+  }
+
   get id () {
     return this._record['id']
   }
@@ -36,8 +49,16 @@ class Survey {
     return this._record['teamID']
   }
 
+  get frequency () {
+    return this._record['frequency']
+  }
+
   get excludedUsersID () {
     return this._record['excludedUsersID']
+  }
+
+  get scheduledDatetime () {
+    return this._record['scheduledDatetime']
   }
 
   set isSent (flag) {

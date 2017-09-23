@@ -52,8 +52,8 @@ class Bot {
       this._client.chat.postMessage(targetIMID, survey.q1.text, {
         attachments: survey.q1.attachments
       })
-      survey.isSent = true
     })
+    survey.isSent = true
   }
 }
 

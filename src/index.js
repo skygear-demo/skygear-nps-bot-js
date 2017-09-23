@@ -1,5 +1,6 @@
 const skygearCloud = require('skygear/cloud')
-const { handleOAuth, handleCommand, handleAction } = require('./handlers')
+const { DEVELOPMENT_MODE } = require('./config')
+const { distributeScheduledSurveys, handleOAuth, handleCommand, handleAction } = require('./handlers')
 
 /**
  * Check availability after a git push
@@ -18,6 +19,9 @@ skygearCloud.handler('dev', req => {
   method: ['GET'],
   userRequired: false
 })
+
+let interval = DEVELOPMENT_MODE ? '@every 10s' : '@daily'
+skygearCloud.every(interval, distributeScheduledSurveys)
 
 skygearCloud.handler('oauth', handleOAuth, {
   method: ['GET'],

@@ -35,7 +35,6 @@ module.exports = req => {
       } else {
         let user = new User(userID, teamID)
         if (await user.isAdmin) {
-          /* eslint-disable */
           let value
           if (actions[0].type === 'button') {
             value = JSON.parse(actions[0].value)
