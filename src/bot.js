@@ -54,6 +54,7 @@ class Bot {
       })
     })
     survey.isSent = true
+    survey.update()
   }
 }
 

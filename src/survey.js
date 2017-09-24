@@ -12,8 +12,22 @@ class Survey {
 
   static create (teamID, frequency, excludedUsersID, scheduledDatetime) {
     let isSent = false
-    let record = new Survey.Record({ teamID, frequency, excludedUsersID, scheduledDatetime, isSent })
+    let isClosed = false
+    let record = new Survey.Record({
+      teamID,
+      frequency,
+      excludedUsersID,
+      scheduledDatetime,
+      isSent,
+      isClosed
+    })
     return db.save(record).then(record => new Survey(record))
+  }
+
+  static of (id) {
+    let query = new skygear.Query(Survey.Record)
+    query.equalTo('_id', id)
+    return db.query(query).then(result => result[0] ? new Survey(result[0]) : null)
   }
 
   static scheduledBy (teamID) {
@@ -41,6 +55,14 @@ class Survey {
     })
   }
 
+  set isSent (newValue) {
+    this._record['isSent'] = newValue
+  }
+
+  update () {
+    return db.save(this._record).then(record => new Survey(record))
+  }
+
   get id () {
     return this._record['id']
   }
@@ -61,9 +83,12 @@ class Survey {
     return this._record['scheduledDatetime']
   }
 
-  set isSent (flag) {
-    this._record['isSent'] = flag
-    db.save(this._record)
+  get isSent () {
+    return this._record['isSent']
+  }
+
+  get isClosed () {
+    return this._record['isClosed']
   }
 
   get q1 () {
