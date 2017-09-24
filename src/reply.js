@@ -23,6 +23,10 @@ class Reply {
     return db.save(record).then(record => new Reply(record))
   }
 
+  get respondent () {
+    return this._record['respondent']
+  }
+
   get isCompleted () {
     return this._record['isCompleted']
   }
@@ -32,8 +36,18 @@ class Reply {
     query.equalTo('survey', new skygear.Reference({
       id: surveyID
     }))
-    query.equalTo('respondent', userID)
-    return db.query(query).then(result => result[0] ? new Reply(result[0]) : null)
+    if (userID) {
+      query.equalTo('respondent', userID)
+      return db.query(query).then(result => result[0] ? new Reply(result[0]) : null)
+    } else {
+      return db.query(query).then(result => {
+        let records = []
+        for (let i = 0; i < result.length; i++) {
+          records.push(new Reply(result[i]))
+        }
+        return records
+      })
+    }
   }
 
   set reason (newValue) {

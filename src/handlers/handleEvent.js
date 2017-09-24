@@ -12,8 +12,8 @@ module.exports = (req) => {
     if (challenge) {
       return challenge
     }
+
     let {
-      bot_id: botID,
       channel: channelID,
       user: userID,
       text: reason,
@@ -22,7 +22,7 @@ module.exports = (req) => {
     switch (type) {
       case 'message':
         // ignore bot messages, avoid loop with self
-        return botID ? '' : saveReason(teamID, userID, reason, channelID)
+        return userID ? saveReason(teamID, userID, reason, channelID) : ''
       default:
         return 'Invalid event type'
     }

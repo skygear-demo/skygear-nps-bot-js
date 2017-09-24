@@ -48,6 +48,10 @@ class Team {
     return new Bot(this.token)
   }
 
+  get members () {
+    return this.bot.fetchUsers()
+  }
+
   get scheduledSurvey () {
     return Survey.scheduledBy(this.slackID)
   }

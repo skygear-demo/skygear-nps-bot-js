@@ -1,5 +1,8 @@
+const moment = require('moment')
 const skygear = require('skygear')
+const { DEVELOPMENT_MODE } = require('./config')
 const db = require('./db')
+const Reply = require('./reply')
 
 class Survey {
   constructor (record) {
@@ -22,6 +25,34 @@ class Survey {
       isClosed
     })
     return db.save(record).then(record => new Survey(record))
+  }
+
+  get id () {
+    return this._record['id']
+  }
+
+  get teamID () {
+    return this._record['teamID']
+  }
+
+  get frequency () {
+    return this._record['frequency']
+  }
+
+  get excludedUsersID () {
+    return this._record['excludedUsersID']
+  }
+
+  get scheduledDatetime () {
+    return this._record['scheduledDatetime']
+  }
+
+  get isSent () {
+    return this._record['isSent']
+  }
+
+  get isClosed () {
+    return this._record['isClosed']
   }
 
   static of (id) {
@@ -55,10 +86,25 @@ class Survey {
     })
   }
 
-  static get readyToSend () {
+  static get timeToSend () {
     let query = new skygear.Query(Survey.Record)
     query.equalTo('isSent', false)
     query.lessThanOrEqualTo('scheduledDatetime', new Date())
+    return db.query(query).then(result => {
+      let records = []
+      for (let i = 0; i < result.length; i++) {
+        records.push(new Survey(result[i]))
+      }
+      return records
+    })
+  }
+
+  static get timeToClose () {
+    let query = new skygear.Query(Survey.Record)
+    query.equalTo('isSent', true)
+    query.equalTo('isClosed', false)
+    let unit = DEVELOPMENT_MODE ? 'seconds' : 'hours'
+    query.greaterThanOrEqualTo('scheduledDatetime', moment().subtract(48, unit).toDate())
     return db.query(query).then(result => {
       let records = []
       for (let i = 0; i < result.length; i++) {
@@ -72,48 +118,16 @@ class Survey {
     this._record['isSent'] = newValue
   }
 
+  set isClosed (newValue) {
+    this._record['isClosed'] = newValue
+  }
+
   update () {
     return db.save(this._record).then(record => new Survey(record))
   }
 
-  get id () {
-    return this._record['id']
-  }
-
-  get teamID () {
-    return this._record['teamID']
-  }
-
-  get frequency () {
-    return this._record['frequency']
-  }
-
-  get excludedUsersID () {
-    return this._record['excludedUsersID']
-  }
-
-  get scheduledDatetime () {
-    return this._record['scheduledDatetime']
-  }
-
-  get isSent () {
-    return this._record['isSent']
-  }
-
-  get isClosed () {
-    return this._record['isClosed']
-  }
-
-  get state () {
-    if (!this.isSent && !this.isClosed) {
-      return 'scheduled'
-    } else if (this.isSent && !this.isClosed) {
-      return 'open'
-    } else if (this.isSent && !this.isClosed) {
-      return 'closed'
-    } else {
-      throw new Error('Invalid survey state')
-    }
+  get replies () {
+    return Reply.of(this.id)
   }
 
   get q1 () {

@@ -41,8 +41,15 @@ class Bot {
   }
 
   async sendToUser (id, message) {
-    let targetIMID = await this.fetchIMOf(id)
+    let targetIMID = (await this.fetchIMOf(id)).id
     this._client.chat.postMessage(targetIMID, message)
+  }
+
+  async sendToUsers (ids, message) {
+    let targetsIMID = extractIDs(await this.fetchIMsOf(ids))
+    targetsIMID.forEach(targetIMID => {
+      this._client.chat.postMessage(targetIMID, message)
+    })
   }
 
   sendToChannel (id, message) {

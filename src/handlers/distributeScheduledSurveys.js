@@ -4,7 +4,7 @@ const Survey = require('../survey')
 const Team = require('../team')
 
 module.exports = async () => {
-  let surveys = await Survey.readyToSend
+  let surveys = await Survey.timeToSend
   surveys.forEach(async survey => {
     let team = await Team.of(survey.teamID)
     team.bot.distribute(survey)
