@@ -20,5 +20,23 @@ module.exports = async (userID, { surveyID, score }) => {
 
   // create reply record
   reply = await Reply.create(surveyID, userID, score)
-  return `Great! Now please tell me a bit more about why you rated ${score}?`
+  return {
+    text: `Great! Now please tell me a bit more about why you rated ${score}?`,
+    attachments: [
+      {
+        fallback: 'You are unable to skip this question.',
+        callback_id: 'completeReply',
+        actions: [
+          {
+            name: 'Skip',
+            text: 'Skip',
+            type: 'button',
+            value: JSON.stringify({
+              surveyID
+            })
+          }
+        ]
+      }
+    ]
+  }
 }

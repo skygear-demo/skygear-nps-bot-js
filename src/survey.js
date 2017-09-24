@@ -135,6 +135,69 @@ class Survey {
                     score: 10,
                     surveyID: this.id
                   })
+                },
+                {
+                  text: '9',
+                  value: JSON.stringify({
+                    score: 9,
+                    surveyID: this.id
+                  })
+                },
+                {
+                  text: '8',
+                  value: JSON.stringify({
+                    score: 8,
+                    surveyID: this.id
+                  })
+                },
+                {
+                  text: '7',
+                  value: JSON.stringify({
+                    score: 7,
+                    surveyID: this.id
+                  })
+                },
+                {
+                  text: '6',
+                  value: JSON.stringify({
+                    score: 6,
+                    surveyID: this.id
+                  })
+                },
+                {
+                  text: '5',
+                  value: JSON.stringify({
+                    score: 5,
+                    surveyID: this.id
+                  })
+                },
+                {
+                  text: '4',
+                  value: JSON.stringify({
+                    score: 4,
+                    surveyID: this.id
+                  })
+                },
+                {
+                  text: '3',
+                  value: JSON.stringify({
+                    score: 3,
+                    surveyID: this.id
+                  })
+                },
+                {
+                  text: '2',
+                  value: JSON.stringify({
+                    score: 2,
+                    surveyID: this.id
+                  })
+                },
+                {
+                  text: '1',
+                  value: JSON.stringify({
+                    score: 1,
+                    surveyID: this.id
+                  })
                 }
               ]
             }

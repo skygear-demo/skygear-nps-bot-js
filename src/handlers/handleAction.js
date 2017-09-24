@@ -1,7 +1,7 @@
 const { DEVELOPMENT_MODE, DEVELOPMENT_TEAM_ID } = require('../config')
 const User = require('../user')
 const { log, verify } = require('../util')
-const { scheduleSurvey, saveScoreAndRequestReason } = require('./actions')
+const { scheduleSurvey, saveScoreAndRequestReason, completeReply } = require('./actions')
 
 module.exports = req => {
   function parseForm () {
@@ -48,6 +48,8 @@ module.exports = req => {
               return scheduleSurvey(teamID, value)
             case 'saveScoreAndRequestReason':
               return saveScoreAndRequestReason(userID, value)
+            case 'completeReply':
+              return completeReply(userID, value)
             default:
               return 'Invalid action callback'
           }
