@@ -45,6 +45,10 @@ class Bot {
     this._client.chat.postMessage(targetIMID, message)
   }
 
+  sendToChannel (id, message) {
+    this._client.chat.postMessage(id, message)
+  }
+
   async distribute (survey) {
     let targetsID = extractIDs(await this.fetchUsers()).filter(targetID => !survey.excludedUsersID.includes(targetID))
     let targetsIMID = extractIDs(await this.fetchIMsOf(targetsID))

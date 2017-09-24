@@ -17,9 +17,14 @@ class Reply {
       }),
       respondent: userID,
       score,
-      reason: ''
+      reason: '',
+      isCompleted: false
     })
     return db.save(record).then(record => new Reply(record))
+  }
+
+  get isCompleted () {
+    return this._record['isCompleted']
   }
 
   static of (surveyID, userID) {
