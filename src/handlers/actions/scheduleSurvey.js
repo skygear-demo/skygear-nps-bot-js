@@ -7,6 +7,8 @@ module.exports = async function scheduleSurvey (teamID, { frequency, excludedUse
   let team = await Team.of(teamID)
   if (await team.scheduledSurvey) {
     return 'Denied. Only one scheduled survey is allowed.'
+  } else if (await team.openingSurvey) {
+    return 'Denied. There is a survey still open for answering.'
   } else {
     excludedUsersID = excludedUsersID.match(/U[A-Z0-9]{8}/g) || []
     switch (frequency) {

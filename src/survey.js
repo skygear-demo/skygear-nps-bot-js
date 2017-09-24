@@ -42,6 +42,19 @@ class Survey {
     })
   }
 
+  static openingIn (teamID) {
+    let query = new skygear.Query(Survey.Record)
+    query.equalTo('teamID', teamID)
+    query.equalTo('isSent', true)
+    query.equalTo('isClosed', false)
+    return db.query(query).then(result => {
+      if (result.length > 1) {
+        throw new Error(`Mutiple opening surveys found for team ${teamID}`)
+      }
+      return result[0] ? new Survey(result[0]) : null
+    })
+  }
+
   static get readyToSend () {
     let query = new skygear.Query(Survey.Record)
     query.equalTo('isSent', false)
@@ -89,6 +102,18 @@ class Survey {
 
   get isClosed () {
     return this._record['isClosed']
+  }
+
+  get state () {
+    if (!this.isSent && !this.isClosed) {
+      return 'scheduled'
+    } else if (this.isSent && !this.isClosed) {
+      return 'open'
+    } else if (this.isSent && !this.isClosed) {
+      return 'closed'
+    } else {
+      throw new Error('Invalid survey state')
+    }
   }
 
   get q1 () {

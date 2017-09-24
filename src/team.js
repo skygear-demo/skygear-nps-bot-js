@@ -51,6 +51,10 @@ class Team {
   get scheduledSurvey () {
     return Survey.scheduledBy(this.slackID)
   }
+
+  get openingSurvey () {
+    return Survey.openingIn(this.slackID)
+  }
 }
 
 module.exports = Team
