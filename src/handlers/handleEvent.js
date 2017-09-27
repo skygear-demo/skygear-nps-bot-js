@@ -1,7 +1,10 @@
 const { log, verify } = require('../util')
 const { saveReason } = require('./events')
 
-module.exports = (req) => {
+module.exports = req => {
+  /**
+   * @see https://api.slack.com/events-api#receiving_events
+   */
   let {
     team_id: teamID,
     challenge, event, token

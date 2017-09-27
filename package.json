@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "@slack/client": "^3.13.0",
+    "immutable": "^3.8.1",
     "moment": "^2.18.1",
     "skygear": "^1.1.0",
     "source-map-support": "^0.4.18"

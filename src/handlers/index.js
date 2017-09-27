@@ -1,5 +1,4 @@
-exports.closeSurveys = require('./closeSurveys')
-exports.distributeScheduledSurveys = require('./distributeScheduledSurveys')
+exports.executeScheduledTasks = require('./executeScheduledTasks')
 exports.handleOAuth = require('./handleOAuth')
 exports.handleCommand = require('./handleCommand')
 exports.handleAction = require('./handleAction')

@@ -1,10 +1,10 @@
 const moment = require('moment')
-const { DEVELOPMENT_MODE } = require('../config')
-const Survey = require('../survey')
-const Team = require('../team')
+const { DEVELOPMENT_MODE } = require('../../config')
+const Survey = require('../../survey')
+const Team = require('../../team')
 
 module.exports = async () => {
-  let surveys = await Survey.timeToSend
+  let surveys = await Survey.candidatesOfDistribution
   surveys.forEach(async survey => {
     let team = await Team.of(survey.teamID)
     team.bot.distribute(survey)
@@ -17,6 +17,6 @@ module.exports = async () => {
       default:
         return
     }
-    Survey.create(survey.teamID, survey.frequency, survey.excludedUsersID, nextDistributionDate.toDate())
+    Survey.create(survey.teamID, survey.frequency, survey.targetsID, nextDistributionDate.toDate())
   })
 }

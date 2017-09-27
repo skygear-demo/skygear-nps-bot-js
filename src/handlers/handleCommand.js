@@ -1,7 +1,7 @@
 const { DEVELOPMENT_MODE, DEVELOPMENT_TEAM_ID } = require('../config')
 const User = require('../user')
 const { log, verify } = require('../util')
-const { requestFrequency } = require('./commands')
+const { requestFrequency, unscheduleSurvey } = require('./commands')
 
 module.exports = req => {
   function parseForm () {
@@ -31,6 +31,8 @@ module.exports = req => {
           switch (command) {
             case '/nps-schedule-survey':
               return requestFrequency(text)
+            case '/nps-unschedule-survey':
+              return unscheduleSurvey(teamID)
             default:
               return 'Invalid command'
           }

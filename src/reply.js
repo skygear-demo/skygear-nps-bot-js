@@ -6,6 +6,7 @@ class Reply {
     this._record = record
   }
 
+  // create
   static get Record () {
     return skygear.Record.extend('reply')
   }
@@ -23,6 +24,7 @@ class Reply {
     return db.save(record).then(record => new Reply(record))
   }
 
+  // read
   get respondent () {
     return this._record['respondent']
   }
@@ -37,9 +39,11 @@ class Reply {
       id: surveyID
     }))
     if (userID) {
+      // get once reply belong to that user in a survey
       query.equalTo('respondent', userID)
       return db.query(query).then(result => result[0] ? new Reply(result[0]) : null)
     } else {
+      // get all replies belong to that survey
       return db.query(query).then(result => {
         let records = []
         for (let i = 0; i < result.length; i++) {
@@ -50,6 +54,7 @@ class Reply {
     }
   }
 
+  // update
   set reason (newValue) {
     this._record['reason'] = newValue
   }

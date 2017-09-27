@@ -9,24 +9,24 @@ class Survey {
     this._record = record
   }
 
+  // create
   static get Record () {
     return skygear.Record.extend('survey')
   }
 
-  static create (teamID, frequency, excludedUsersID, scheduledDatetime) {
-    let isSent = false
-    let isClosed = false
+  static create (teamID, frequency, targetsID, scheduledDatetime) {
     let record = new Survey.Record({
       teamID,
       frequency,
-      excludedUsersID,
+      targetsID,
       scheduledDatetime,
-      isSent,
-      isClosed
+      isSent: false,
+      isClosed: false
     })
     return db.save(record).then(record => new Survey(record))
   }
 
+  // read
   get id () {
     return this._record['id']
   }
@@ -39,8 +39,8 @@ class Survey {
     return this._record['frequency']
   }
 
-  get excludedUsersID () {
-    return this._record['excludedUsersID']
+  get targetsID () {
+    return this._record['targetsID']
   }
 
   get scheduledDatetime () {
@@ -55,40 +55,21 @@ class Survey {
     return this._record['isClosed']
   }
 
-  static of (id) {
+  static of (_id) {
     let query = new skygear.Query(Survey.Record)
-    query.equalTo('_id', id)
+    query.equalTo('_id', _id)
     return db.query(query).then(result => result[0] ? new Survey(result[0]) : null)
   }
 
-  static scheduledBy (teamID) {
-    let query = new skygear.Query(Survey.Record)
-    query.equalTo('teamID', teamID)
-    query.equalTo('isSent', false)
-    return db.query(query).then(result => {
-      if (result.length > 1) {
-        throw new Error(`Mutiple scheduled surveys found for team ${teamID}`)
-      }
-      return result[0] ? new Survey(result[0]) : null
-    })
-  }
-
-  static openingIn (teamID) {
-    let query = new skygear.Query(Survey.Record)
-    query.equalTo('teamID', teamID)
-    query.equalTo('isSent', true)
-    query.equalTo('isClosed', false)
-    return db.query(query).then(result => {
-      if (result.length > 1) {
-        throw new Error(`Mutiple opening surveys found for team ${teamID}`)
-      }
-      return result[0] ? new Survey(result[0]) : null
-    })
-  }
-
-  static get timeToSend () {
+  static get candidatesOfDistribution () {
     let query = new skygear.Query(Survey.Record)
     query.equalTo('isSent', false)
+    // survey.scheduledDatetime == now, time to send
+    // survey.scheduledDatetime < now, delayed
+    // now < survey.scheduledDatetime, not yet
+    // we want delayed or time to send
+    // survey.scheduleDate <= now
+    // 'scheduleDate' is at lhs
     query.lessThanOrEqualTo('scheduledDatetime', new Date())
     return db.query(query).then(result => {
       let records = []
@@ -99,12 +80,21 @@ class Survey {
     })
   }
 
-  static get timeToClose () {
+  static get candidatesOfClosing () {
     let query = new skygear.Query(Survey.Record)
     query.equalTo('isSent', true)
     query.equalTo('isClosed', false)
+    // survey.endTime == now, time to close
+    // survey.endTime < now, delayed
+    // now < survey.endTime, not yet
+    // 'scheduleDate' is at lhs
+    // we want delayed or time to close
+    // survey.endTime <= now, delayed
+    // survey.scheduledDatetime + 48 units <= now
+    // survey.scheduledDatetime <= now - 48 units
+    // 'scheduleDate' is at lhs
     let unit = DEVELOPMENT_MODE ? 'seconds' : 'hours'
-    query.greaterThanOrEqualTo('scheduledDatetime', moment().subtract(48, unit).toDate())
+    query.lessThanOrEqualTo('scheduledDatetime', moment().subtract(48, unit).toDate())
     return db.query(query).then(result => {
       let records = []
       for (let i = 0; i < result.length; i++) {
@@ -113,6 +103,21 @@ class Survey {
       return records
     })
   }
+
+  static get distributed () {
+    let query = new skygear.Query(Survey.Record)
+    query.equalTo('isSent', true)
+    query.equalTo('isClosed', false)
+    return db.query(query).then(result => {
+      let records = []
+      for (let i = 0; i < result.length; i++) {
+        records.push(new Survey(result[i]))
+      }
+      return records
+    })
+  }
+
+  // update
 
   set isSent (newValue) {
     this._record['isSent'] = newValue
@@ -126,99 +131,15 @@ class Survey {
     return db.save(this._record).then(record => new Survey(record))
   }
 
-  get replies () {
-    return Reply.of(this.id)
+  // delete
+
+  delete () {
+    return db.delete(this._record)
   }
 
-  get q1 () {
-    return {
-      text: 'How likely is it you would recommend this company as a place to work?',
-      attachments: [
-        {
-          text: 'Choose a score from 10 (hightest) to 1 (lowest)',
-          fallback: 'You are unable to select a score',
-          callback_id: 'saveScoreAndRequestReason',
-          actions: [
-            {
-              name: 'scores',
-              type: 'select',
-              options: [
-                {
-                  text: '10',
-                  value: JSON.stringify({
-                    score: 10,
-                    surveyID: this.id
-                  })
-                },
-                {
-                  text: '9',
-                  value: JSON.stringify({
-                    score: 9,
-                    surveyID: this.id
-                  })
-                },
-                {
-                  text: '8',
-                  value: JSON.stringify({
-                    score: 8,
-                    surveyID: this.id
-                  })
-                },
-                {
-                  text: '7',
-                  value: JSON.stringify({
-                    score: 7,
-                    surveyID: this.id
-                  })
-                },
-                {
-                  text: '6',
-                  value: JSON.stringify({
-                    score: 6,
-                    surveyID: this.id
-                  })
-                },
-                {
-                  text: '5',
-                  value: JSON.stringify({
-                    score: 5,
-                    surveyID: this.id
-                  })
-                },
-                {
-                  text: '4',
-                  value: JSON.stringify({
-                    score: 4,
-                    surveyID: this.id
-                  })
-                },
-                {
-                  text: '3',
-                  value: JSON.stringify({
-                    score: 3,
-                    surveyID: this.id
-                  })
-                },
-                {
-                  text: '2',
-                  value: JSON.stringify({
-                    score: 2,
-                    surveyID: this.id
-                  })
-                },
-                {
-                  text: '1',
-                  value: JSON.stringify({
-                    score: 1,
-                    surveyID: this.id
-                  })
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+  // misc
+  get replies () {
+    return Reply.of(this.id)
   }
 }
 

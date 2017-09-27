@@ -1,0 +1,2 @@
+Survey state changes: scheduled -> distributed -> closed
+Reply state changes: no record (survey distributed, target did nothing) -> recrod with score (submitted score) -> isCompleted === true (submitted reason or skipped)
