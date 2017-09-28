@@ -89,12 +89,15 @@ class Survey {
     // now < survey.endTime, not yet
     // 'scheduleDate' is at lhs
     // we want delayed or time to close
-    // survey.endTime <= now, delayed
-    // survey.scheduledDatetime + 48 units <= now
-    // survey.scheduledDatetime <= now - 48 units
+    // survey.endTime <= now
+    // survey.scheduledDatetime + 48 hours <= now
+    // survey.scheduledDatetime <= now - 48 hours
     // 'scheduleDate' is at lhs
-    let unit = DEVELOPMENT_MODE ? 'seconds' : 'hours'
-    query.lessThanOrEqualTo('scheduledDatetime', moment().subtract(48, unit).toDate())
+    if (DEVELOPMENT_MODE) {
+      query.lessThanOrEqualTo('scheduledDatetime', moment().subtract(30, 's').toDate())
+    } else {
+      query.lessThanOrEqualTo('scheduledDatetime', moment().subtract(48, 'h').toDate())
+    }
     return db.query(query).then(result => {
       let records = []
       for (let i = 0; i < result.length; i++) {
