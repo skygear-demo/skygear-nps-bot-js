@@ -20,7 +20,7 @@ skygearCloud.handler('dev', req => {
   userRequired: false
 })
 
-let interval = DEVELOPMENT_MODE ? '@every 1m' : '@every 1h'
+let interval = DEVELOPMENT_MODE ? '*/15 * * * * *' : '0 0 10 * * *' // at every 15s of every m: at 10:00 of every day
 skygearCloud.every(interval, executeScheduledTasks)
 
 skygearCloud.handler('oauth', handleOAuth, {

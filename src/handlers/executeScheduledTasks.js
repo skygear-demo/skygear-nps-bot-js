@@ -1,6 +1,8 @@
-const { closeSurveys, distributeScheduledSurveys } = require('./tasks')
+const { closeSurveys, distributeScheduledSurveys, remindUncompletedRespondents } = require('./tasks')
 
-module.exports = function executeScheduledTasks () {
-  closeSurveys()
-  distributeScheduledSurveys()
+module.exports = async function executeScheduledTasks () {
+  console.log(new Date())
+  await closeSurveys()
+  await remindUncompletedRespondents()
+  await distributeScheduledSurveys()
 }
