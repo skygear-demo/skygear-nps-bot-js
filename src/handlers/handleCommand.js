@@ -3,6 +3,7 @@ const message = require('../message')
 const Team = require('../team')
 const User = require('../user')
 const { Form, log, verify } = require('../util')
+const { scheduleSurvey } = require('./commands')
 
 module.exports = req => Form.parse(req).then(async fields => {
   const {
@@ -18,8 +19,10 @@ module.exports = req => Form.parse(req).then(async fields => {
       const team = await Team.of(teamID)
       const user = new User(userID, team)
       if (await user.isAdmin) {
-        const args = text ? text.split(' ') : [] // eslint-disable-line
+        const args = text ? text.split(' ') : []
         switch (command) {
+          case '/nps-schedule-survey':
+            return scheduleSurvey(team, args)
           default:
             throw new Error(message.error.invalidCommand)
         }

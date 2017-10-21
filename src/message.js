@@ -1,4 +1,16 @@
 module.exports = {
+  ok: 'OK',
+  command: {
+    '/nps-schedule-survey': {
+      usage: 'usage: /nps-schedule-survey (--now | --weekly | --monthly | --quarterly)',
+      error: {
+        illegalOption: option => `/nps-schedule-survey: illegal option ${option}`
+      }
+    }
+  },
+  survey: {
+    title: 'NPS Survey'
+  },
   error: {
     underMaintenance: 'Under maintenance',
     invalidCommand: 'Invalid command',
