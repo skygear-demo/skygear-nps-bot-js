@@ -14,4 +14,9 @@ module.exports = class Bot {
     // neither a bot or a former member
     return res.members.filter(member => !(member.is_bot || member.name === 'slackbot' || member.deleted))
   }
+
+  async fetchUser (id) {
+    const res = await this._client.users.info(id)
+    return res.user
+  }
 }
