@@ -17,6 +17,7 @@
     "eslint-plugin-standard": "^3.0.1"
   },
   "dependencies": {
+    "@slack/client": "^3.14.1",
     "skygear": "^1.1.0",
     "source-map-support": "^0.5.0"
   },

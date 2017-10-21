@@ -7,3 +7,8 @@ git clone https://github.com/skygear-demo/skygear-nps-bot-js.git
 yarn install
 git remote add skygear-dev ssh://git@git.skygeario.com/npsbottest.git
 ```
+
+## Documentation
+Installation
+* success: redirect to tutorial page
+* error: redirect to error page
