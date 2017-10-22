@@ -19,7 +19,8 @@ module.exports = {
         invalidUser: user => `/nps-remove-targets: invalid user ${user}`
       },
       usage: 'usage: /nps-remove-targets <user> ...'
-    }
+    },
+    '/nps-stop-surveys': {}
   },
   survey: {
     title: 'NPS Survey',

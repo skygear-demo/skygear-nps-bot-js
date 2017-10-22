@@ -1,6 +1,7 @@
 const skygear = require('skygear')
 const Bot = require('./bot')
 const db = require('./db')
+const Survey = require('./survey')
 
 module.exports = class Team {
   constructor (record) {
@@ -61,5 +62,17 @@ module.exports = class Team {
 
   get members () {
     return this.bot.fetchUsers()
+  }
+
+  get scheduledSurveys () {
+    const query = new skygear.Query(Survey.Record)
+    query.equalTo('isSent', false)
+    return db.query(query).then(result => {
+      const surveys = []
+      for (let i = 0; i < result.length; i++) {
+        surveys.push(new Survey(result[i]))
+      }
+      return surveys
+    })
   }
 }

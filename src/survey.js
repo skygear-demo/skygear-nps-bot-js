@@ -89,4 +89,9 @@ module.exports = class Survey {
   async update () {
     this._record = await db.save(this._record)
   }
+
+  // delete
+  delete () {
+    db.delete(this._record)
+  }
 }
