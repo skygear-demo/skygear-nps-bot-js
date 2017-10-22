@@ -46,6 +46,10 @@ module.exports = class Team {
     this._record['token'] = newValue
   }
 
+  set targetsID (newValue) {
+    this._record['targetsID'] = newValue
+  }
+
   async update () {
     this._record = await db.save(this._record)
   }

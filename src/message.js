@@ -6,6 +6,19 @@ module.exports = {
       error: {
         illegalOption: option => `/nps-schedule-survey: illegal option ${option}`
       }
+    },
+    '/nps-list-targets': {},
+    '/nps-add-targets': {
+      error: {
+        invalidUser: user => `/nps-add-targets: invalid user ${user}`
+      },
+      usage: 'usage: /nps-add-targets <user> ...'
+    },
+    '/nps-remove-targets': {
+      error: {
+        invalidUser: user => `/nps-remove-targets: invalid user ${user}`
+      },
+      usage: 'usage: /nps-remove-targets <user> ...'
     }
   },
   survey: {

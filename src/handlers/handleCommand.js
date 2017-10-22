@@ -3,7 +3,7 @@ const message = require('../message')
 const Team = require('../team')
 const User = require('../user')
 const { Form, log, verify } = require('../util')
-const { scheduleSurvey } = require('./commands')
+const { scheduleSurvey, listTargets, addTargets, removeTargets } = require('./commands')
 
 module.exports = req => Form.parse(req).then(async fields => {
   const {
@@ -23,6 +23,12 @@ module.exports = req => Form.parse(req).then(async fields => {
         switch (command) {
           case '/nps-schedule-survey':
             return scheduleSurvey(team, args)
+          case '/nps-list-targets':
+            return listTargets(team)
+          case '/nps-add-targets':
+            return addTargets(team, args)
+          case '/nps-remove-targets':
+            return removeTargets(team, args)
           default:
             throw new Error(message.error.invalidCommand)
         }
