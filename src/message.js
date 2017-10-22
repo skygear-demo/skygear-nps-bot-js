@@ -9,7 +9,12 @@ module.exports = {
     }
   },
   survey: {
-    title: 'NPS Survey'
+    title: 'NPS Survey',
+    farewellText: 'Looking forward to your response next time!',
+    questions: [
+      'How likely is it you would recommend this company as a place to work?',
+      'Would you tell me a bit more about why you rated above score?'
+    ]
   },
   error: {
     underMaintenance: 'Under maintenance',

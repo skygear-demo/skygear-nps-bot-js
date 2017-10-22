@@ -78,4 +78,78 @@ module.exports = class Bot {
       }
     ])
   }
+
+  async openSurveyDialog (surveyID, triggerId, responseURL) {
+    let dialog = {
+      callback_id: JSON.stringify({
+        callback: 'submitSurvey',
+        id: surveyID,
+        url: responseURL
+      }),
+      title: message.survey.title,
+      elements: [
+        {
+          label: 'Score',
+          name: 'score',
+          type: 'select',
+          hint: message.survey.questions[0],
+          options: [
+            {
+              label: '10 (most recommended)',
+              value: '10'
+            },
+            {
+              label: '9',
+              value: '9'
+            },
+            {
+              label: '8',
+              value: '8'
+            },
+            {
+              label: '7',
+              value: '7'
+            },
+            {
+              label: '7',
+              value: '7'
+            },
+            {
+              label: '6',
+              value: '6'
+            },
+            {
+              label: '5',
+              value: '5'
+            },
+            {
+              label: '4',
+              value: '4'
+            },
+            {
+              label: '3',
+              value: '3'
+            },
+            {
+              label: '2',
+              value: '2'
+            },
+            {
+              label: '1 (least recommened)',
+              value: '1'
+            }
+          ]
+        },
+        {
+          label: 'Reason',
+          name: 'reason',
+          type: 'textarea',
+          optional: true,
+          max_length: 500,
+          hint: message.survey.questions[1]
+        }
+      ]
+    }
+    return this._client.dialog.open(JSON.stringify(dialog), triggerId)
+  }
 }

@@ -1,5 +1,6 @@
 const { DEVELOPMENT_MODE, DEVELOPMENT_TEAM_ID } = require('../config')
 const message = require('../message')
+const Team = require('../team')
 const { Form, log, verify } = require('../util')
 
 module.exports = req => Form.parse(req).then(async fields => {
@@ -32,7 +33,15 @@ module.exports = req => Form.parse(req).then(async fields => {
         }
       }
 
+      const team = await Team.of(teamID)
       switch (callback) {
+        case 'answerSurvey':
+          if (choice === 'Answer') {
+            team.bot.openSurveyDialog(id, triggerID, responseURL)
+            return
+          } else {
+            return message.survey.farewellText
+          }
         default:
           throw new Error(message.error.invalidActionCallback)
       }
