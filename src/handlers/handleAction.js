@@ -2,12 +2,12 @@ const { DEVELOPMENT_MODE, DEVELOPMENT_TEAM_ID } = require('../config')
 const message = require('../message')
 const Team = require('../team')
 const { Form, log, verify } = require('../util')
+const { submitSurvey } = require('./actions')
 
 module.exports = req => Form.parse(req).then(async fields => {
   /**
    * @see https://api.slack.com/docs/message-buttons
    */
-  /* eslint-disable */
   const {
     team: { id: teamID },
     callback_id: callbackID,
@@ -16,12 +16,12 @@ module.exports = req => Form.parse(req).then(async fields => {
     actions, submission, token
   } = log(JSON.parse(fields.payload))
   const { callback, id, url } = JSON.parse(callbackID)
-  /* eslint-enable */
+
   if (verify(token)) {
     if (DEVELOPMENT_MODE && teamID !== DEVELOPMENT_TEAM_ID) {
       return message.error.underMaintenance
     } else {
-      let choice // eslint-disable-line
+      let choice
       if (actions) {
         const action = actions[0]
         if (action.type === 'button') {
@@ -42,6 +42,8 @@ module.exports = req => Form.parse(req).then(async fields => {
           } else {
             return message.survey.farewellText
           }
+        case 'submitSurvey':
+          return submitSurvey(id, url, submission)
         default:
           throw new Error(message.error.invalidActionCallback)
       }

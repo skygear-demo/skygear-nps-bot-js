@@ -14,7 +14,8 @@ module.exports = {
     questions: [
       'How likely is it you would recommend this company as a place to work?',
       'Would you tell me a bit more about why you rated above score?'
-    ]
+    ],
+    acknowledgement: 'Thank you for your reply'
   },
   error: {
     underMaintenance: 'Under maintenance',
