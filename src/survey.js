@@ -42,6 +42,45 @@ module.exports = class Survey {
     return this._record['isSent']
   }
 
+  static get weekly () {
+    const query = new skygear.Query(Survey.Record)
+    query.equalTo('frequency', 'weekly')
+    query.equalTo('isSent', false)
+    return db.query(query).then(result => {
+      const surveys = []
+      for (let i = 0; i < result.length; i++) {
+        surveys.push(new Survey(result[i]))
+      }
+      return surveys
+    })
+  }
+
+  static get monthly () {
+    const query = new skygear.Query(Survey.Record)
+    query.equalTo('frequency', 'monthly')
+    query.equalTo('isSent', false)
+    return db.query(query).then(result => {
+      const surveys = []
+      for (let i = 0; i < result.length; i++) {
+        surveys.push(new Survey(result[i]))
+      }
+      return surveys
+    })
+  }
+
+  static get quarterly () {
+    const query = new skygear.Query(Survey.Record)
+    query.equalTo('frequency', 'quarterly')
+    query.equalTo('isSent', false)
+    return db.query(query).then(result => {
+      const surveys = []
+      for (let i = 0; i < result.length; i++) {
+        surveys.push(new Survey(result[i]))
+      }
+      return surveys
+    })
+  }
+
   // update
   set isSent (newValue) {
     this._record['isSent'] = newValue

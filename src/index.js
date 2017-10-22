@@ -1,5 +1,7 @@
 const skygearCloud = require('skygear/cloud')
+const { DEVELOPMENT_MODE } = require('./config')
 const { handleOAuth, handleCommand, handleAction } = require('./handlers')
+const { distributeScheduledSurvey } = require('./tasks')
 
 /**
  * Check availability after a git push
@@ -33,3 +35,9 @@ skygearCloud.handler('action', handleAction, {
   method: ['POST'],
   userRequired: false
 })
+
+skygearCloud.every(DEVELOPMENT_MODE ? '@every 30s' : '@weekly', distributeScheduledSurvey.bind(null, 'weekly'))
+
+skygearCloud.every(DEVELOPMENT_MODE ? '@every 40s' : '@monthly', distributeScheduledSurvey.bind(null, 'monthly'))
+
+skygearCloud.every(DEVELOPMENT_MODE ? '@every 50s' : '0 0 0 1 */3 *', distributeScheduledSurvey.bind(null, 'quarterly'))
