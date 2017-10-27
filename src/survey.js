@@ -97,6 +97,8 @@ module.exports = class Survey {
   }
 
   // misc
+
+  // count both submitted and skipped
   get respondentsID () {
     const query = new skygear.Query(Reply.Record)
     query.equalTo('survey', new skygear.Reference(this._record))
@@ -107,6 +109,30 @@ module.exports = class Survey {
         respondents.push(result[i].userID)
       }
       return respondents
+    })
+  }
+
+  get stats () {
+    const query = new skygear.Query(Reply.Record)
+    query.equalTo('survey', new skygear.Reference(this._record))
+
+    return db.query(query).then(result => {
+      let sum = 0
+      let count = 0
+      for (let i = 0; i < result.length; i++) {
+        const score = result[i].score
+        // submitted: number; skipped: null
+        if (Number.isInteger(score)) {
+          sum += score
+          count += 1
+        }
+      }
+      return {
+        submissionCount: count,
+        targetsCount: this.targetsID.length,
+        responseRate: count / this.targetsID.length, // submitted / targets #,
+        averageScore: sum / count // ignore skipped or silent targets
+      }
     })
   }
 }

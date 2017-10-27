@@ -64,18 +64,6 @@ module.exports = class Team {
     return this.bot.fetchUsers()
   }
 
-  get hasScheduledSurvey () {
-    const query = new skygear.Query(Survey.Record)
-    query.equalTo('teamID', this.slackID)
-    query.equalTo('isSent', false)
-    return db.query(query).then(result => {
-      if (result.length > 1) {
-        throw new Error('Mutiple scheduled survey found')
-      }
-      return result.length !== 0
-    })
-  }
-
   get scheduledSurvey () {
     const query = new skygear.Query(Survey.Record)
     query.equalTo('teamID', this.slackID)
@@ -94,9 +82,6 @@ module.exports = class Team {
     query.equalTo('isSent', true)
     query.addDescending('_updated_at')
     return db.query(query).then(result => {
-      if (result.length > 1) {
-        throw new Error('Mutiple last distributed survey found')
-      }
       return result[0] ? new Survey(result[0]) : null
     })
   }
