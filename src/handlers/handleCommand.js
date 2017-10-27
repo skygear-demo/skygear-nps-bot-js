@@ -3,7 +3,7 @@ const message = require('../message')
 const Team = require('../team')
 const User = require('../user')
 const { Form, log, verify } = require('../util')
-const { scheduleSurvey, listTargets, addTargets, removeTargets, stopSurveys } = require('./commands')
+const { scheduleSurvey, listTargets, addTargets, removeTargets, stopSurvey } = require('./commands')
 
 module.exports = req => Form.parse(req).then(async fields => {
   const {
@@ -29,8 +29,8 @@ module.exports = req => Form.parse(req).then(async fields => {
             return addTargets(team, args)
           case '/nps-remove-targets':
             return removeTargets(team, args)
-          case '/nps-stop-surveys':
-            return stopSurveys(team)
+          case '/nps-stop-survey':
+            return stopSurvey(team)
           default:
             throw new Error(message.error.invalidCommand)
         }

@@ -12,6 +12,10 @@ const VALID_OPTIONS = [
 module.exports = async (team, [$1, ...rest]) => {
   const command = message.command['/nps-schedule-survey']
 
+  if (await team.hasScheduledSurvey) {
+    return command.error.alreadyScheduled
+  }
+
   if ($1 && rest.length === 0) {
     if (VALID_OPTIONS.includes($1)) {
       const frequency = $1.substr(2) // remove prefix "--"

@@ -2,9 +2,10 @@ module.exports = {
   ok: 'OK',
   command: {
     '/nps-schedule-survey': {
-      usage: 'usage: /nps-schedule-survey (--now | --weekly | --monthly | --quarterly)',
+      usage: 'usage: /nps-schedule-survey (--now | --weekly | --monthly | --quarterly) --force',
       error: {
-        illegalOption: option => `/nps-schedule-survey: illegal option ${option}`
+        illegalOption: option => `/nps-schedule-survey: illegal option ${option}`,
+        alreadyScheduled: 'Denied. A survey has already scheduled before. You may unschedule it via /nps-stop-survey.'
       }
     },
     '/nps-list-targets': {},
@@ -20,7 +21,7 @@ module.exports = {
       },
       usage: 'usage: /nps-remove-targets <user> ...'
     },
-    '/nps-stop-surveys': {}
+    '/nps-stop-survey': {}
   },
   survey: {
     title: 'NPS Survey',
