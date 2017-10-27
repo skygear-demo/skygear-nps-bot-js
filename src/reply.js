@@ -11,11 +11,12 @@ module.exports = class Reply {
     return skygear.Record.extend('reply')
   }
 
-  static async create (surveyID, score, reason) {
+  static async create (surveyID, userID, score, reason) {
     const record = await db.save(new Reply.Record({
       survey: new skygear.Reference({
         id: surveyID
       }),
+      userID,
       score,
       reason
     }))

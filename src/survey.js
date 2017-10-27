@@ -1,5 +1,6 @@
 const skygear = require('skygear')
 const db = require('./db')
+const Reply = require('./reply')
 
 module.exports = class Survey {
   constructor (record) {
@@ -93,5 +94,19 @@ module.exports = class Survey {
   // delete
   delete () {
     db.delete(this._record)
+  }
+
+  // misc
+  get respondentsID () {
+    const query = new skygear.Query(Reply.Record)
+    query.equalTo('survey', new skygear.Reference(this._record))
+
+    return db.query(query).then(result => {
+      const respondents = []
+      for (let i = 0; i < result.length; i++) {
+        respondents.push(result[i].userID)
+      }
+      return respondents
+    })
   }
 }

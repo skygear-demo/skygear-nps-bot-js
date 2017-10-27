@@ -87,4 +87,17 @@ module.exports = class Team {
       return result[0] ? new Survey(result[0]) : null
     })
   }
+
+  get lastestSurvey () {
+    const query = new skygear.Query(Survey.Record)
+    query.equalTo('teamID', this.slackID)
+    query.equalTo('isSent', true)
+    query.addDescending('_updated_at')
+    return db.query(query).then(result => {
+      if (result.length > 1) {
+        throw new Error('Mutiple last distributed survey found')
+      }
+      return result[0] ? new Survey(result[0]) : null
+    })
+  }
 }

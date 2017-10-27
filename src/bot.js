@@ -59,14 +59,14 @@ module.exports = class Bot {
             name: 'choice',
             text: 'Answer',
             type: 'button',
-            value: 'Answer',
+            value: 'yes',
             style: 'primary'
           },
           {
             name: 'choice',
             text: 'Skip',
             type: 'button',
-            value: 'Skip',
+            value: 'no',
             style: 'danger',
             confirm: {
               title: 'Are you sure?',

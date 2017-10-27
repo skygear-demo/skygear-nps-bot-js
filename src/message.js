@@ -21,7 +21,8 @@ module.exports = {
       },
       usage: 'usage: /nps-remove-targets <user> ...'
     },
-    '/nps-stop-survey': {}
+    '/nps-stop-survey': {},
+    '/nps-send-reminder': {}
   },
   survey: {
     title: 'NPS Survey',
