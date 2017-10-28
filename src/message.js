@@ -22,7 +22,11 @@ module.exports = {
       usage: 'usage: /nps-remove-targets <user> ...'
     },
     '/nps-stop-survey': {},
-    '/nps-send-reminder': {}
+    '/nps-send-reminder': {},
+    '/nps-status': {},
+    '/nps-generate-report': {
+      usage: 'usage: /nps-generate-report (--all | <number of latest surveys>)'
+    }
   },
   survey: {
     title: 'NPS Survey',

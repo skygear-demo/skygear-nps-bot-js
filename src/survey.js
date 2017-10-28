@@ -23,6 +23,10 @@ module.exports = class Survey {
   }
 
   // read
+  get updatedAt () {
+    return this._record['updatedAt']
+  }
+
   get id () {
     return this._record['id']
   }
@@ -133,6 +137,25 @@ module.exports = class Survey {
         responseRate: count / this.targetsID.length, // submitted / targets #,
         averageScore: sum / count // ignore skipped or silent targets
       }
+    })
+  }
+
+  get replies () {
+    const query = new skygear.Query(Reply.Record)
+    query.equalTo('survey', new skygear.Reference(this._record))
+
+    return db.query(query).then(result => {
+      const replies = []
+      for (let i = 0; i < result.length; i++) {
+        const reply = result[i]
+        if (Number.isInteger(reply.score)) {
+          replies.push({
+            score: reply.score,
+            reason: reply.reason
+          })
+        }
+      }
+      return replies
     })
   }
 }

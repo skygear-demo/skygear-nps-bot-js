@@ -85,4 +85,33 @@ module.exports = class Team {
       return result[0] ? new Survey(result[0]) : null
     })
   }
+
+  getSurveys (number) {
+    const query = new skygear.Query(Survey.Record)
+    query.equalTo('teamID', this.slackID)
+    query.equalTo('isSent', true)
+    query.addDescending('_updated_at')
+    query.limit = number
+    return db.query(query).then(result => {
+      const surveys = []
+      for (let i = 0; i < result.length; i++) {
+        surveys.push(new Survey(result[i]))
+      }
+      return surveys
+    })
+  }
+
+  getAllSurveys () {
+    const query = new skygear.Query(Survey.Record)
+    query.equalTo('teamID', this.slackID)
+    query.equalTo('isSent', true)
+    query.addDescending('_updated_at')
+    return db.query(query).then(result => {
+      const surveys = []
+      for (let i = 0; i < result.length; i++) {
+        surveys.push(new Survey(result[i]))
+      }
+      return surveys
+    })
+  }
 }
