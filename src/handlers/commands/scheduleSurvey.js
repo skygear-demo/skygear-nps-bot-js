@@ -25,12 +25,21 @@ module.exports = async (team, [$1, ...rest]) => {
       }
 
       const survey = await Survey.create(team.slackID, frequency, team.targetsID) // eslint-disable-line
-      if (frequency === 'now') {
-        team.bot.distribute(survey)
-        survey.isSent = true
-        survey.update()
+      switch (frequency) {
+        case 'now':
+          team.bot.distribute(survey)
+          survey.isSent = true
+          survey.update()
+          return message.ok + '. The survey will be distributed now'
+        case 'weekly':
+          return message.ok + '. The survey will be distributed at the coming week.'
+        case 'monthly':
+          return message.ok + '. The survey will be distributed at the coming month.'
+        case 'quarterly':
+          return message.ok + '. The survey will be distributed at the coming quarter.'
+        default:
+          throw new Error('Invalid frequency')
       }
-      return message.ok
     } else {
       return command.error.illegalOption($1) + '\n' + command.usage
     }

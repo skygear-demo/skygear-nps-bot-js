@@ -49,13 +49,13 @@ module.exports = class Bot {
     let closingNotice
     switch (survey.frequency) {
       case 'weekly':
-        closingNotice = '\nThe survey will be closed at next week'
+        closingNotice = '\n(the survey will be closed at next week)'
         break
       case 'monthly':
-        closingNotice = '\nThe survey will be closed at next month'
+        closingNotice = '\n(the survey will be closed at next month)'
         break
       case 'quarterly':
-        closingNotice = '\nThe survey will be closed at next quarter'
+        closingNotice = '\n(the survey will be closed at next quarter)'
         break
       default:
         closingNotice = ''

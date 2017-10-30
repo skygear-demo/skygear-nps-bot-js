@@ -39,13 +39,15 @@ module.exports = async team => {
         title: 'Response rate',
         value: `${stats.submissionCount} out of ${stats.targetsCount}, ${(stats.responseRate * 100).toFixed(2)}%`,
         short: true
-      },
-      {
-        title: 'Average score',
-        value: (await activeSurvey.stats).averageScore.toFixed(2),
-        short: true
       }
     ]
+    if (stats.averageScore) {
+      status.attachments[1].fields.push({
+        title: 'Average score',
+        value: stats.averageScore.toFixed(2),
+        short: true
+      })
+    }
   } else {
     status.attachments[1].text = 'None'
   }

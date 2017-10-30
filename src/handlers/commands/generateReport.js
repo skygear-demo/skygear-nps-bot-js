@@ -15,7 +15,7 @@ module.exports = async (team, [$1, ...rest]) => {
   if ($1 && rest.length === 0) {
     if (VALID_OPTIONS.includes($1)) {
       const report = {
-        text: 'Report of all survey',
+        text: 'Report of all survey:',
         attachments: []
       }
       const surveys = await team.getAllSurveys()
@@ -28,7 +28,7 @@ module.exports = async (team, [$1, ...rest]) => {
       return report
     } else if (parseInt($1)) {
       const report = {
-        text: `Report of last ${$1} survey`,
+        text: `Report of last ${$1} survey:`,
         attachments: []
       }
       const surveys = await team.getSurveys(parseInt($1))
