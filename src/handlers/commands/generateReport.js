@@ -18,7 +18,7 @@ module.exports = async (team, [$1, ...rest]) => {
         text: 'Report of all survey:',
         attachments: []
       }
-      const surveys = await team.getAllSurveys()
+      const surveys = await team.getSurveys()
       for (let survey of surveys) {
         report.attachments.push({
           title: 'Survey at ' + survey.updatedAt,
@@ -27,11 +27,12 @@ module.exports = async (team, [$1, ...rest]) => {
       }
       return report
     } else if (parseInt($1)) {
+      const numberOfSurveys = parseInt($1)
+      const surveys = await team.getSurveys(numberOfSurveys)
       const report = {
-        text: `Report of last ${$1} survey:`,
+        text: `Report of last ${Math.min($1, numberOfSurveys)} survey:`,
         attachments: []
       }
-      const surveys = await team.getSurveys(parseInt($1))
       for (let survey of surveys) {
         report.attachments.push({
           title: 'Survey at ' + survey.updatedAt,

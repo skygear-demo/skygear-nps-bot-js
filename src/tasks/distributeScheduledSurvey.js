@@ -22,13 +22,13 @@ module.exports = async frequency => {
     // close old active survey
     const oldSurvey = await team.activeSurvey
     if (oldSurvey) {
-      oldSurvey.close()
+      await oldSurvey.close()
     }
     // send new survey
     team.bot.distribute(scheduledSurvey)
     scheduledSurvey.isSent = true
-    scheduledSurvey.update()
+    await scheduledSurvey.update()
     // clone to reschedule
-    Survey.create(scheduledSurvey.teamID, scheduledSurvey.frequency, scheduledSurvey.targetsID)
+    await Survey.create(scheduledSurvey.teamID, scheduledSurvey.frequency, scheduledSurvey.targetsID)
   }
 }
