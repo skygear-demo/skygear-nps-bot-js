@@ -1,1 +1,116 @@
-Tutorial
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NPS Bot</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/static">
+            NPS Bot
+          </a>
+
+          <button class="button navbar-burger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+
+        <div class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item" href="/static/tutorial.html">
+              Tutorial
+            </a>
+          </div>
+
+          <div class="navbar-end">
+            <!-- navbar items -->
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <h1 class="title">Tutorial</h1>
+        <div class="content">
+          <ul>
+            <li>
+              Show a list of survey's targets: <span class="tag">/nps-list-targets</span>
+              <br>
+              <span class="tag is-warning">Note</span> all members are targets by default
+            </li>
+            <br>
+
+            <li>
+              Remove member(s) from the target list: <span class="tag">/nps-remove-targets</span>
+              <br>
+              <span class="tag is-info">Examples</span>
+              <ul>
+                <li><span class="tag">/nps-remove-targets @peter @amy</span></li>
+              </ul>
+            </li>
+            <br>
+
+            <li>
+              Add member(s) to the target list: <span class="tag">/nps-add-targets</span>
+              <br>
+              <span class="tag is-info">Examples</span>
+              <ul>
+                <li><span class="tag">/nps-add-targets @peter @amy</span></li>
+              </ul>
+            </li>
+            <br>
+
+            <li>
+              Schedule a survey: <span class="tag">/nps-schedule-survey</span>
+              <br>
+              <span class="tag is-warning">Note</span> only one schedued or active survey is allowed at any time
+              <br><br>
+              <span class="tag is-info">Examples</span>
+              <ul>
+                <li>once now: <span class="tag">/nps-schedule-survey --now</span></li>
+                <li>periodically:
+                  <ul>
+                    <li>weekly: <span class="tag">/nps-schedule-survey --weekly</span></li>
+                    <li>monthly: <span class="tag">/nps-schedule-survey --monthly</span></li>
+                    <li>quarterly: <span class="tag">/nps-schedule-survey --quarterly</span></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <br>
+
+            <li>Remind silent members to complete the survey: <span class="tag">/nps-send-reminder</span></li>
+            <br>
+
+            <li>Unschedule or close a survey: <span class="tag">/nps-stop-survey</span></li>
+            <br>
+
+            <li>
+              View the result of closed surveys: <span class="tag">/nps-generate-report</span></li>
+              <span class="tag is-info">Examples</span>
+              <ul>
+                <li>view all: <span class="tag">/nps-generate-report --all</span></li>
+                <li>view the latest: <span class="tag">/nps-generate-report 1</span></li>
+                <li>view last 10: <span class="tag">/nps-generate-report 10</span></li>
+              </ul>
+            </li>
+            <br>
+
+            <li>Know what's happening now: <span class="tag">/nps-status</span></li>
+            <br>
+
+            
+          </ul>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
