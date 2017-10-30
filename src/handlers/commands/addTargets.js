@@ -25,6 +25,12 @@ module.exports = async (team, givenTargets) => {
   team.targetsID = Set(team.targetsID).toJS() // remove duplicates
   await team.update()
 
+  const scheduledSurvey = await team.scheduledSurvey
+  if (scheduledSurvey) {
+    scheduledSurvey.targetsID = team.targetsID
+    await scheduledSurvey.update()
+  }
+
   const targets = team.targetsID.map(targetID => `<@${targetID}>`)
-  return `Users below will receive NPS survey:\n${targets.join('\n')}`
+  return `Users below will receive NPS survey:\n${targets.join('\n')}\n(changes will be effective in next survey)`
 }

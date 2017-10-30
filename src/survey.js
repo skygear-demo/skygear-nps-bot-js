@@ -92,6 +92,10 @@ module.exports = class Survey {
   }
 
   // update
+  set targetsID (newValue) {
+    this._record['targetsID'] = newValue
+  }
+
   set isSent (newValue) {
     this._record['isSent'] = newValue
   }
