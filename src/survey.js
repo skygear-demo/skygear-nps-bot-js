@@ -52,6 +52,17 @@ module.exports = class Survey {
     return this._record['isClosed']
   }
 
+  static async of (id) {
+    const query = new skygear.Query(Survey.Record)
+    query.equalTo('_id', id.substr(7)) // remove 'survey/' prefix
+
+    const result = await db.query(query)
+    if (result.length > 1) {
+      throw new Error(`Mutiple surveys with identical id ${id} found`)
+    }
+    return result[0] ? new Survey(result[0]) : null
+  }
+
   static get weekly () {
     const query = new skygear.Query(Survey.Record)
     query.equalTo('frequency', 'weekly')
