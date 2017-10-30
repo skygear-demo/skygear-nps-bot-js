@@ -2,27 +2,33 @@ const Survey = require('../survey')
 const Team = require('../team')
 
 module.exports = async frequency => {
-  let surveys
+  let scheduledSurveys
   switch (frequency) {
     case 'weekly':
-      surveys = await Survey.weekly
+      scheduledSurveys = await Survey.weekly
       break
     case 'monthly':
-      surveys = await Survey.monthly
+      scheduledSurveys = await Survey.monthly
       break
     case 'quarterly':
-      surveys = await Survey.quarterly
+      scheduledSurveys = await Survey.quarterly
       break
     default:
       throw new Error('Invalid frequency')
   }
 
-  for (let survey of surveys) {
-    const team = await Team.of(survey.teamID)
-    team.bot.distribute(survey)
-    survey.isSent = true
-    survey.update()
-    // clone the old one to reschedule
-    Survey.create(survey.teamID, survey.frequency, survey.targetsID)
+  for (let scheduledSurvey of scheduledSurveys) {
+    const team = await Team.of(scheduledSurvey.teamID)
+    // close old active survey
+    const oldSurvey = await team.activeSurvey
+    if (oldSurvey) {
+      oldSurvey.close()
+    }
+    // send new survey
+    team.bot.distribute(scheduledSurvey)
+    scheduledSurvey.isSent = true
+    scheduledSurvey.update()
+    // clone to reschedule
+    Survey.create(scheduledSurvey.teamID, scheduledSurvey.frequency, scheduledSurvey.targetsID)
   }
 }

@@ -3,13 +3,13 @@ const message = require('../../message')
 const Team = require('../../team')
 
 module.exports = async team => {
-  const survey = await team.lastestSurvey
-  if (survey) {
-    const silentTargetsID = Set(survey.targetsID).subtract(Set(await survey.respondentsID))
-    const team = await Team.of(survey.teamID)
+  const activeSurvey = await team.activeSurvey
+  if (activeSurvey) {
+    const silentTargetsID = Set(activeSurvey.targetsID).subtract(Set(await activeSurvey.respondentsID))
+    const team = await Team.of(activeSurvey.teamID)
     team.bot.sendToUsers(silentTargetsID, 'Hi! Please submit the NPS survey. We need your opinions to improve:)')
     return message.ok
   } else {
-    return 'No scheduled survey'
+    return 'No active survey'
   }
 }

@@ -1,10 +1,13 @@
-const message = require('../../message')
-
 module.exports = async team => {
-  const survey = await team.scheduledSurvey
-  if (survey) {
-    await survey.delete()
-    return message.ok
+  const activeSurvey = await team.activeSurvey
+  const scheduledSurvey = await team.scheduledSurvey
+
+  if (activeSurvey) {
+    await activeSurvey.close()
+    return 'Survey closed'
+  } else if (scheduledSurvey) {
+    await scheduledSurvey.delete()
+    return 'Survey unscheduled'
   } else {
     return 'No scheduled survey'
   }

@@ -1,6 +1,6 @@
 module.exports = async team => {
   const scheduledSurvey = await team.scheduledSurvey
-  const lastestSurvey = await team.lastestSurvey
+  const activeSurvey = await team.activeSurvey
   const status = {
     attachments: [
       {
@@ -8,7 +8,7 @@ module.exports = async team => {
         color: 'good'
       },
       {
-        title: 'Latest survey',
+        title: 'Active survey',
         color: 'good'
       }
     ]
@@ -32,8 +32,8 @@ module.exports = async team => {
     status.attachments[0].footer = 'You may create one by /nps-schedule-survey'
   }
 
-  if (lastestSurvey) {
-    const stats = await lastestSurvey.stats
+  if (activeSurvey) {
+    const stats = await activeSurvey.stats
     status.attachments[1].fields = [
       {
         title: 'Response rate',
@@ -42,7 +42,7 @@ module.exports = async team => {
       },
       {
         title: 'Average score',
-        value: (await lastestSurvey.stats).averageScore.toFixed(2),
+        value: (await activeSurvey.stats).averageScore.toFixed(2),
         short: true
       }
     ]

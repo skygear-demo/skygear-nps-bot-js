@@ -15,7 +15,12 @@ module.exports = async (team, [$1, ...rest]) => {
   if ($1 && rest.length === 0) {
     if (VALID_OPTIONS.includes($1)) {
       const frequency = $1.substr(2) // remove prefix "--"
-      if ((await team.scheduledSurvey) && frequency !== 'now') {
+
+      if (await team.activeSurvey) {
+        return command.error.activeSurveyExists
+      }
+
+      if (await team.scheduledSurvey) {
         return command.error.alreadyScheduled
       }
 

@@ -76,12 +76,15 @@ module.exports = class Team {
     })
   }
 
-  get lastestSurvey () {
+  get activeSurvey () {
     const query = new skygear.Query(Survey.Record)
     query.equalTo('teamID', this.slackID)
     query.equalTo('isSent', true)
-    query.addDescending('_updated_at')
+    query.equalTo('isClosed', false)
     return db.query(query).then(result => {
+      if (result.length > 1) {
+        throw new Error('Mutiple active survey found')
+      }
       return result[0] ? new Survey(result[0]) : null
     })
   }

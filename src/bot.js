@@ -46,9 +46,25 @@ module.exports = class Bot {
   }
 
   async distribute (survey) {
+    let closingNotice
+    switch (survey.frequency) {
+      case 'weekly':
+        closingNotice = '\nThe survey will be closed at next week'
+        break
+      case 'monthly':
+        closingNotice = '\nThe survey will be closed at next month'
+        break
+      case 'quarterly':
+        closingNotice = '\nThe survey will be closed at next quarter'
+        break
+      default:
+        closingNotice = ''
+    }
+
     return this.sendToUsers(survey.targetsID, '', [
       {
         title: message.survey.title,
+        text: 'What do you think about the company?' + closingNotice,
         fallback: 'You are unable to answer the survey',
         callback_id: JSON.stringify({
           callback: 'answerSurvey',

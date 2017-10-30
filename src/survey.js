@@ -17,7 +17,8 @@ module.exports = class Survey {
       teamID,
       frequency,
       targetsID,
-      isSent: false
+      isSent: false,
+      isClosed: false
     }))
     return new Survey(record)
   }
@@ -45,6 +46,10 @@ module.exports = class Survey {
 
   get isSent () {
     return this._record['isSent']
+  }
+
+  get isClosed () {
+    return this._record['isClosed']
   }
 
   static get weekly () {
@@ -89,6 +94,10 @@ module.exports = class Survey {
   // update
   set isSent (newValue) {
     this._record['isSent'] = newValue
+  }
+
+  set isClosed (newValue) {
+    this._record['isClosed'] = newValue
   }
 
   async update () {
@@ -157,5 +166,10 @@ module.exports = class Survey {
       }
       return replies
     })
+  }
+
+  close () {
+    this.isClosed = true
+    return this.update()
   }
 }

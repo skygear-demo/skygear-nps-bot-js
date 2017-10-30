@@ -5,7 +5,8 @@ module.exports = {
       usage: 'usage: /nps-schedule-survey (--now | --weekly | --monthly | --quarterly) --force',
       error: {
         illegalOption: option => `/nps-schedule-survey: illegal option ${option}`,
-        alreadyScheduled: 'Denied. A survey has already scheduled before. You may unschedule it via /nps-stop-survey.'
+        alreadyScheduled: 'Denied. A survey has already scheduled before. You may unschedule it via /nps-stop-survey.',
+        activeSurveyExists: 'Denied. There is a survey still opening for reply. You may close it via /nps-stop-survey.'
       }
     },
     '/nps-list-targets': {},
