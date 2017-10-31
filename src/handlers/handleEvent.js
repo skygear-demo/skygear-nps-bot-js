@@ -2,7 +2,7 @@ const message = require('../message')
 const Team = require('../team')
 const User = require('../user')
 const { log, verify } = require('../util')
-const { hi } = require('./events')
+const { showCommandButtons } = require('./events')
 
 module.exports = async req => {
   /**
@@ -22,7 +22,7 @@ module.exports = async req => {
     let {
       channel: channelID,
       user: userID,
-      text, type
+      type
     } = event
 
     const team = await Team.of(teamID)
@@ -32,9 +32,7 @@ module.exports = async req => {
         if (userID) {
           const user = new User(userID, team)
           if (await user.isAdmin) {
-            if (text.substr(0, 2).toLowerCase() === 'hi') {
-              hi(team, channelID)
-            }
+            showCommandButtons(team, channelID)
           }
         }
         break

@@ -23,6 +23,8 @@ module.exports = async (team, userID, [$1, ...rest]) => {
       const replies = (await survey.replies).map(reply => `\r\n${reply.score},${reply.reason}`)
       await team.bot.upload('score,reason' + replies, 'report', userID)
     }
+
+    return message.ok
   } else {
     return command.usage
   }

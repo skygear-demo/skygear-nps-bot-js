@@ -1,9 +1,11 @@
+const axios = require('axios')
 const { DEVELOPMENT_MODE, DEVELOPMENT_TEAM_ID } = require('../config')
 const message = require('../message')
 const Team = require('../team')
 const { Form, log, verify } = require('../util')
 const { answerSurvey, submitSurvey } = require('./actions')
-const { scheduleSurvey, listTargets, addTargets, removeTargets, stopSurvey, sendReminder, status, generateReport } = require('./commands')
+const { listTargets, stopSurvey, sendReminder, status, generateReport } = require('./commands')
+const { showCommandButtons } = require('./events')
 
 module.exports = req => Form.parse(req).then(async fields => {
   /**
@@ -11,6 +13,7 @@ module.exports = req => Form.parse(req).then(async fields => {
    */
   const {
     team: { id: teamID },
+    channel: { id: channelID },
     user: { id: userID },
     callback_id: callbackID,
     trigger_id: triggerID,
@@ -44,27 +47,39 @@ module.exports = req => Form.parse(req).then(async fields => {
         case 'issueCommand':
           const [command, ...args] = chosen.split(' ')
           switch (command) {
-            case '/nps-schedule-survey':
-              return scheduleSurvey(team, args)
             case '/nps-list-targets':
-              return listTargets(team)
-            case '/nps-add-targets':
-              return addTargets(team, args)
-            case '/nps-remove-targets':
-              return removeTargets(team, args)
+              axios.post(responseURL, {
+                text: await listTargets(team)
+              })
+              break
             case '/nps-stop-survey':
-              return stopSurvey(team)
+              axios.post(responseURL, {
+                text: await stopSurvey(team)
+              })
+              break
             case '/nps-send-reminder':
-              return sendReminder(team)
+              axios.post(responseURL, {
+                text: await sendReminder(team)
+              })
+              break
             case '/nps-status':
-              return status(team)
+              axios.post(responseURL, await status(team))
+              break
             case '/nps-generate-report':
-              return generateReport(team, userID, args)
+              axios.post(responseURL, {
+                text: await generateReport(team, userID, args)
+              })
+              break
             case '/nps-help':
-              return message.help
+              axios.post(responseURL, {
+                text: message.help
+              })
+              break
             default:
               throw new Error(message.error.invalidCommand)
           }
+          showCommandButtons(team, channelID)
+          break
         default:
           throw new Error(message.error.invalidActionCallback)
       }

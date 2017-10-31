@@ -1,1 +1,1 @@
-exports.hi = require('./hi')
+exports.showCommandButtons = require('./showCommandButtons')
