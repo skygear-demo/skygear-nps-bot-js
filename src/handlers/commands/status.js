@@ -1,3 +1,5 @@
+const moment = require('../../../modules/moment')
+
 module.exports = async team => {
   const scheduledSurvey = await team.scheduledSurvey
   const activeSurvey = await team.activeSurvey
@@ -15,6 +17,21 @@ module.exports = async team => {
   }
 
   if (scheduledSurvey) {
+    let distributionDate
+    switch (scheduledSurvey.frequency) {
+      case 'weekly':
+        distributionDate = moment().add(1, 'w').startOf('week')
+        break
+      case 'monthly':
+        distributionDate = moment().add(1, 'M').startOf('month')
+        break
+      case 'quarterly':
+        distributionDate = moment().add(1, 'Q').startOf('quarter')
+        break
+      default:
+        throw new Error('Invalid freqency')
+    }
+
     status.attachments[0].fields = [
       {
         title: 'Frequency',
@@ -23,7 +40,7 @@ module.exports = async team => {
       },
       {
         title: 'Will be distributed at',
-        value: 'date',
+        value: `<!date^${distributionDate.unix()}^{date_num}|${distributionDate.format()}>`,
         short: true
       }
     ]

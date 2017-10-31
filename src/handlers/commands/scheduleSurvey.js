@@ -1,3 +1,4 @@
+const moment = require('../../../modules/moment')
 const message = require('../../message')
 const Survey = require('../../survey')
 
@@ -25,18 +26,22 @@ module.exports = async (team, [$1, ...rest]) => {
       }
 
       const survey = await Survey.create(team.slackID, frequency, team.targetsID) // eslint-disable-line
+      let distributionDate
       switch (frequency) {
         case 'now':
           team.bot.distribute(survey)
           survey.isSent = true
           survey.update()
-          return message.ok + '. The survey will be distributed now'
+          return message.ok + '. The survey will be distributed now.'
         case 'weekly':
-          return message.ok + '. The survey will be distributed at the coming week.'
+          distributionDate = moment().add(1, 'w').startOf('week')
+          return message.ok + `. The survey will be distributed at <!date^${distributionDate.unix()}^{date_num}|${distributionDate.format()}>.`
         case 'monthly':
-          return message.ok + '. The survey will be distributed at the coming month.'
+          distributionDate = moment().add(1, 'M').startOf('month')
+          return message.ok + `. The survey will be distributed at <!date^${distributionDate.unix()}^{date_num}|${distributionDate.format()}>.`
         case 'quarterly':
-          return message.ok + '. The survey will be distributed at the coming quarter.'
+          distributionDate = moment().add(1, 'Q').startOf('quarter')
+          return message.ok + `. The survey will be distributed at <!date^${distributionDate.unix()}^{date_num}|${distributionDate.format()}>.`
         default:
           throw new Error('Invalid frequency')
       }
