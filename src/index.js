@@ -1,6 +1,6 @@
 const skygearCloud = require('skygear/cloud')
 const { DEVELOPMENT_MODE } = require('./config')
-const { handleOAuth, handleCommand, handleAction } = require('./handlers')
+const { handleOAuth, handleCommand, handleAction, handleEvent } = require('./handlers')
 const { distributeScheduledSurvey } = require('./tasks')
 
 /**
@@ -32,6 +32,11 @@ skygearCloud.handler('command', handleCommand, {
 })
 
 skygearCloud.handler('action', handleAction, {
+  method: ['POST'],
+  userRequired: false
+})
+
+skygearCloud.handler('event', handleEvent, {
   method: ['POST'],
   userRequired: false
 })
