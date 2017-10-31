@@ -11,19 +11,25 @@ module.exports = (team, channelID) => {
       actions: [
         {
           name: 'command',
-          text: 'status',
+          text: 'help',
+          type: 'button',
+          value: '/nps-help'
+        },
+        {
+          name: 'command',
+          text: 'show current status',
           type: 'button',
           value: '/nps-status'
         },
         {
           name: 'command',
-          text: 'targets',
+          text: 'list targets',
           type: 'button',
           value: '/nps-list-targets'
         },
         {
           name: 'command',
-          text: 'latest report',
+          text: 'get latest report',
           type: 'button',
           value: '/nps-generate-report 1'
         },

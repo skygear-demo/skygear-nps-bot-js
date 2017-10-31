@@ -1,6 +1,17 @@
 module.exports = {
   hi: 'May I help you?',
   ok: 'OK',
+  help: `Usages:\n
+  • Show a list of survey's targets: /nps-list-targets\n
+  • Remove member(s) from the target list: /nps-remove-targets\n
+  • Add member(s) to the target list: /nps-add-targets\n
+  • Schedule a survey: /nps-schedule-survey\n
+  • Remind silent members to complete the survey: /nps-send-reminder\n
+  • Unschedule or close a survey: /nps-stop-survey\n
+  • View the result of closed surveys: /nps-generate-report\n
+  • Know what's happening now: /nps-status\n
+  • Show this message again: /nps-help\n
+  `,
   command: {
     '/nps-schedule-survey': {
       usage: 'usage: /nps-schedule-survey (--now | --weekly | --monthly | --quarterly) --force',

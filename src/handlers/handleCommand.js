@@ -37,6 +37,8 @@ module.exports = req => Form.parse(req).then(async fields => {
             return status(team)
           case '/nps-generate-report':
             return generateReport(team, userID, args)
+          case '/nps-help':
+            return message.help
           default:
             throw new Error(message.error.invalidCommand)
         }
