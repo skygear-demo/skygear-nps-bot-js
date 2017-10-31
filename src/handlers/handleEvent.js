@@ -1,8 +1,10 @@
-/* eslint-disable */
 const message = require('../message')
+const Team = require('../team')
+const User = require('../user')
 const { log, verify } = require('../util')
+const { hi } = require('./events')
 
-module.exports = req => {
+module.exports = async req => {
   /**
    * @see https://api.slack.com/events-api#receiving_events
    */
@@ -22,7 +24,20 @@ module.exports = req => {
       user: userID,
       text, type
     } = event
+
+    const team = await Team.of(teamID)
     switch (type) {
+      case 'message':
+        // ignore bot messages, avoid loop with self
+        if (userID) {
+          const user = new User(userID, team)
+          if (await user.isAdmin) {
+            if (text.substr(0, 2).toLowerCase() === 'hi') {
+              hi(team, channelID)
+            }
+          }
+        }
+        break
       default:
         break
     }

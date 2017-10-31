@@ -1,4 +1,5 @@
 module.exports = {
+  hi: 'May I help you?',
   ok: 'OK',
   command: {
     '/nps-schedule-survey': {
