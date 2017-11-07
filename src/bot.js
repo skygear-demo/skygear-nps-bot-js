@@ -45,7 +45,7 @@ module.exports = class Bot {
     }
   }
 
-  async distribute (survey) {
+  async distribute (survey, targetsID) {
     let closingNotice
     switch (survey.frequency) {
       case 'weekly':
@@ -61,7 +61,7 @@ module.exports = class Bot {
         closingNotice = ''
     }
 
-    return this.sendToUsers(survey.targetsID, '', [
+    const attachments = [
       {
         title: message.survey.title,
         text: 'Help give a 10 seconds feedback to the team?' + closingNotice,
@@ -92,7 +92,9 @@ module.exports = class Bot {
           }
         ]
       }
-    ])
+    ]
+
+    return targetsID ? this.sendToUsers(targetsID, '', attachments) : this.sendToUsers(survey.targetsID, '', attachments)
   }
 
   async openSurveyDialog (surveyID, triggerId, responseURL) {

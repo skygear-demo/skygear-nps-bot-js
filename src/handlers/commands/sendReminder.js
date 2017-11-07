@@ -8,6 +8,7 @@ module.exports = async team => {
     const silentTargetsID = Set(activeSurvey.targetsID).subtract(Set(await activeSurvey.respondentsID))
     const team = await Team.of(activeSurvey.teamID)
     team.bot.sendToUsers(silentTargetsID, 'Hi! Please submit the NPS survey. We need your opinions to improve:)')
+    team.bot.distribute(activeSurvey, silentTargetsID)
     return message.ok
   } else {
     return 'No active survey'
