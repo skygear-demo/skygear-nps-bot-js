@@ -8,7 +8,7 @@ module.exports = async (team, givenTargets) => {
     return command.usage
   }
 
-  const givenTargetsID = []
+  let givenTargetsID = []
   for (let givenTarget of givenTargets) {
     /**
      * @see https://regex101.com/
@@ -20,8 +20,15 @@ module.exports = async (team, givenTargets) => {
       return command.error.invalidUser(givenTarget) + '\n' + command.usage
     }
   }
+  givenTargetsID = Set(givenTargetsID) // remove duplicates
 
-  team.targetsID = Set(team.targetsID).subtract(Set(givenTargetsID)).toJS() // remove duplicates
+  const oldTargetsID = Set(team.targetsID)
+  const targetsIDToBeRemoved = oldTargetsID.intersect(givenTargetsID) // what are given may not in the list
+  if (targetsIDToBeRemoved.size === 0) {
+    const targets = team.targetsID.map(targetID => `<@${targetID}>`)
+    return `Nobody removed, here is the list of current targets:\n${targets.join('\n')}`
+  }
+  team.targetsID = oldTargetsID.subtract(targetsIDToBeRemoved).toJS()
   await team.update()
 
   const scheduledSurvey = await team.scheduledSurvey
@@ -30,6 +37,7 @@ module.exports = async (team, givenTargets) => {
     await scheduledSurvey.update()
   }
 
+  const targetsToBeRemoved = targetsIDToBeRemoved.map(targetIDToBeRemoved => `<@${targetIDToBeRemoved}>`)
   const targets = team.targetsID.map(targetID => `<@${targetID}>`)
-  return `Users below will receive NPS survey:\n${targets.join('\n')}\n(changes will be effective in next survey)`
+  return `${targetsToBeRemoved.join(', ')} removed, here is the new list effective in next survey:\n${targets.join('\n')}`
 }

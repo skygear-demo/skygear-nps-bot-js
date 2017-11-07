@@ -64,7 +64,7 @@ module.exports = class Bot {
     return this.sendToUsers(survey.targetsID, '', [
       {
         title: message.survey.title,
-        text: 'What do you think about the company?' + closingNotice,
+        text: 'Help give a 10 seconds feedback to the team?' + closingNotice,
         fallback: 'You are unable to answer the survey',
         callback_id: JSON.stringify({
           callback: 'answerSurvey',

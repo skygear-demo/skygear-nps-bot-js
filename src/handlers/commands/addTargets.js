@@ -8,7 +8,7 @@ module.exports = async (team, givenTargets) => {
     return command.usage
   }
 
-  const givenTargetsID = []
+  let givenTargetsID = []
   for (let givenTarget of givenTargets) {
     /**
      * @see https://regex101.com/
@@ -20,9 +20,15 @@ module.exports = async (team, givenTargets) => {
       return command.error.invalidUser(givenTarget) + '\n' + command.usage
     }
   }
+  givenTargetsID = Set(givenTargetsID) // remove duplicates
 
-  team.targetsID = team.targetsID.concat(givenTargetsID)
-  team.targetsID = Set(team.targetsID).toJS() // remove duplicates
+  const oldTargetsID = Set(team.targetsID)
+  const newTargetsID = givenTargetsID.subtract(oldTargetsID) // what are given may be already in the list
+  if (newTargetsID.size === 0) {
+    const targets = team.targetsID.map(targetID => `<@${targetID}>`)
+    return `Nobody added, here is the list of current targets:\n${targets.join('\n')}`
+  }
+  team.targetsID = oldTargetsID.concat(newTargetsID).toJS()
   await team.update()
 
   const scheduledSurvey = await team.scheduledSurvey
@@ -31,6 +37,7 @@ module.exports = async (team, givenTargets) => {
     await scheduledSurvey.update()
   }
 
+  const newTargets = newTargetsID.map(newTargetID => `<@${newTargetID}>`)
   const targets = team.targetsID.map(targetID => `<@${targetID}>`)
-  return `Users below will receive NPS survey:\n${targets.join('\n')}\n(changes will be effective in next survey)`
+  return `${newTargets.join(', ')} added, here is the new list effective in next survey:\n${targets.join('\n')}`
 }
