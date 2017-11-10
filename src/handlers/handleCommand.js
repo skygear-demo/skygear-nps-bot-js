@@ -1,16 +1,22 @@
+/* eslint-disable */
 const { DEVELOPMENT_MODE, DEVELOPMENT_TEAM_ID } = require('../config')
 const message = require('../message')
 const Team = require('../team')
 const User = require('../user')
 const { Form, log, verify } = require('../util')
-const { scheduleSurvey, listTargets, addTargets, removeTargets, stopSurvey, sendReminder, status, generateReport } = require('./commands')
+const { scheduleSurvey, listTargets, addTargets, removeTargets, stopSurvey, sendReminder, status, generateReport, summary } = require('./commands')
 
-module.exports = req => Form.parse(req).then(async fields => {
+module.exports = async (req, isFromInternal) => {
+  if (isFromInternal !== true) { // skygear handler will put an object in 2nd arg
+    req = await Form.parse(req)
+    console.log('txtx', req)
+  }
+  
   const {
     team_id: teamID,
     user_id: userID,
     command, text, token
-  } = log(fields)
+  } = log(req)
 
   if (verify(token)) {
     if (DEVELOPMENT_MODE && teamID !== DEVELOPMENT_TEAM_ID) {
@@ -39,6 +45,8 @@ module.exports = req => Form.parse(req).then(async fields => {
             return generateReport(team, userID, args)
           case '/nps-help':
             return message.help
+          case '/nps-summary':
+            return summary(team, userID, args)
           default:
             throw new Error(message.error.invalidCommand)
         }
@@ -49,4 +57,4 @@ module.exports = req => Form.parse(req).then(async fields => {
   } else {
     throw new Error(message.error.invalidSource)
   }
-})
+}

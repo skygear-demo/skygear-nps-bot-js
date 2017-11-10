@@ -1,3 +1,4 @@
+const moment = require('moment')
 const util = require('util')
 const { VERIFICATION_TOKEN } = require('./config')
 
@@ -32,3 +33,14 @@ exports.Form = class {
  * @see https://api.slack.com/docs/token-types#verification
  */
 exports.verify = token => token === VERIFICATION_TOKEN
+
+exports.toLocalDate = date => {
+  if (moment.isMoment(date) || moment.isDate(date)) {
+    if (!moment.isMoment(date)) {
+      date = moment(date)
+    }
+    return `<!date^${date.unix()}^{date_num}|${moment(date).format()}>`
+  } else {
+    throw new Error('Invalid date')
+  }
+}

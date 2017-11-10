@@ -39,6 +39,9 @@ module.exports = {
     '/nps-status': {},
     '/nps-generate-report': {
       usage: 'usage: /nps-generate-report (--all | <number of latest surveys>)'
+    },
+    '/nps-summary': {
+      usage: 'usage: /nps-summary (--all | <number of latest surveys>)'
     }
   },
   survey: {

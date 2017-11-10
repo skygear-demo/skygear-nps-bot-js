@@ -4,8 +4,9 @@ const message = require('../message')
 const Team = require('../team')
 const { Form, log, verify } = require('../util')
 const { answerSurvey, submitSurvey } = require('./actions')
-const { listTargets, stopSurvey, sendReminder, status, generateReport } = require('./commands')
+// const { listTargets, stopSurvey, sendReminder, status, generateReport } = require('./commands')
 const { showCommandButtons } = require('./events')
+const handleCommand = require('./handleCommand')
 
 module.exports = req => Form.parse(req).then(async fields => {
   /**
@@ -46,38 +47,21 @@ module.exports = req => Form.parse(req).then(async fields => {
           return submitSurvey(id, userID, url, submission)
         case 'issueCommand':
           const [command, ...args] = chosen.split(' ')
-          switch (command) {
-            case '/nps-list-targets':
-              axios.post(responseURL, {
-                text: await listTargets(team)
-              })
-              break
-            case '/nps-stop-survey':
-              axios.post(responseURL, {
-                text: await stopSurvey(team)
-              })
-              break
-            case '/nps-send-reminder':
-              axios.post(responseURL, {
-                text: await sendReminder(team)
-              })
-              break
-            case '/nps-status':
-              axios.post(responseURL, await status(team))
-              break
-            case '/nps-generate-report':
-              axios.post(responseURL, {
-                text: await generateReport(team, userID, args)
-              })
-              break
-            case '/nps-help':
-              axios.post(responseURL, {
-                text: message.help
-              })
-              break
-            default:
-              throw new Error(message.error.invalidCommand)
+          let result = await handleCommand({
+            team_id: teamID,
+            user_id: userID,
+            text: args.join(' '),
+            command,
+            token
+          }, true)
+
+          if (typeof result === 'string') {
+            result = {
+              text: result
+            }
           }
+
+          await axios.post(responseURL, result)
           showCommandButtons(team, channelID)
           break
         default:

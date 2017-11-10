@@ -26,6 +26,7 @@ module.exports = async frequency => {
     }
     // send new survey
     team.bot.distribute(scheduledSurvey)
+    scheduledSurvey.distributionDate = new Date()
     scheduledSurvey.isSent = true
     await scheduledSurvey.update()
     // clone to reschedule

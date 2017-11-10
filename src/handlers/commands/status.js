@@ -1,4 +1,5 @@
-const moment = require('../../../modules/moment')
+const moment = require('moment')
+const { toLocalDate } = require('../../util')
 
 module.exports = async team => {
   const scheduledSurvey = await team.scheduledSurvey
@@ -40,7 +41,7 @@ module.exports = async team => {
       },
       {
         title: 'Will be distributed at',
-        value: `<!date^${distributionDate.unix()}^{date_num}|${distributionDate.format()}>`,
+        value: toLocalDate(distributionDate),
         short: true
       }
     ]

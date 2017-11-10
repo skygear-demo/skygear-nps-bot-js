@@ -29,7 +29,13 @@ module.exports = async (team, channelID) => {
         },
         {
           name: 'command',
-          text: 'Get latest report',
+          text: 'Get summary of latest survey',
+          type: 'button',
+          value: '/nps-summary 1'
+        },
+        {
+          name: 'command',
+          text: 'Get report of latest survey',
           type: 'button',
           value: '/nps-generate-report 1'
         }

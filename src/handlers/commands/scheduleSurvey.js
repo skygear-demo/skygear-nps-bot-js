@@ -1,6 +1,7 @@
-const moment = require('../../../modules/moment')
+const moment = require('moment')
 const message = require('../../message')
 const Survey = require('../../survey')
+const { toLocalDate } = require('../../util')
 
 const VALID_OPTIONS = [
   '--now',
@@ -30,21 +31,23 @@ module.exports = async (team, [$1, ...rest]) => {
       switch (frequency) {
         case 'now':
           team.bot.distribute(survey)
+          survey.distributionDate = new Date()
           survey.isSent = true
           survey.update()
           return message.ok + '. The survey will be distributed now.'
         case 'weekly':
           distributionDate = moment().add(1, 'w').startOf('week')
-          return message.ok + `. The survey will be distributed at <!date^${distributionDate.unix()}^{date_num}|${distributionDate.format()}>.`
+          break
         case 'monthly':
           distributionDate = moment().add(1, 'M').startOf('month')
-          return message.ok + `. The survey will be distributed at <!date^${distributionDate.unix()}^{date_num}|${distributionDate.format()}>.`
+          break
         case 'quarterly':
           distributionDate = moment().add(1, 'Q').startOf('quarter')
-          return message.ok + `. The survey will be distributed at <!date^${distributionDate.unix()}^{date_num}|${distributionDate.format()}>.`
+          break
         default:
           throw new Error('Invalid frequency')
       }
+      return message.ok + `. The survey will be distributed at ${toLocalDate(distributionDate)}.`
     } else {
       return command.error.illegalOption($1) + '\n' + command.usage
     }

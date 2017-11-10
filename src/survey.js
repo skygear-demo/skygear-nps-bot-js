@@ -17,6 +17,8 @@ module.exports = class Survey {
       teamID,
       frequency,
       targetsID,
+      distributionDate: new Date(),
+      closingDate: new Date(),
       isSent: false,
       isClosed: false
     }))
@@ -42,6 +44,14 @@ module.exports = class Survey {
 
   get targetsID () {
     return this._record['targetsID']
+  }
+
+  get distributionDate () {
+    return this._record['distributionDate']
+  }
+
+  get closingDate () {
+    return this._record['closingDate']
   }
 
   get isSent () {
@@ -105,6 +115,14 @@ module.exports = class Survey {
   // update
   set targetsID (newValue) {
     this._record['targetsID'] = newValue
+  }
+
+  set distributionDate (newValue) {
+    this._record['distributionDate'] = newValue
+  }
+
+  set closingDate (newValue) {
+    this._record['closingDate'] = newValue
   }
 
   set isSent (newValue) {
@@ -185,6 +203,7 @@ module.exports = class Survey {
 
   close () {
     this.isClosed = true
+    this.closingDate = new Date()
     return this.update()
   }
 }

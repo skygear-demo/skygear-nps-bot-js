@@ -999,22 +999,22 @@ error-ex@^1.2.0:
   dependencies:
     is-arrayish "^0.2.1"
 
-es5-ext@^0.10.14, es5-ext@^0.10.9, es5-ext@~0.10.14:
-  version "0.10.30"
-  resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.30.tgz#7141a16836697dbabfaaaeee41495ce29f52c939"
+es5-ext@^0.10.35, es5-ext@^0.10.9, es5-ext@~0.10.14:
+  version "0.10.35"
+  resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.35.tgz#18ee858ce6a3c45c7d79e91c15fcca9ec568494f"
   dependencies:
-    es6-iterator "2"
-    es6-symbol "~3.1"
+    es6-iterator "~2.0.1"
+    es6-symbol "~3.1.1"
 
-es6-iterator@2:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/es6-iterator/-/es6-iterator-2.0.1.tgz#8e319c9f0453bf575d374940a655920e59ca5512"
+es6-iterator@~2.0.1:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/es6-iterator/-/es6-iterator-2.0.3.tgz#a7de889141a05a94b0854403b2d0a0fbfa98f3b7"
   dependencies:
     d "1"
-    es5-ext "^0.10.14"
-    es6-symbol "^3.1"
+    es5-ext "^0.10.35"
+    es6-symbol "^3.1.1"
 
-es6-symbol@^3.1, es6-symbol@~3.1:
+es6-symbol@^3.1.1, es6-symbol@~3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/es6-symbol/-/es6-symbol-3.1.1.tgz#bf00ef4fdab6ba1b46ecb7b629b4c7ed5715cc77"
   dependencies:
@@ -1564,9 +1564,13 @@ is-binary-path@^1.0.0:
   dependencies:
     binary-extensions "^1.0.0"
 
-is-buffer@^1.1.5, is-buffer@~1.1.1:
+is-buffer@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.5.tgz#1f3b26ef613b214b88cbca23cc6c01d87961eecc"
+
+is-buffer@~1.1.1:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
 
 is-builtin-module@^1.0.0:
   version "1.0.0"
@@ -1892,6 +1896,10 @@ minimist@^1.2.0:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
+
+moment@^2.19.1:
+  version "2.19.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.1.tgz#56da1a2d1cbf01d38b7e1afc31c10bcfa1929167"
 
 ms@2.0.0:
   version "2.0.0"
@@ -2488,9 +2496,9 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
-skygear-core@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/skygear-core/-/skygear-core-1.1.0.tgz#593ae6f8ee253211b60afb49f500953c8186d520"
+skygear-core@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/skygear-core/-/skygear-core-1.1.2.tgz#93994d0a4ef87073551d532534d565e8219c1fcf"
   dependencies:
     Base64 "^0.3.0"
     amazon-s3-url-signer "^0.1.0"
@@ -2511,18 +2519,18 @@ skygear-core@^1.1.0:
     w3c-blob "0.0.1"
     websocket "^1.0.23"
 
-skygear-forgot-password@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/skygear-forgot-password/-/skygear-forgot-password-1.1.0.tgz#b19d5644182581e5f145d1e1336b0bb20dfd8028"
+skygear-forgot-password@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/skygear-forgot-password/-/skygear-forgot-password-1.1.2.tgz#efdf0c9fb31fd8b3af39d922be3a8dc82f7f64e4"
   dependencies:
-    skygear-core "^1.1.0"
+    skygear-core "^1.1.2"
 
-skygear@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/skygear/-/skygear-1.1.0.tgz#db3edc5e7a1f61553604ed9d5690081201207f96"
+skygear@^1.1.1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/skygear/-/skygear-1.1.2.tgz#d656434641385be7585a7e69cd9dbe6ebc2a0b3b"
   dependencies:
-    skygear-core "^1.1.0"
-    skygear-forgot-password "^1.1.0"
+    skygear-core "^1.1.2"
+    skygear-forgot-password "^1.1.2"
 
 slash@^1.0.0:
   version "1.0.0"
@@ -2648,8 +2656,8 @@ strip-json-comments@~2.0.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
 superagent@^3.4:
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/superagent/-/superagent-3.6.3.tgz#eb95fcb576a9d23a730a9d0789731b5379a36cdc"
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/superagent/-/superagent-3.8.1.tgz#2571fd921f3fcdba43ac68c3b35c91951532701f"
   dependencies:
     component-emitter "^1.2.0"
     cookiejar "^2.1.0"
@@ -2827,8 +2835,8 @@ w3c-blob@0.0.1:
   resolved "https://registry.yarnpkg.com/w3c-blob/-/w3c-blob-0.0.1.tgz#b0cd352a1a50f515563420ffd5861f950f1d85b8"
 
 websocket@^1.0.23:
-  version "1.0.24"
-  resolved "https://registry.yarnpkg.com/websocket/-/websocket-1.0.24.tgz#74903e75f2545b6b2e1de1425bc1c905917a1890"
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/websocket/-/websocket-1.0.25.tgz#998ec790f0a3eacb8b08b50a4350026692a11958"
   dependencies:
     debug "^2.2.0"
     nan "^2.3.3"
