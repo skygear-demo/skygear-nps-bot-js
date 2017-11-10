@@ -5,7 +5,7 @@ const VALID_OPTIONS = [
   '--all'
 ]
 
-module.exports = async (team, userID, [$1, ...rest]) => {
+module.exports = async (team, [$1, ...rest]) => {
   const command = message.command['/nps-summary']
 
   if ($1 && rest.length === 0) {
@@ -21,7 +21,7 @@ module.exports = async (team, userID, [$1, ...rest]) => {
     }
 
     if (surveys.length < 1) {
-      return 'No survey found'
+      return 'No closed survey found'
     }
 
     const attachments = []

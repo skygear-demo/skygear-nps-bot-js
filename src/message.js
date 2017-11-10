@@ -2,15 +2,16 @@ module.exports = {
   hi: 'May I help you?',
   ok: 'OK',
   help: `Usages:\n
-  • Show a list of survey's targets: /nps-list-targets\n
-  • Remove member(s) from the target list: /nps-remove-targets\n
-  • Add member(s) to the target list: /nps-add-targets\n
-  • Schedule a survey: /nps-schedule-survey\n
-  • Remind silent members to complete the survey: /nps-send-reminder\n
-  • Unschedule or close a survey: /nps-stop-survey\n
-  • View the result of closed surveys: /nps-generate-report\n
-  • Know what's happening now: /nps-status\n
-  • Show this message again: /nps-help\n
+  • Show a list of survey's targets: \`/nps-list-targets\`\n
+  • Remove member(s) from the target list: \`/nps-remove-targets\`\n
+  • Add member(s) to the target list: \`/nps-add-targets\`\n
+  • Schedule a survey: \`/nps-schedule-survey\`\n
+  • Remind silent members to complete the survey: \`/nps-send-reminder\`\n
+  • Unschedule or close a survey: \`/nps-stop-survey\`\n
+  • Get the summary of closed surveys: \`/nps-summary\`\n
+  • Retrieve the result of closed surveys: \`/nps-export-result\`\n
+  • Know what's happening now: \`/nps-status\`\n
+  • Show this message again: \`/nps-help\`\n
   `,
   command: {
     '/nps-schedule-survey': {
@@ -37,11 +38,11 @@ module.exports = {
     '/nps-stop-survey': {},
     '/nps-send-reminder': {},
     '/nps-status': {},
-    '/nps-generate-report': {
-      usage: 'usage: /nps-generate-report (--all | <number of latest surveys>)'
-    },
     '/nps-summary': {
       usage: 'usage: /nps-summary (--all | <number of latest surveys>)'
+    },
+    '/nps-export-result': {
+      usage: 'usage: /nps-export-result (--all | <number of latest surveys>)'
     }
   },
   survey: {

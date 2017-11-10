@@ -4,7 +4,6 @@ const message = require('../message')
 const Team = require('../team')
 const { Form, log, verify } = require('../util')
 const { answerSurvey, submitSurvey } = require('./actions')
-// const { listTargets, stopSurvey, sendReminder, status, generateReport } = require('./commands')
 const { showCommandButtons } = require('./events')
 const handleCommand = require('./handleCommand')
 

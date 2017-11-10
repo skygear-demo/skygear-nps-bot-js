@@ -4,12 +4,11 @@ const message = require('../message')
 const Team = require('../team')
 const User = require('../user')
 const { Form, log, verify } = require('../util')
-const { scheduleSurvey, listTargets, addTargets, removeTargets, stopSurvey, sendReminder, status, generateReport, summary } = require('./commands')
+const { scheduleSurvey, listTargets, addTargets, removeTargets, stopSurvey, sendReminder, status, exportResult, summary } = require('./commands')
 
 module.exports = async (req, isFromInternal) => {
   if (isFromInternal !== true) { // skygear handler will put an object in 2nd arg
     req = await Form.parse(req)
-    console.log('txtx', req)
   }
   
   const {
@@ -41,12 +40,12 @@ module.exports = async (req, isFromInternal) => {
             return sendReminder(team)
           case '/nps-status':
             return status(team)
-          case '/nps-generate-report':
-            return generateReport(team, userID, args)
+          case '/nps-export-result':
+            return exportResult(team, userID, args)
           case '/nps-help':
             return message.help
           case '/nps-summary':
-            return summary(team, userID, args)
+            return summary(team, args)
           default:
             throw new Error(message.error.invalidCommand)
         }

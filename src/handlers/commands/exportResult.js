@@ -1,3 +1,4 @@
+const moment = require('moment')
 const message = require('../../message')
 
 const VALID_OPTIONS = [
@@ -5,7 +6,7 @@ const VALID_OPTIONS = [
 ]
 
 module.exports = async (team, userID, [$1, ...rest]) => {
-  const command = message.command['/nps-generate-report']
+  const command = message.command['/nps-export-result']
 
   if ($1 && rest.length === 0) {
     const numberOfSurveys = parseInt($1)
@@ -19,9 +20,13 @@ module.exports = async (team, userID, [$1, ...rest]) => {
       return command.usage
     }
 
+    if (surveys.length < 1) {
+      return 'No closed survey found'
+    }
+
     for (let survey of surveys) {
       const replies = (await survey.replies).map(reply => `\r\n${reply.score},${reply.reason}`)
-      await team.bot.upload('score,reason' + replies, 'report', userID)
+      await team.bot.upload('score,reason' + replies, `report-${moment(survey.distributionDate).format('YYYY-MM-DD')}`, userID)
     }
 
     return message.ok
