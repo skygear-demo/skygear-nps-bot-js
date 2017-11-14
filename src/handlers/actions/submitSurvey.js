@@ -3,13 +3,14 @@ const message = require('../../message')
 const Reply = require('../../reply')
 const Survey = require('../../survey')
 
-module.exports = async (surveyID, userID, responseURL, { score, reason }) => {
+module.exports = async (surveyID, user, team, responseURL, { score, reason }) => {
   const survey = await Survey.of(surveyID)
   if (survey.isClosed) {
-    axios.post(responseURL, {
-      text: 'This survey has closed'
-    })
-    return
+    return 'This survey has closed'
+  }
+
+  if (await user.hasReplied(surveyID)) {
+    return 'You have already answered'
   }
 
   score = parseInt(score)
@@ -23,7 +24,7 @@ module.exports = async (surveyID, userID, responseURL, { score, reason }) => {
       ]
     }
   }
-  await Reply.create(surveyID, userID, score, reason || '')
+  await Reply.create(surveyID, user.id, score, reason || '')
   axios.post(responseURL, {
     text: message.survey.acknowledgement
   })

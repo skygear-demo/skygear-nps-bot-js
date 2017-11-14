@@ -2,6 +2,7 @@ const axios = require('axios')
 const { DEVELOPMENT_MODE, DEVELOPMENT_TEAM_ID } = require('../config')
 const message = require('../message')
 const Team = require('../team')
+const User = require('../user')
 const { Form, log, verify } = require('../util')
 const { answerSurvey, submitSurvey } = require('./actions')
 const { showCommandButtons } = require('./events')
@@ -39,11 +40,12 @@ module.exports = req => Form.parse(req).then(async fields => {
       }
 
       const team = await Team.of(teamID)
+      const user = new User(userID, team)
       switch (callback) {
         case 'answerSurvey':
-          return answerSurvey(id, userID, team, chosen, triggerID, responseURL)
+          return answerSurvey(id, user, team, chosen, triggerID, responseURL)
         case 'submitSurvey':
-          return submitSurvey(id, userID, url, submission)
+          return submitSurvey(id, user, team, url, submission)
         case 'issueCommand':
           const [command, ...args] = chosen.split(' ')
           let result = await handleCommand({
