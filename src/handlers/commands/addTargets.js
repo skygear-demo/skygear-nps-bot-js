@@ -26,7 +26,7 @@ module.exports = async (team, givenTargets) => {
   const newTargetsID = givenTargetsID.subtract(oldTargetsID) // what are given may be already in the list
   if (newTargetsID.size === 0) {
     const targets = team.targetsID.map(targetID => `<@${targetID}>`)
-    return `Nobody added, here is the list of current targets:\n${targets.join('\n')}`
+    return `/nps-add-targets: Nobody added, here is the list of current targets:\n${targets.join('\n')}`
   }
   team.targetsID = oldTargetsID.concat(newTargetsID).toJS()
   await team.update()
@@ -39,5 +39,5 @@ module.exports = async (team, givenTargets) => {
 
   const newTargets = newTargetsID.map(newTargetID => `<@${newTargetID}>`)
   const targets = team.targetsID.map(targetID => `<@${targetID}>`)
-  return `${newTargets.join(', ')} added, here is the new list effective in next survey:\n${targets.join('\n')}`
+  return `/nps-add-targets: ${newTargets.join(', ')} added, here is the new list effective in next survey:\n${targets.join('\n')}`
 }

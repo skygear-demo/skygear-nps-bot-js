@@ -21,7 +21,7 @@ module.exports = async (team, [$1, ...rest]) => {
     }
 
     if (surveys.length < 1) {
-      return 'No closed survey found'
+      return '/nps-summary: No closed survey found'
     }
 
     const attachments = []
@@ -50,6 +50,7 @@ module.exports = async (team, [$1, ...rest]) => {
     }
 
     return {
+      text: '/nps-summary:',
       attachments
     }
   } else {

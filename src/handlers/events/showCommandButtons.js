@@ -1,9 +1,8 @@
 const message = require('../../message')
 
-module.exports = async (team, channelID) => {
+module.exports = async (team, channelID, isTriggeredByUser) => {
   const attachments = [
     {
-      text: message.hi,
       fallback: 'You are unable to issue commands via buttons',
       callback_id: JSON.stringify({
         callback: 'issueCommand'
@@ -49,6 +48,10 @@ module.exports = async (team, channelID) => {
       actions: []
     }
   ]
+
+  if (isTriggeredByUser) {
+    attachments[0].text = message.hi
+  }
 
   const scheduledSurvey = await team.scheduledSurvey
   const activeSurvey = await team.activeSurvey

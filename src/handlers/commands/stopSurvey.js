@@ -11,8 +11,8 @@ module.exports = async team => {
     if (scheduledSurvey) {
       await scheduledSurvey.delete()
     }
-    return message.ok
+    return `/nps-stop-survey: ${message.ok}`
   } else {
-    return 'No active or scheduled survey'
+    return '/nps-stop-survey: No active or scheduled survey'
   }
 }

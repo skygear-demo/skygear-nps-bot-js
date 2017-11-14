@@ -47,7 +47,7 @@ module.exports = async (team, [$1, ...rest]) => {
         default:
           throw new Error('Invalid frequency')
       }
-      return message.ok + `. The survey will be distributed at ${toLocalDate(distributionDate)}.`
+      return `/nps-schedule-survey: The survey will be distributed at ${toLocalDate(distributionDate)}.`
     } else {
       return command.error.illegalOption($1) + '\n' + command.usage
     }

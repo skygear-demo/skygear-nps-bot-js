@@ -5,6 +5,7 @@ module.exports = async team => {
   const scheduledSurvey = await team.scheduledSurvey
   const activeSurvey = await team.activeSurvey
   const status = {
+    text: '/nps-status:',
     attachments: [
       {
         title: 'Scheduled survey',

@@ -32,7 +32,7 @@ module.exports = async req => {
         if (userID) {
           const user = new User(userID, team)
           if (await user.isAdmin) {
-            showCommandButtons(team, channelID)
+            showCommandButtons(team, channelID, true)
           }
         }
         break

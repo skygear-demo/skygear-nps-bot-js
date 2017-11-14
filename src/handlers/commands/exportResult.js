@@ -21,7 +21,7 @@ module.exports = async (team, userID, [$1, ...rest]) => {
     }
 
     if (surveys.length < 1) {
-      return 'No closed survey found'
+      return '/nps-export-result: No closed survey found'
     }
 
     for (let survey of surveys) {
@@ -30,7 +30,7 @@ module.exports = async (team, userID, [$1, ...rest]) => {
       await team.bot.upload('score,reason' + replies, `Response rate: ${stats.submissionCount} out of ${stats.targetsCount}, ${(stats.responseRate * 100).toFixed(2)}%\nAverage score: ${stats.averageScore.toFixed(2)}`, `report-${moment(survey.distributionDate).format('YYYY-MM-DD')}`, userID)
     }
 
-    return message.ok
+    return '/nps-export-result:'
   } else {
     return command.usage
   }

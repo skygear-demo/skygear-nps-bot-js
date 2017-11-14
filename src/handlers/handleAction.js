@@ -63,7 +63,7 @@ module.exports = req => Form.parse(req).then(async fields => {
           }
 
           await axios.post(responseURL, result)
-          showCommandButtons(team, channelID)
+          showCommandButtons(team, channelID, false)
           break
         default:
           throw new Error(message.error.invalidActionCallback)

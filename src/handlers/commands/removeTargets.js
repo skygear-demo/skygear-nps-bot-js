@@ -26,7 +26,7 @@ module.exports = async (team, givenTargets) => {
   const targetsIDToBeRemoved = oldTargetsID.intersect(givenTargetsID) // what are given may not in the list
   if (targetsIDToBeRemoved.size === 0) {
     const targets = team.targetsID.map(targetID => `<@${targetID}>`)
-    return `Nobody removed, here is the list of current targets:\n${targets.join('\n')}`
+    return `/nps-remove-targets: Nobody removed, here is the list of current targets:\n${targets.join('\n')}`
   }
   team.targetsID = oldTargetsID.subtract(targetsIDToBeRemoved).toJS()
   await team.update()
@@ -39,5 +39,5 @@ module.exports = async (team, givenTargets) => {
 
   const targetsToBeRemoved = targetsIDToBeRemoved.map(targetIDToBeRemoved => `<@${targetIDToBeRemoved}>`)
   const targets = team.targetsID.map(targetID => `<@${targetID}>`)
-  return `${targetsToBeRemoved.join(', ')} removed, here is the new list effective in next survey:\n${targets.join('\n')}`
+  return `/nps-remove-targets: ${targetsToBeRemoved.join(', ')} removed, here is the new list effective in next survey:\n${targets.join('\n')}`
 }
