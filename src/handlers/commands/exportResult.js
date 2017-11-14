@@ -26,7 +26,8 @@ module.exports = async (team, userID, [$1, ...rest]) => {
 
     for (let survey of surveys) {
       const replies = (await survey.replies).map(reply => `\r\n${reply.score},${reply.reason}`)
-      await team.bot.upload('score,reason' + replies, `report-${moment(survey.distributionDate).format('YYYY-MM-DD')}`, userID)
+      const stats = await survey.stats
+      await team.bot.upload('score,reason' + replies, `Response rate: ${stats.submissionCount} out of ${stats.targetsCount}, ${(stats.responseRate * 100).toFixed(2)}%\nAverage score: ${stats.averageScore.toFixed(2)}`, `report-${moment(survey.distributionDate).format('YYYY-MM-DD')}`, userID)
     }
 
     return message.ok

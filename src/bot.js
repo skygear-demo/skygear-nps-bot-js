@@ -171,11 +171,12 @@ module.exports = class Bot {
     return this._client.dialog.open(JSON.stringify(dialog), triggerId)
   }
 
-  async upload (report, filename, userID) {
+  async upload (report, comment, filename, userID) {
     const im = (await this.fetchIMsOf([userID]))[0]
     return this._client.files.upload(filename + '.csv', {
       channels: im.id,
-      content: report
+      content: report,
+      initial_comment: comment
     })
   }
 }
