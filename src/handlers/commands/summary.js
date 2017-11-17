@@ -29,6 +29,7 @@ module.exports = async (team, [$1, ...rest]) => {
       const stats = await survey.stats
       const summary = {
         title: `Summary of survey sent at ${toLocalDate(survey.distributionDate)}`,
+        image_url: `https://image-charts.com/chart?cht=bvs&chs=640x360&chxt=x,y&chxl=0:|score%201|2|3|4|5|6|7|8|9|10&chd=t:${stats.scoresCount.join()}&chtt=Score%20Distribution`,
         fields: [
           {
             title: 'Response rate',

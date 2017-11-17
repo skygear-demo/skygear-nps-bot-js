@@ -165,19 +165,22 @@ module.exports = class Survey {
     return db.query(query).then(result => {
       let sum = 0
       let count = 0
+      let scoresCount = Array(10).fill(0)
       for (let i = 0; i < result.length; i++) {
         const score = result[i].score
         // submitted: number; skipped: null
         if (Number.isInteger(score)) {
           sum += score
           count += 1
+          scoresCount[score - 1] += 1
         }
       }
       return {
         submissionCount: count,
         targetsCount: this.targetsID.length,
         responseRate: count / this.targetsID.length, // submitted / targets #,
-        averageScore: sum / count // ignore skipped or silent targets
+        averageScore: sum / count, // ignore skipped or silent targets
+        scoresCount
       }
     })
   }
