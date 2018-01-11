@@ -1,7 +1,7 @@
 module.exports = {
   hi: 'May I help you?',
   ok: 'OK',
-  help: `Usages:\n
+  help: `Greeting from NPS Bot! Below are my usages:\n
   • Show a list of survey's targets: \`/nps-list-targets\`\n
   • Remove member(s) from the target list: \`/nps-remove-targets\`\n
   • Add member(s) to the target list: \`/nps-add-targets\`\n

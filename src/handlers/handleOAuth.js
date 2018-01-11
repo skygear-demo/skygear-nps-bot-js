@@ -2,6 +2,7 @@ const { WebClient } = require('@slack/client')
 const { SkygearResponse } = require('skygear/cloud')
 const Bot = require('../bot')
 const { APP_NAME, SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } = require('../config')
+const message = require('../message')
 const Team = require('../team')
 const { extractIDs, log } = require('../util')
 
@@ -16,7 +17,8 @@ module.exports = req => {
     return new WebClient().oauth.access(SLACK_CLIENT_ID, SLACK_CLIENT_SECRET, code).then(async res => {
       const {
         bot: { bot_access_token: token },
-        team_id: teamID
+        team_id: teamID,
+        user_id: userID
       } = log(res)
 
       const bot = new Bot(token)
@@ -30,8 +32,9 @@ module.exports = req => {
         await Team.create(teamID, token, targetsID)
       }
 
+      bot.sendToUsers(userID, message.help)
+
       // redirect to tutorial page
-      console.log('asascaxz', `https://${APP_NAME}.skygeario.com/static/tutorial.html`)
       return new SkygearResponse({
         statusCode: 303,
         headers: {
