@@ -1,7 +1,7 @@
 const { WebClient } = require('@slack/client')
 const { SkygearResponse } = require('skygear/cloud')
 const Bot = require('../bot')
-const { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } = require('../config')
+const { APP_NAME, SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } = require('../config')
 const Team = require('../team')
 const { extractIDs, log } = require('../util')
 
@@ -31,10 +31,11 @@ module.exports = req => {
       }
 
       // redirect to tutorial page
+      console.log('asascaxz', `https://${APP_NAME}.skygeario.com/static/tutorial.html`)
       return new SkygearResponse({
         statusCode: 303,
         headers: {
-          'Location': 'https://npsbottest.skygeario.com/static/tutorial.html'
+          'Location': `https://${APP_NAME}.skygeario.com/static/tutorial.html`
         }
       })
     })
