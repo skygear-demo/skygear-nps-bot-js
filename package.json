@@ -32,6 +32,7 @@
     "commit:dev": "git add -A && git commit -m 'dev'",
     "push:dev": "git push -f skygear-dev HEAD:master",
     "deploy:dev": "yarn run build && yarn run commit:dev && yarn run push:dev",
-    "reset": "git reset --mixed @{u}"
+    "reset": "git reset --mixed @{u}",
+    "deploy": "git push -f skygear HEAD:master"
   }
 }
