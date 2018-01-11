@@ -1,5 +1,5 @@
 const skygearCloud = require('skygear/cloud')
-const { DEVELOPMENT_MODE } = require('./config')
+const { DEVELOPMENT_MODE, DEVELOPMENT_TEAM_ID } = require('./config')
 const { handleOAuth, handleCommand, handleAction, handleEvent } = require('./handlers')
 const { distributeScheduledSurvey } = require('./tasks')
 
@@ -41,8 +41,8 @@ skygearCloud.handler('event', handleEvent, {
   userRequired: false
 })
 
-skygearCloud.every(DEVELOPMENT_MODE ? '@every 30s' : '@weekly', distributeScheduledSurvey.bind(null, 'weekly'))
+skygearCloud.every(DEVELOPMENT_MODE && DEVELOPMENT_TEAM_ID ? '@every 30s' : '@weekly', distributeScheduledSurvey.bind(null, 'weekly'))
 
-skygearCloud.every(DEVELOPMENT_MODE ? '@every 40s' : '@monthly', distributeScheduledSurvey.bind(null, 'monthly'))
+skygearCloud.every(DEVELOPMENT_MODE && DEVELOPMENT_TEAM_ID ? '@every 40s' : '@monthly', distributeScheduledSurvey.bind(null, 'monthly'))
 
-skygearCloud.every(DEVELOPMENT_MODE ? '@every 50s' : '0 0 0 1 */3 *', distributeScheduledSurvey.bind(null, 'quarterly'))
+skygearCloud.every(DEVELOPMENT_MODE && DEVELOPMENT_TEAM_ID ? '@every 50s' : '0 0 0 1 */3 *', distributeScheduledSurvey.bind(null, 'quarterly'))
