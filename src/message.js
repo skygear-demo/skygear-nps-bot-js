@@ -36,7 +36,13 @@ module.exports = {
       usage: 'usage: /nps-remove-targets <user> ...'
     },
     '/nps-stop-survey': {},
-    '/nps-send-reminder': {},
+    '/nps-send-reminder': {
+      messages: [
+        'Hi! Please submit the NPS survey. We need your opinions to improve :)',
+        'Hey, just a quick reminder, it would be helpful :)',
+        'Please leave your NPS for the team, we can’t improve what we don’t measure~'
+      ]
+    },
     '/nps-status': {},
     '/nps-summary': {
       usage: 'usage: /nps-summary (--all | <number of latest surveys>)'
