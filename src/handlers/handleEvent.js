@@ -1,3 +1,4 @@
+const { DEVELOPMENT_MODE, DEVELOPMENT_TEAM_ID } = require('../config')
 const message = require('../message')
 const Team = require('../team')
 const User = require('../user')
@@ -19,25 +20,29 @@ module.exports = async req => {
       return challenge
     }
 
-    let {
-      channel: channelID,
-      user: userID,
-      type
-    } = event
+    if (DEVELOPMENT_MODE && teamID !== DEVELOPMENT_TEAM_ID) {
+      return message.error.underMaintenance
+    } else {
+      let {
+        channel: channelID,
+        user: userID,
+        type
+      } = event
 
-    const team = await Team.of(teamID)
-    switch (type) {
-      case 'message':
-        // ignore bot messages, avoid loop with self
-        if (userID) {
-          const user = new User(userID, team)
-          if (await user.isAdmin) {
-            showCommandButtons(team, channelID, true)
+      const team = await Team.of(teamID)
+      switch (type) {
+        case 'message':
+          // ignore bot messages, avoid loop with self
+          if (userID) {
+            const user = new User(userID, team)
+            if (await user.isAdmin) {
+              showCommandButtons(team, channelID, true)
+            }
           }
-        }
-        break
-      default:
-        break
+          break
+        default:
+          break
+      }
     }
   } else {
     throw new Error(message.error.invalidSource)
