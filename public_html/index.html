@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NPS Bot</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
   </head>
   <body>
-    <div class="container">
-      <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="container">
         <div class="navbar-brand">
           <a class="navbar-item" href="/static">
             NPS Bot
@@ -33,18 +33,277 @@
             <!-- navbar items -->
           </div>
         </div>
-      </nav>
-    </div>
-    
-    <section class="section">
-      <div class="container">
-        <div class="columns">
-          <div class="column is-half">
-            <h1 class="title">NPS Bot is a Slack app for team admins to measure members' happiness quickly and easily.</h1>
-            <a href="https://slack.com/oauth/authorize?client_id=2154565672.298322608295&scope=commands,bot"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
+      </div>
+    </nav>
+
+    <section class="hero is-medium">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-variable is-8">
+            <!-- <div class="column">
+              <figure class="image is-16by9">
+                <img src="http://via.placeholder.com/1280x720.png">
+              </figure>
+            </div> -->
+            <div class="column">
+              <p class="title is-1 is-spaced is-uppercase">Get a snapshot of employee engagement</p>
+              <p class="subtitle is-3">NPS Bot is a Slack Bot that helps business owners perform a quick baseline health check for you company happiness</p>
+              <a class="button is-large" href="https://slack.com/oauth/authorize?client_id=2154565672.298322608295&scope=commands,bot">
+                <span class="icon is-medium">
+                  <i class="fab fa-slack-hash"></i>
+                </span>
+                <span>Add to Slack</span>
+              </a>
+            </div>
+            <!-- remove below after graphics ready -->
+            <div class="column">
+              <figure class="image is-16by9">
+                <img src="http://via.placeholder.com/1280x720/ffffff/ffffff">
+              </figure>
+            </div>
           </div>
         </div>
       </div>
     </section>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <p class="is-capitalized is-size-4">
+                Start the conversation by asking the most important baseline question
+              </p>
+              <p class="has-text-grey">
+                Measure your engagement with one question: “Between 1-10, how likely are you to recommend this company as a place to work?” NPS Bot helps you to manage that via Slack.
+              </p>
+            </div>
+            <div class="column is-narrow">
+              <figure class="image">
+                <img src="http://via.placeholder.com/426x240/ffffff/ffffff">
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <p class="is-capitalized is-size-4">
+                Keep a close and quick feedback
+              </p>
+              <p class="has-text-grey">
+                Scores will be aggregated into a report. A quick follow up short question is asked to get a “why” on the submitted score.
+              </p>
+            </div>
+            <div class="column is-narrow">
+              <figure class="image">
+                <img src="http://via.placeholder.com/426x240/ffffff/ffffff">
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <p class="is-capitalized is-size-4">
+                Add to Slack and send your first survey in minutes
+              </p>
+              <p class="has-text-grey">
+                Installation and start the survey in a minute by adding NPS Bot to your Slack Workspace.
+              </p>
+            </div>
+            <div class="column is-narrow">
+              <figure class="image">
+                <img src="http://via.placeholder.com/426x240/ffffff/ffffff">
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <p class="is-capitalized is-size-4">
+                Read report after each survey
+              </p>
+            </div>
+            <div class="column is-narrow">
+              <figure class="image">
+                <img src="http://via.placeholder.com/426x240/ffffff/ffffff">
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <p class="is-capitalized is-size-4">
+                Smart reminder
+              </p>
+              <p class="has-text-grey">
+                Comes with auto reminders so your team are prompt to give feedback. Support manual reminders too.
+              </p>
+            </div>
+            <div class="column is-narrow">
+              <figure class="image">
+                <img src="http://via.placeholder.com/426x240/ffffff/ffffff">
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <p class="is-capitalized is-size-4">
+                Scheduled survey at your custom frequency
+              </p>
+              <p class="has-text-grey">
+                Want to get updated weekly? monthly? quarterly? Never forget that as the bot manages for you.
+              </p>
+            </div>
+            <div class="column is-narrow">
+              <figure class="image">
+                <img src="http://via.placeholder.com/426x240/ffffff/ffffff">
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <p class="is-capitalized is-size-4">
+                Kept confidential to encourage honest feedback
+              </p>
+              <p class="has-text-grey">
+                Feedback are collected anonymously, the team can freely express their feedback!
+              </p>
+            </div>
+            <div class="column is-narrow">
+              <figure class="image">
+                <img src="http://via.placeholder.com/426x240/ffffff/ffffff">
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-vcentered has-text-centered">
+            <div class="column">
+              <p class="is-size-2 has-text-grey-light">
+                FAQ
+              </p>
+            </div>
+          </div>
+          
+          <div class="columns is-vcentered">
+            <div class="column">
+              <p>
+                Why should I use the Slack integration?
+              </p>
+              <p class="has-text-grey">
+                Slack creates a faster feedback cycle and much more communication which are key tenets of creating a strong company culture.
+              </p>
+            </div>
+            
+            <div class="column">
+              <p>
+                Is it really anonymous in Slack?
+              </p>
+              <p class="has-text-grey">
+                Yes! Because all communication with the Slackbot is done in a private message, everything is truly anonymous for your employees.
+              </p>
+            </div>
+
+            <div class="column">
+              <p>
+                How do I add this to my Slack network?
+              </p>
+              <p class="has-text-grey">
+                Whoever is the administrator of your Slack account can add NPS Bot in a couple of seconds.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <p class="is-size-4 has-text-right">
+                Get Started Now!
+              </p>
+            </div>
+            <div class="column">
+              <a class="button is-large" href="https://slack.com/oauth/authorize?client_id=2154565672.298322608295&scope=commands,bot">
+                <span class="icon is-medium">
+                  <i class="fab fa-slack-hash"></i>
+                </span>
+                <span>Add to Slack</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="content has-text-centered">
+          <p>
+            Powered by <a href="https://oursky.com/">Oursky</a>
+          </p>
+          <p>
+            +852 2155 9299<br>
+            <a href="mailto:hello@oursky.com">hello@oursky.com</a><br>
+            <a class="button is-light" href="https://www.facebook.com/oursky.hk">
+              <span class="icon">
+                <i class="fab fa-lg fa-facebook"></i>
+              </span>
+            </a>
+            <a class="button is-light" href="https://m.oursky.com/">
+              <span class="icon">
+                <i class="fab fa-lg fa-medium"></i>
+              </span>
+            </a>
+          </p>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
