@@ -12,6 +12,7 @@ const { extractIDs, log } = require('../util')
  */
 module.exports = req => {
   const { code, error } = req.url.query
+  const response = new SkygearResponse({ statusCode: 303 })
 
   if (code && !error) {
     return new WebClient().oauth.access(SLACK_CLIENT_ID, SLACK_CLIENT_SECRET, code).then(async res => {
@@ -35,14 +36,12 @@ module.exports = req => {
       bot.sendToUsers(userID, message.help)
 
       // redirect to tutorial page
-      return new SkygearResponse({
-        statusCode: 303,
-        headers: {
-          'Location': `https://${APP_NAME}.skygeario.com/static/tutorial.html`
-        }
-      })
+      response.setHeader('Location', `https://${APP_NAME}.skygeario.com/static/tutorial.html`)
+      return response
     })
   } else {
     // redirect to error page
+    response.setHeader('Location', `https://${APP_NAME}.skygeario.com/static/error.html`)
+    return response
   }
 }
