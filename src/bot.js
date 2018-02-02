@@ -129,10 +129,6 @@ module.exports = class Bot {
               value: '7'
             },
             {
-              label: '7',
-              value: '7'
-            },
-            {
               label: '6',
               value: '6'
             },
