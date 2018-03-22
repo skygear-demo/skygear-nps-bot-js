@@ -34,7 +34,7 @@ module.exports = async (team, [$1, ...rest]) => {
           survey.distributionDate = new Date()
           survey.isSent = true
           survey.update()
-          return message.ok + '. The survey will be distributed now.'
+          return message.ok + ' The survey will be distributed now.'
         case 'weekly':
           distributionDate = moment().add(1, 'w').startOf('week')
           break

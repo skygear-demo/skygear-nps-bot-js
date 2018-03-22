@@ -11,8 +11,8 @@ module.exports = async team => {
     if (scheduledSurvey) {
       await scheduledSurvey.delete()
     }
-    return `/nps-stop-survey: ${message.ok}`
+    return `/nps-stop-survey: ${message.ok}. You can use \`/nps-summary 1\` to view the result of the latest survey.`
   } else {
-    return '/nps-stop-survey: No active or scheduled survey'
+    return '/nps-stop-survey: No active or scheduled survey.'
   }
 }
