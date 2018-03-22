@@ -1,4 +1,5 @@
 module.exports = async team => {
   const targets = team.targetsID.map(targetID => `<@${targetID}>`)
-  return `/nps-list-targets: Users below will receive NPS survey:\n${targets.join('\n')}`
+  let userCount = targets.length
+  return `/nps-list-targets: \nNPS survey will be sent to ${userCount} users below:\n${targets.join('\n')}`
 }

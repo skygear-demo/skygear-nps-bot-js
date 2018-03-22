@@ -1,6 +1,7 @@
 module.exports = {
-  hi: 'May I help you?',
-  ok: 'OK',
+  hi: 'Hi, what can I help you?',
+  ok: '👌 Okay.',
+  reminderSent: 'Noted! Reminders sent.',
   help: `Greeting from NPS Bot! Below are my usages:\n
   • Show a list of survey's targets: \`/nps-list-targets\`\n
   • Remove member(s) from the target list: \`/nps-remove-targets\`\n
@@ -18,29 +19,29 @@ module.exports = {
       usage: 'usage: /nps-schedule-survey (--now | --weekly | --monthly | --quarterly) --force',
       error: {
         illegalOption: option => `/nps-schedule-survey: illegal option ${option}`,
-        alreadyScheduled: 'Denied. A survey has already scheduled before. You may unschedule it via /nps-stop-survey.',
-        activeSurveyExists: 'Denied. There is a survey still opening for reply. You may close it via /nps-stop-survey.'
+        alreadyScheduled: '❌ Could not schedule a new survey yet. A survey has already scheduled before. You can unschedule the existing one via `/nps-stop-survey`.',
+        activeSurveyExists: '❌ Could not schedule a new survey yet. There is a survey still opening for reply. can may close the current survey via `/nps-stop-survey`.'
       }
     },
     '/nps-list-targets': {},
     '/nps-add-targets': {
       error: {
-        invalidUser: user => `/nps-add-targets: invalid user ${user}`
+        invalidUser: user => `\`/ nps - add - targets\`: invalid user ${user}`
       },
-      usage: 'usage: /nps-add-targets <user> ...'
+      usage: 'usage: `/nps-add-targets <user> ...`'
     },
     '/nps-remove-targets': {
       error: {
         invalidUser: user => `/nps-remove-targets: invalid user ${user}`
       },
-      usage: 'usage: /nps-remove-targets <user> ...'
+      usage: 'usage: `/nps-remove-targets <user> ...`'
     },
     '/nps-stop-survey': {},
     '/nps-send-reminder': {
       messages: [
-        'Hi! Please submit the NPS survey. We need your opinions to improve :)',
-        'Hey, just a quick reminder, it would be helpful :)',
-        'Please leave your NPS for the team, we can’t improve what we don’t measure~'
+        '👋 Hi! Please submit the NPS survey. We need your opinions to improve :)',
+        '💁 Hey, just a quick reminder, it would be helpful :)',
+        '💭 What\'s your thought? Please help us improve by submitting the NPS survey.'
       ]
     },
     '/nps-status': {},
@@ -52,18 +53,18 @@ module.exports = {
     }
   },
   survey: {
-    title: 'NPS Survey',
+    title: '📊 Quick NPS Survey',
     farewellText: 'Looking forward to your response next time!',
     questions: [
       'How likely would you recommend this company as a place to work to your friends?',
       'Share more about why you rated the score?'
     ],
-    acknowledgement: 'Thank you for your reply'
+    acknowledgement: '👍 Got it! Thank you for your reply.'
   },
   error: {
-    underMaintenance: 'Under maintenance',
+    underMaintenance: 'The bot is under maintenance. Please contact your admin for detail.',
     invalidCommand: 'Invalid command',
-    notAdmin: 'Denied. Only team admins could do so.',
+    notAdmin: 'Sorry, this action is only available to team admins',
     invalidSource: 'Invalid source. You may install the App at https://npsbot.skygeario.com/static/.',
     invalidActionType: 'Invalid action type',
     invalidActionCallback: 'Invalid action callback'

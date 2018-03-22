@@ -10,8 +10,8 @@ module.exports = async team => {
     const team = await Team.of(activeSurvey.teamID)
     team.bot.sendToUsers(silentTargetsID, command.messages[Math.floor(Math.random() * command.messages.length)])
     team.bot.distribute(activeSurvey, silentTargetsID)
-    return `/nps-send-reminder: ${message.ok}`
+    return `/nps-send-reminder: ${message.ok} Reminders sent!`
   } else {
-    return '/nps-send-reminder: No active survey'
+    return '/nps-send-reminder: There is no active survey.'
   }
 }

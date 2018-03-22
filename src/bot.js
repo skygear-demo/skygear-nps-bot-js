@@ -64,7 +64,7 @@ module.exports = class Bot {
     const attachments = [
       {
         title: message.survey.title,
-        text: 'Help give a 10 seconds feedback to the team?' + closingNotice,
+        text: 'Please Help give 10 seconds feedback to the team?' + closingNotice,
         fallback: 'You are unable to answer the survey',
         callback_id: JSON.stringify({
           callback: 'answerSurvey',
