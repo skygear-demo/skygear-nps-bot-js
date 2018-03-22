@@ -1,6 +1,5 @@
 const { WebClient } = require('@slack/client')
 const message = require('./message')
-const { extractIDs } = require('./util')
 
 /**
  * @see https://api.slack.com/methods
@@ -28,7 +27,11 @@ module.exports = class Bot {
   }
 
   sendToChannel (id, message, attachments = []) {
-    this._client.chat.postMessage(id, message, { attachments })
+    this._client.chat.postMessage(id, message, { attachments }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
   }
 
   // Derived methods
@@ -37,11 +40,20 @@ module.exports = class Bot {
     return ims.filter(im => usersID.includes(im.user))
   }
 
+  async openDirectMessage (userID) {
+    const res = await this._client.im.open(userID)
+    return res
+  }
+
   async sendToUsers (usersID, message, attachments = []) {
-    const ims = await this.fetchIMsOf(usersID)
-    const imsID = extractIDs(ims)
-    for (let imID of imsID) {
-      this.sendToChannel(imID, message, attachments)
+    for (var uid of usersID) {
+      this.openDirectMessage(uid).then(res => {
+        const channelID = res.channel.id
+        this.sendToChannel(channelID, message, attachments)
+        console.log('sent to ' + channelID)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
 
