@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@slack/client@^3.14.1":
+"@slack/client@3.14.1":
   version "3.14.1"
   resolved "https://registry.yarnpkg.com/@slack/client/-/client-3.14.1.tgz#be3ff80ca2a4bd881b72ac9c2c3dd5bb7276b2a5"
   dependencies:
