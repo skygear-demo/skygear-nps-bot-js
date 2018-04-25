@@ -42,8 +42,8 @@ module.exports = async (team, [$1, ...rest]) => {
             short: true
           },
           {
-            title: 'NPS score',
-            value: `${stats.npsScore.toFixed(2)} / 100`,
+            title: 'NPS score (from -100 to 100)',
+            value: stats.npsScore.toFixed(2),
             short: true
           },
           {

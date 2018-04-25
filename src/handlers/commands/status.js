@@ -74,8 +74,8 @@ module.exports = async team => {
     if (stats.npsScore) {
       status.attachments[2].fields = [
         {
-          title: 'Score',
-          value: `${stats.npsScore.toFixed(2)} / 100`,
+          title: 'Score  (from -100 to 100)',
+          value: stats.npsScore.toFixed(2),
           short: true
         },
         {
