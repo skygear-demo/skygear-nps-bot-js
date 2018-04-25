@@ -14,6 +14,10 @@ module.exports = async team => {
       {
         title: 'Active survey',
         color: 'good'
+      },
+      {
+        title: 'NPS Score',
+        color: 'good'
       }
     ]
   }
@@ -66,6 +70,21 @@ module.exports = async team => {
         value: stats.averageScore.toFixed(2),
         short: true
       })
+    }
+    if (stats.npsScore) {
+      status.attachments[2].fields = [
+        {
+          title: 'Score',
+          value: `${stats.npsScore.toFixed(2)} / 100`,
+          short: true
+        },
+        {
+          title: 'Total submission',
+          value: stats.submissionCount,
+          short: true
+        }
+
+      ]
     }
   } else {
     status.attachments[1].text = 'None'

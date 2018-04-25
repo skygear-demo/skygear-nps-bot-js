@@ -42,6 +42,11 @@ module.exports = async (team, [$1, ...rest]) => {
             short: true
           },
           {
+            title: 'NPS score',
+            value: `${stats.npsScore.toFixed(2)} / 100`,
+            short: true
+          },
+          {
             title: 'Closed at',
             value: toLocalDate(survey.closingDate)
           }

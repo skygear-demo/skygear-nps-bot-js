@@ -160,6 +160,7 @@ module.exports = class Survey {
 
   get stats () {
     const query = new skygear.Query(Reply.Record)
+    query.limit = 999
     query.equalTo('survey', new skygear.Reference(this._record))
 
     return db.query(query).then(result => {
@@ -175,11 +176,22 @@ module.exports = class Survey {
           scoresCount[score - 1] += 1
         }
       }
+
+      // calculate NPS score
+      let promoters = result.filter(item => { return item.score > 8 })
+      let detractors = result.filter(item => { return item.score < 7 })
+
+      let npsScore = 0
+      if (result.length > 0) {
+        npsScore = ((promoters.length - detractors.length) / result.length) * 100
+      }
+
       return {
         submissionCount: count,
         targetsCount: this.targetsID.length,
         responseRate: count / this.targetsID.length, // submitted / targets #,
         averageScore: sum / count, // ignore skipped or silent targets
+        npsScore: npsScore,
         scoresCount
       }
     })
