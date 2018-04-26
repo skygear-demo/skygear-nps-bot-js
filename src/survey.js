@@ -186,12 +186,32 @@ module.exports = class Survey {
         npsScore = ((promoters.length - detractors.length) / result.length) * 100
       }
 
+      // ⚠️ Danger < 0 / ✅ Good 0 -50 / 🎊 Exellent 50 to 75 / 💯 World Class 75 - 100
+      let npsRating = ''
+      let npsMessage = ''
+
+      if (npsScore < 0) {
+        npsRating = '⚠️ '
+        npsMessage = '⚠️  Danger - You have more Detractors than Promoters. Companies in this position tend to see very high churn, low internal opinion, few talent referrals, and basically every negative you would associate with low employee loyalty.'
+      } else if (npsScore > 0 && npsScore < 50) {
+        npsRating = '✅'
+        npsMessage = '✅ Good - Your scores lies in the average range of NPS scores, generally means that your company has met the threshold for employee satisfaction. You don’t have an army of Detractors bad mouthing.'
+      } else if (npsScore > 50 && npsScore < 75) {
+        npsRating = '🎊'
+        npsMessage = '🎊 Exellent - The staff is always attentive, everything’s in order, and there are no major issues. Your company is usually under-promise and over-deliver.'
+      } else if (npsScore > 75) {
+        npsRating = '💯'
+        npsMessage = '💯 World Class - Off-the-charts levels of employee loyalty. Keep it up!'
+      }
+
       return {
         submissionCount: count,
         targetsCount: this.targetsID.length,
         responseRate: count / this.targetsID.length, // submitted / targets #,
         averageScore: sum / count, // ignore skipped or silent targets
         npsScore: npsScore,
+        npsMessage: npsMessage,
+        npsRating: npsRating,
         scoresCount
       }
     })

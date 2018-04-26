@@ -18,6 +18,10 @@ module.exports = async team => {
       {
         title: 'NPS Score',
         color: 'good'
+      },
+      {
+        title: 'NPS Result',
+        color: 'good'
       }
     ]
   }
@@ -74,17 +78,24 @@ module.exports = async team => {
     if (stats.npsScore) {
       status.attachments[2].fields = [
         {
-          title: 'Score  (from -100 to 100)',
-          value: stats.npsScore.toFixed(2),
+          title: 'Score  (-100 to 100)',
+          value: `${stats.npsScore.toFixed(2)} ${stats.npsRating}`,
           short: true
         },
         {
-          title: 'Total submission',
+          title: 'Total submissions',
           value: stats.submissionCount,
           short: true
         }
-
       ]
+    }
+
+    if (stats.npsMessage) {
+      status.attachments[3].fields = [
+        {
+          title: 'What does my NPS score mean?',
+          value: stats.npsMessage
+        }]
     }
   } else {
     status.attachments[1].text = 'None'

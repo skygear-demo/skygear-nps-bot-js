@@ -42,13 +42,18 @@ module.exports = async (team, [$1, ...rest]) => {
             short: true
           },
           {
-            title: 'NPS score (from -100 to 100)',
-            value: stats.npsScore.toFixed(2),
+            title: 'NPS score (-100 to 100)',
+            value: `${stats.npsScore.toFixed(2)} ${stats.npsRating}`,
             short: true
           },
           {
             title: 'Closed at',
-            value: toLocalDate(survey.closingDate)
+            value: toLocalDate(survey.closingDate),
+            short: true
+          },
+          {
+            title: 'NPS Result',
+            value: stats.npsMessage
           }
         ]
       }
