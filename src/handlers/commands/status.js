@@ -75,7 +75,7 @@ module.exports = async team => {
         short: true
       })
     }
-    if (stats.npsScore) {
+    if (stats.npsScore !== undefined) {
       status.attachments[2].fields = [
         {
           title: 'Score  (-100 to 100)',
@@ -90,7 +90,7 @@ module.exports = async team => {
       ]
     }
 
-    if (stats.npsMessage) {
+    if (stats.npsMessage !== undefined) {
       status.attachments[3].fields = [
         {
           title: 'What does my NPS score mean?',

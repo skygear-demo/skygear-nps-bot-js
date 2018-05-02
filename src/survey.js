@@ -193,13 +193,13 @@ module.exports = class Survey {
       if (npsScore < 0) {
         npsRating = '⚠️ '
         npsMessage = '⚠️  Danger - You have more Detractors than Promoters. Companies in this position tend to see very high churn, low internal opinion, few talent referrals, and basically every negative you would associate with low employee loyalty.'
-      } else if (npsScore > 0 && npsScore < 50) {
+      } else if (npsScore >= 0 && npsScore < 50) {
         npsRating = '✅'
         npsMessage = '✅ Good - Your scores lies in the average range of NPS scores, generally means that your company has met the threshold for employee satisfaction. You don’t have an army of Detractors bad mouthing.'
-      } else if (npsScore > 50 && npsScore < 75) {
+      } else if (npsScore >= 50 && npsScore < 75) {
         npsRating = '🎊'
         npsMessage = '🎊 Exellent - The staff is always attentive, everything’s in order, and there are no major issues. Your company is usually under-promise and over-deliver.'
-      } else if (npsScore > 75) {
+      } else if (npsScore >= 75) {
         npsRating = '💯'
         npsMessage = '💯 World Class - Off-the-charts levels of employee loyalty. Keep it up!'
       }
